@@ -30,12 +30,16 @@ public class SC_StageManager : MonoBehaviour
         
     }
 
+    //Private Member
+    GameObject StageBackGround = null; 
 
     // LoadData//////////////////////////////////////////////////////
     private void LoadData()
     {
-        LoadPathBinData();
+        LoadPathBinData(); //반드시 가장 먼저 로드해야하는 데이터
         LoadWaveBinData();
+        LoadAreaBinData();
+        LoadRallyBinData();
     }
 
     // LoadPath
@@ -53,7 +57,6 @@ public class SC_StageManager : MonoBehaviour
             LoadOneStageLines(LoadDesirializer, StageIndex);
         }
     }
-
     private void LoadOneStageLines(MyDeserializer Buffer, int StageIndex)
     {
         int LineSize = 0;
@@ -67,7 +70,6 @@ public class SC_StageManager : MonoBehaviour
             LoadOneLine(Buffer, StageIndex, LineIndex);
         }
     }
-
     private void LoadOneLine(MyDeserializer Buffer, int StageIndex, int PathIndex)
     {
         int PointSize = 0;
@@ -99,7 +101,6 @@ public class SC_StageManager : MonoBehaviour
             LoadOneStageWave(LoadDesirializer, StageIndex);
         }
     }
-
     private void LoadOneStageWave(MyDeserializer Buffer, int StageIndex)
     {
         int WaveSize = 0;
@@ -113,7 +114,6 @@ public class SC_StageManager : MonoBehaviour
             LoadOneWave(Buffer, StageIndex, WaveIndex);
         }
     }
-
     private void LoadOneWave(MyDeserializer Buffer, int StageIndex, int WaveIndex)
     {
         int MonsterSpawnDataSize = 0;
@@ -132,4 +132,69 @@ public class SC_StageManager : MonoBehaviour
             CurMonsterSpawnData.Add(temp);
         }
     }
+
+    // LoadArea 
+    private void LoadAreaBinData()
+    {
+        MyDeserializer LoadDesirializer = new MyDeserializer();
+        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resource/StageScene/Data/BuildAreaData.txt"));
+        int StgSize = 0;
+        LoadDesirializer.Read(ref StgSize);
+
+        for (int StageIndex = 0; StageIndex < StgSize; StageIndex++)
+        {
+            LoadOneStageAreas(LoadDesirializer, StageIndex);
+        }
+    }
+    private void LoadOneStageAreas(MyDeserializer Buffer, int StageIndex)
+    {
+        int AreaSize = 0;
+        Buffer.Read(ref AreaSize);
+        List<Vector4> CurBuildAreaInfos = AllStageData[StageIndex].BuildAreaPos;
+        for (int i = 0; i < AreaSize; i++)
+        {
+            Vector4 temp = new Vector4(0f, 0f, 0f, 0f);
+
+            Buffer.Read(ref temp.x);
+            Buffer.Read(ref temp.y);
+            Buffer.Read(ref temp.z);
+            Buffer.Read(ref temp.w);
+
+            CurBuildAreaInfos.Add(temp);
+        }
+    }
+
+    // LoadRally
+    private void LoadRallyBinData()
+    {
+        MyDeserializer LoadDesirializer = new MyDeserializer();
+        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resource/StageScene/Data/RallyData.txt"));
+        int StgSize = 0;
+        LoadDesirializer.Read(ref StgSize);
+
+        for (int StageIndex = 0; StageIndex < StgSize; StageIndex++)
+        {
+		    LoadOneStageRally(LoadDesirializer, StageIndex);
+        }
+    }
+    private void LoadOneStageRally(MyDeserializer Buffer, int StageIndex)
+    {
+        int RallySize = 0;
+        Buffer.Read(ref RallySize);
+        List<Vector4> CurRallyInfo = AllStageData[StageIndex].AreaStartRallyPos;
+
+        for (int i = 0; i < RallySize; i++)
+        {
+            Vector4 temp = new Vector4(0f, 0f, 0f, 0f);
+
+            Buffer.Read(ref temp.x);
+            Buffer.Read(ref temp.y);
+            Buffer.Read(ref temp.z);
+            Buffer.Read(ref temp.w);
+
+            CurRallyInfo.Add(temp);
+        }
+    }
+
+
 }
