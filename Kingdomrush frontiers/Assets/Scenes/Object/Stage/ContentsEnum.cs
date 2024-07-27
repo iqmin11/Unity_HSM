@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scenes.Object.Stage.ContentsEnum
 {
-    internal enum MonsterEnum
+    public enum MonsterEnum
     {
         Null = -1,
         DesertThug,

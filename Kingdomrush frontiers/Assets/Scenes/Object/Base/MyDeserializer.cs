@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scenes.Object.Stage.ContentsEnum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,16 +33,17 @@ namespace Assets.Scenes.Object.Base
             Value = BitConverter.ToSingle(floatBytes);
         }
 
-        //void Read(string Value)
-        //{
-
-        //}
+        public void Read(ref MonsterEnum Value)
+        {
+            int temp = (int)Value;
+            Read(ref temp);
+            Value = (MonsterEnum)temp;
+        }
 
         public void Read(Array Dest, int Size)
         {
             Buffer.BlockCopy(Data, (int)Offset, Dest, 0, Size);
             Offset += (UInt64)Size;
         }
-
     }
 }
