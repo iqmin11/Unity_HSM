@@ -24,7 +24,7 @@ public class SC_StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurStage = 1;
+        CurStage = 0;
         InitStage(CurStage);
     }
 
@@ -36,14 +36,18 @@ public class SC_StageManager : MonoBehaviour
 
     public void InitStage(int Stage)
     {
-        StageBGManagerInst.GetComponent<SC_StageBG>().SetStageBG(CurStage);
+        //PlayStageBGM
+        //ClearStage();
+        CurStage = Stage;
+        NextWave = 0;
+        MaxWave = AllStageData[CurStage].Waves.Count;
+        SetStageBG(CurStage);
     }
 
     //Private Member
     [SerializeField]
     private GameObject StageBGManagerPrefab;
     private GameObject StageBGManagerInst;
-
 
     private int curstage = -1;
     private int CurStage
@@ -62,6 +66,19 @@ public class SC_StageManager : MonoBehaviour
 
             curstage = value; 
         }
+    }
+
+    private int NextWave = -1;
+    private int MaxWave = -1;
+
+    // SetStage//////////////////////////////////////////////////////
+    private void SetStageBG(int CurStage)
+    {
+        StageBGManagerInst.GetComponent<SC_StageBG>().SetStageBG(CurStage);
+    }
+    private void SetStagePath(int CurStage)
+    {
+
     }
 
     // LoadData//////////////////////////////////////////////////////
