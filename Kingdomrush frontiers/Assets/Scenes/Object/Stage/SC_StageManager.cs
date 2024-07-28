@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using Unity.Mathematics;
 using UnityEngine.UIElements;
+using UnityEditor.SceneManagement;
 
 public class SC_StageManager : MonoBehaviour
 {
@@ -17,21 +18,51 @@ public class SC_StageManager : MonoBehaviour
     private void Awake()
     {
         LoadData();
+        StageBGManagerInst = Instantiate(StageBGManagerPrefab);
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        CurStage = 1;
+        InitStage(CurStage);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void InitStage(int Stage)
+    {
+        StageBGManagerInst.GetComponent<SC_StageBG>().SetStageBG(CurStage);
     }
 
     //Private Member
-    GameObject StageBackGround = null; 
+    [SerializeField]
+    private GameObject StageBGManagerPrefab;
+    private GameObject StageBGManagerInst;
+
+
+    private int curstage = -1;
+    private int CurStage
+    {
+        get 
+        { 
+            return curstage; 
+        }
+
+        set 
+        {
+            if (value < 0 || value >= 6)
+            {
+                return;
+            }
+
+            curstage = value; 
+        }
+    }
 
     // LoadData//////////////////////////////////////////////////////
     private void LoadData()
