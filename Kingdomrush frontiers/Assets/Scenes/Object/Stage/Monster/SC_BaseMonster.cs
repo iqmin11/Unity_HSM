@@ -18,6 +18,33 @@ enum MonsterState
 
 public class SC_BaseMonster : MonoBehaviour
 {
+    // Start is called before the first frame update
+    protected virtual void Start() 
+    {
+        MonsterInit();
+    }
+
+    // Use Update in FSM
+    //private void Update()
+
+    void MonsterInit()
+    {
+        //Initialize FSM
+        MonsterFSM = GetComponent<SC_FSM>();
+        if (MonsterFSM == null)
+        {
+            Debug.LogAssertion("MonsterFSM is null");
+        }
+
+        //Initialize Animation
+        MonsterRenderer = GetComponent<Animation>();
+        if (MonsterRenderer == null)
+        {
+            Debug.LogAssertion("MonsterAnimation is null");
+        }
+    }
+
+    // Walk ///////////////////////////////////// 
     private class WalkData
     {
         public Vector4 MonsterPos = Vector4.zero;
@@ -32,24 +59,14 @@ public class SC_BaseMonster : MonoBehaviour
         public float Time = 0.0f;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        MonsterFSM = GetComponent<SC_FSM>();
-        MoveStateInit();
-        MonsterFSM.ChangeState("Move");
-    }
-
-    // Use Update in FSM
-
     private WalkData Walk = new WalkData();
     public void SetPathInfo(List<Vector4> PathValue)
     {
         Walk.PathInfo = PathValue;
         Walk.CurPoint = Walk.PathInfo.GetEnumerator();
         Walk.CurPoint.MoveNext();
-        Walk.NextPoint = Walk.PathInfo.GetEnumerator();
-        Walk.NextPoint.MoveNext();
+
+        Walk.NextPoint = Walk.CurPoint;
         Walk.NextPoint.MoveNext();
     }
     private void WalkToNextPoint()
@@ -82,10 +99,12 @@ public class SC_BaseMonster : MonoBehaviour
         WalkToNextPoint();
     }
 
+    // Animation ///////////////////////////////////// 
+    private Animation MonsterRenderer;
 
     //FSM /////////////////////////////////////
-    private SC_FSM MonsterFSM;
-    protected void MoveStateInit()
+    protected SC_FSM MonsterFSM;
+    virtual protected void MoveStateInit()
     {
         if (MonsterFSM == null)
         {
