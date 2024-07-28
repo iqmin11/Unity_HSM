@@ -22,6 +22,7 @@ public class SC_FSM : MonoBehaviour
     {
         if (CurState == null)
         {
+            Debug.LogAssertion("CurState Is null. Use ChangeState Before Update FSM.");
             return;
         }
 
