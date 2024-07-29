@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
 enum MonsterState
@@ -37,7 +38,8 @@ public class SC_BaseMonster : MonoBehaviour
         }
 
         //Initialize Animation
-        MonsterRenderer = GetComponent<Animation>();
+        MonsterRenderer = GetComponent<Animator>();
+        MonsterRenderer.GetComponent<AnimatorController>();
         if (MonsterRenderer == null)
         {
             Debug.LogAssertion("MonsterAnimation is null");
@@ -100,7 +102,7 @@ public class SC_BaseMonster : MonoBehaviour
     }
 
     // Animation ///////////////////////////////////// 
-    private Animation MonsterRenderer;
+    protected Animator MonsterRenderer;
 
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;
