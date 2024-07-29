@@ -2,6 +2,7 @@ using Assets.Scenes.Object.Stage.StageData;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,8 +22,11 @@ public class SC_MonsterWaveManager : MonoBehaviour
             curstagepaths = value; 
         }
     }
+    
+    [SerializeField]
+    private List<GameObject> MonsterPrefabs;
 
-    //public func
+    //public member
     public void Setting(List<MonsterSpawnData> OneWave)
     {
         for (int i = 0; i < OneWave.Count; i++)
@@ -38,14 +42,11 @@ public class SC_MonsterWaveManager : MonoBehaviour
             Temp.Enqueue(OneWave[i]);
             SpawnDatas.Add(OneWave[i].StartTime, Temp);
         }
-
-        //gameObject.SetActive(true);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -71,18 +72,29 @@ public class SC_MonsterWaveManager : MonoBehaviour
                 {
                     SpawnMonster(CurSpawnTop.Dequeue());
                 }
-            }
 
+                if (SpawnDatas.Count == 0)
+                {
+                    WaveTime = 0; //여기서 코루틴 함수를 딱 스타트해버리면 될듯?
+                }
+            }
             return;
         }
 
-        Destroy(gameObject);
+        //이걸 코루틴으로 만드는것도 생각해봅시다. 이럴필요가 없는거같은데
+        if (WaveTime >= WaveEndTime)
+        {
+            Destroy(gameObject);
+        }
     }
 
     //private member
+
     public void SpawnMonster(MonsterSpawnData CurMonster)
     {
-        Debug.Log("SummonMonster " + CurMonster.Monster.ToString());
+        GameObject SpawnMonster = Instantiate(MonsterPrefabs[(int)CurMonster.Monster]);
+        SC_BaseMonster SpawnMonsterSC = SpawnMonster.GetComponent<SC_BaseMonster>();
+        SpawnMonsterSC.SetPathInfo(CurStagePaths[CurMonster.LineIndex].Points);
     }
     
     SortedDictionary<float, Queue<MonsterSpawnData>> SpawnDatas = new SortedDictionary<float, Queue<MonsterSpawnData>>();

@@ -105,6 +105,10 @@ public class SC_StageManager : MonoBehaviour
         LoadAreaBinData();
         LoadRallyBinData();
     }
+    private Vector4 CentimeterToMeter(Vector4 Centimeter)
+    {
+        return new Vector4(Centimeter.x / 100, Centimeter.y / 100, Centimeter.z / 100, Centimeter.w);
+    }
 
     // LoadPath
     private void LoadPathBinData()
@@ -147,6 +151,7 @@ public class SC_StageManager : MonoBehaviour
             Buffer.Read(ref temp.y);
             Buffer.Read(ref temp.z);
             Buffer.Read(ref temp.w);
+            temp = CentimeterToMeter(temp); 
 
             CurLineData.Points.Add(temp);
         }
@@ -223,6 +228,7 @@ public class SC_StageManager : MonoBehaviour
             Buffer.Read(ref temp.y);
             Buffer.Read(ref temp.z);
             Buffer.Read(ref temp.w);
+            temp = CentimeterToMeter(temp);
 
             CurBuildAreaInfos.Add(temp);
         }
@@ -255,6 +261,7 @@ public class SC_StageManager : MonoBehaviour
             Buffer.Read(ref temp.y);
             Buffer.Read(ref temp.z);
             Buffer.Read(ref temp.w);
+            temp = CentimeterToMeter(temp);
 
             CurRallyInfo.Add(temp);
         }
