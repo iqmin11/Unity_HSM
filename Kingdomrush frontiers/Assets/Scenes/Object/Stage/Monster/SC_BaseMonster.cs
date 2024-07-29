@@ -1,4 +1,5 @@
 using Assets.Scenes.Object.Stage.StageData;
+using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -18,26 +19,24 @@ enum MonsterState
     Summon,
 }
 
-public class SC_BaseMonster : MonoBehaviour
+abstract public class SC_BaseMonster : MonoBehaviour
 {
     // Start is called before the first frame update
     protected virtual void Start() 
     {
         MonsterInit();
+        SetData();
+        //CurHp = Data.Hp;
+        StateInit();
+        MonsterFSM.ChangeState("Move");
     }
 
     // Use Update in FSM
     //private void Update()
 
-    // private member /////////////////////////////////////
-    private MonsterData data = new MonsterData();
-    public MonsterData Data
-    {
-        get
-        {
-            return data;
-        }
-    }
+    // MonsterData /////////////////////////////////////
+    protected MonsterData Data = new MonsterData();
+    abstract protected void SetData();
 
     private void MonsterInit()
     {
@@ -115,6 +114,7 @@ public class SC_BaseMonster : MonoBehaviour
 
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;
+    abstract protected void StateInit();
     virtual protected void MoveStateInit()
     {
         if (MonsterFSM == null)
