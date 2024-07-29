@@ -74,6 +74,8 @@ public class SC_BaseMonster : MonoBehaviour
 
         Walk.NextPoint = Walk.CurPoint;
         Walk.NextPoint.MoveNext();
+
+        transform.position = Walk.CurPoint.Current;
     }
     private void WalkToNextPoint()
     {
