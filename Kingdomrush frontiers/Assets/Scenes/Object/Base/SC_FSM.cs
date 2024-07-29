@@ -74,6 +74,11 @@ public class SC_FSM : MonoBehaviour
         return null;
     }
 
+    public string GetCurState()
+    {
+        return CurState.Name;
+    }
+
     private Dictionary<string, State> AllState;
     private State CurState;
 }

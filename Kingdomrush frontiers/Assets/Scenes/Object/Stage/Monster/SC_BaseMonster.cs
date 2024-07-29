@@ -38,12 +38,12 @@ public class SC_BaseMonster : MonoBehaviour
         }
 
         //Initialize Animation
-        MonsterRenderer = GetComponent<Animator>();
-        MonsterRenderer.GetComponent<AnimatorController>();
-        if (MonsterRenderer == null)
-        {
-            Debug.LogAssertion("MonsterAnimation is null");
-        }
+        //MonsterRenderer = GetComponent<Animator>();
+        //MonsterRenderer.GetComponent<AnimatorController>();
+        //if (MonsterRenderer == null)
+        //{
+        //    Debug.LogAssertion("MonsterAnimation is null");
+        //}
     }
 
     // Walk ///////////////////////////////////// 
@@ -103,6 +103,10 @@ public class SC_BaseMonster : MonoBehaviour
 
     // Animation ///////////////////////////////////// 
     protected Animator MonsterRenderer;
+    string GetCurState()
+    {
+        return MonsterFSM.GetCurState();
+    } // 이걸 Notify하여 애니메이션 변환;(나중에), 아니면 State변환안에 Notify? 나중에 생각합시다.
 
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;

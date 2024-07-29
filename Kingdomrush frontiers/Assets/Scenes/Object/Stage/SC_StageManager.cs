@@ -31,9 +31,13 @@ public class SC_StageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            StartWave();
+        }
     }
 
+    //Func For Stage
     public void InitStage(int Stage)
     {
         //PlayStageBGM
@@ -42,12 +46,24 @@ public class SC_StageManager : MonoBehaviour
         NextWave = 0;
         MaxWave = AllStageData[CurStage].Waves.Count;
         SetStageBG(CurStage);
+        SetStagePath(CurStage);
     }
 
     //Private Member
+    private void StartWave()
+    {
+        GameObject CurWave = Instantiate(MonsterWavePrefab);
+        SC_MonsterWaveManager CurWaveSC = CurWave.GetComponent<SC_MonsterWaveManager>();
+        CurWaveSC.Setting(AllStageData[CurStage].Waves[NextWave++].MonsterSpawn);
+    }
+
+    //Use Prefab And Instance
     [SerializeField]
     private GameObject StageBGManagerPrefab;
     private GameObject StageBGManagerInst;
+
+    [SerializeField]
+    private GameObject MonsterWavePrefab;
 
     private int curstage = -1;
     private int CurStage
@@ -78,7 +94,7 @@ public class SC_StageManager : MonoBehaviour
     }
     private void SetStagePath(int CurStage)
     {
-
+        SC_MonsterWaveManager.CurStagePaths = AllStageData[CurStage].Lines;
     }
 
     // LoadData//////////////////////////////////////////////////////
