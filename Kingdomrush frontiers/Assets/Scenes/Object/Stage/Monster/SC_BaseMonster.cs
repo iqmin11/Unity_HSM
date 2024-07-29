@@ -1,3 +1,4 @@
+using Assets.Scenes.Object.Stage.StageData;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -28,7 +29,17 @@ public class SC_BaseMonster : MonoBehaviour
     // Use Update in FSM
     //private void Update()
 
-    void MonsterInit()
+    // private member /////////////////////////////////////
+    private MonsterData data = new MonsterData();
+    public MonsterData Data
+    {
+        get
+        {
+            return data;
+        }
+    }
+
+    private void MonsterInit()
     {
         //Initialize FSM
         MonsterFSM = GetComponent<SC_FSM>();
@@ -36,15 +47,8 @@ public class SC_BaseMonster : MonoBehaviour
         {
             Debug.LogAssertion("MonsterFSM is null");
         }
-
-        //Initialize Animation
-        //MonsterRenderer = GetComponent<Animator>();
-        //MonsterRenderer.GetComponent<AnimatorController>();
-        //if (MonsterRenderer == null)
-        //{
-        //    Debug.LogAssertion("MonsterAnimation is null");
-        //}
     }
+
 
     // Walk ///////////////////////////////////// 
     private class WalkData
@@ -74,7 +78,7 @@ public class SC_BaseMonster : MonoBehaviour
     private void WalkToNextPoint()
     {
         Walk.Time += Time.deltaTime;
-        Walk.Ratio = Walk.Time * (1 / (Walk.NextPoint.Current - Walk.CurPoint.Current).magnitude);
+        Walk.Ratio = Walk.Time * (Data.Speed / (Walk.NextPoint.Current - Walk.CurPoint.Current).magnitude);
         Walk.MonsterPos = Vector4.Lerp(Walk.CurPoint.Current, Walk.NextPoint.Current, Walk.Ratio);
         gameObject.transform.position = Walk.MonsterPos;
     }
@@ -102,7 +106,6 @@ public class SC_BaseMonster : MonoBehaviour
     }
 
     // Animation ///////////////////////////////////// 
-    protected Animator MonsterRenderer;
     string GetCurState()
     {
         return MonsterFSM.GetCurState();

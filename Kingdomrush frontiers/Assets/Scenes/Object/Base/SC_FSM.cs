@@ -12,11 +12,6 @@ public class SC_FSM : MonoBehaviour
         public System.Action End;
     };
 
-    private void Awake()
-    {
-        AllState = new Dictionary<string, State>();
-    }
-
     // Update is called once per frame
     public void Update()
     {
@@ -79,6 +74,6 @@ public class SC_FSM : MonoBehaviour
         return CurState.Name;
     }
 
-    private Dictionary<string, State> AllState;
+    private Dictionary<string, State> AllState = new Dictionary<string, State>();
     private State CurState;
 }
