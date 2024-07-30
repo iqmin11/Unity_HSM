@@ -8,11 +8,33 @@ using UnityEngine;
 
 public class SC_BuildAreaButton : SC_MyButton
 {
+    //캐싱을 위해 반드시 만들면 좋은 인터페이스
+    static Sprite CacheReleaseSprite = null;
+    static Sprite CacheHoverSprite = null;
+    static Sprite CachePressSprite = null;
     protected override void Start()
     {
-        ReleaseSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004");
-        HoverSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
-        PressSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
+        if(CacheReleaseSprite == null)
+        {
+            CacheReleaseSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004");
+        }
+
+        ReleaseSprite = CacheReleaseSprite;
+
+        if (CacheHoverSprite == null)
+        {
+            CacheHoverSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
+        }
+
+        HoverSprite = CacheHoverSprite;
+
+        if (CachePressSprite == null)
+        {
+            CachePressSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
+        }
+
+        PressSprite = CachePressSprite;
+
         ColScale = MyMath.CentimeterToMeter(new Vector4(105, 60, 1));
         Click = () =>
         {

@@ -16,6 +16,11 @@ enum ButtonState
 
 public class SC_MyButton : MonoBehaviour
 {
+    //리소스 캐싱을 위해 만들면 좋은 인터페이스(권장합니다)
+    //static Sprite CacheReleaseSprite = null;
+    //static Sprite CacheHoverSprite = null;
+    //static Sprite CachePressSprite = null;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
