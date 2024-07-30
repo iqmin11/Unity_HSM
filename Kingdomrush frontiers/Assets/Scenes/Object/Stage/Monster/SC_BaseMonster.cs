@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Unity.Mathematics;
+using Assets.Scenes.Object.Base;
 
-enum MonsterState
+public enum MonsterState
 {
     Idle,
     Move,
@@ -19,6 +22,14 @@ enum MonsterState
     Summon,
 }
 
+public enum MoveDir
+{
+    Null = -1,
+    Profile,
+    Forward,
+    Backward
+}
+
 abstract public class SC_BaseMonster : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -28,16 +39,15 @@ abstract public class SC_BaseMonster : MonoBehaviour
         SetData();
         //CurHp = Data.Hp;
         StateInit();
-        MonsterFSM.ChangeState("Move");
+        MonsterFSM.ChangeState(MonsterState.Move);
     }
 
     // Use Update in FSM
     //private void Update()
 
-    // MonsterData /////////////////////////////////////
+    // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
     abstract protected void SetData();
-
     private void MonsterInit()
     {
         //Initialize FSM
@@ -46,15 +56,28 @@ abstract public class SC_BaseMonster : MonoBehaviour
         {
             Debug.LogAssertion("MonsterFSM is null");
         }
-    }
 
+        MonsterAnimator = GetComponent<Animator>();
+        if (MonsterAnimator == null)
+        {
+            Debug.LogAssertion("MonsterAnimator is null");
+        }
+
+        MonsterRenderer = GetComponent<SpriteRenderer>();
+        if (MonsterAnimator == null)
+        {
+            Debug.LogAssertion("MonsterRenderer is null");
+        }
+    }
 
     // Walk ///////////////////////////////////// 
     private class WalkData
     {
         public Vector4 MonsterPos = Vector4.zero;
         public Vector4 PrevMonsterPos = Vector4.zero;
-        public Vector4 ActorDir = Vector4.zero;
+        public Vector4 MonsterDir = Vector4.zero;
+
+        public MoveDir DirState = MoveDir.Null;
 
         public List<Vector4> PathInfo = null;
         public List<Vector4>.Enumerator CurPoint;
@@ -75,13 +98,6 @@ abstract public class SC_BaseMonster : MonoBehaviour
         Walk.NextPoint.MoveNext();
 
         transform.position = Walk.CurPoint.Current;
-    }
-    private void WalkToNextPoint()
-    {
-        Walk.Time += Time.deltaTime;
-        Walk.Ratio = Walk.Time * (Data.Speed / (Walk.NextPoint.Current - Walk.CurPoint.Current).magnitude);
-        Walk.MonsterPos = Vector4.Lerp(Walk.CurPoint.Current, Walk.NextPoint.Current, Walk.Ratio);
-        gameObject.transform.position = Walk.MonsterPos;
     }
     protected void WalkPath()
     {
@@ -104,13 +120,59 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
 
         WalkToNextPoint();
+        CalMonsterDir();
+    }
+    private void WalkToNextPoint()
+    {
+        Walk.Time += Time.deltaTime;
+        Walk.Ratio = Walk.Time * (Data.Speed / (Walk.NextPoint.Current - Walk.CurPoint.Current).magnitude);
+        Walk.MonsterPos = Vector4.Lerp(Walk.CurPoint.Current, Walk.NextPoint.Current, Walk.Ratio);
+        gameObject.transform.position = Walk.MonsterPos;
+    }
+    private void CalMonsterDir()
+    {
+        Walk.MonsterDir.w = 0.0f;
+        Walk.MonsterDir = Walk.MonsterPos - Walk.PrevMonsterPos;
+        Walk.MonsterDir.Normalize(); // 지름이 1인 원
+        Walk.PrevMonsterPos = Walk.MonsterPos;
+
+        float DegZ = MyMath.GetAngleDegZ(Walk.MonsterDir);
+
+        if (DegZ > 45.0f && DegZ <= 135.0f)
+        {
+            Walk.DirState = MoveDir.Backward;
+        }
+        else if (DegZ > 135.0f && DegZ <= 225.0f)
+        {
+            Walk.DirState = MoveDir.Profile;
+            FlipXNegative();
+        }
+        else if (DegZ > 225.0f && DegZ <= 315.0f)
+        {
+            Walk.DirState = MoveDir.Forward;
+        }
+        else if ((DegZ > 315.0f && DegZ <= 360.0f) || (DegZ >= 0.0f && DegZ <= 45.0f))
+        {
+            Walk.DirState = MoveDir.Profile;
+            FlipXPositive();
+        }
     }
 
     // Animation ///////////////////////////////////// 
-    string GetCurState()
+    private Animator MonsterAnimator;
+    private SpriteRenderer MonsterRenderer;
+    protected int GetCurState()
     {
         return MonsterFSM.GetCurState();
-    } // 이걸 Notify하여 애니메이션 변환;(나중에), 아니면 State변환안에 Notify? 나중에 생각합시다.
+    }
+    private void FlipXNegative()
+    {
+        MonsterRenderer.flipX = true;
+    }
+    private void FlipXPositive()
+    {
+        MonsterRenderer.flipX = false;
+    }
 
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;
@@ -123,15 +185,17 @@ abstract public class SC_BaseMonster : MonoBehaviour
             return;
         }
 
-        MonsterFSM.CreateState("Move",
+        MonsterFSM.CreateState<MonsterState>(MonsterState.Move,
             () =>
             {
                 Debug.Log("MoveState Start");
+                MonsterAnimator.SetInteger("MonsterState", GetCurState());
             },
 
             () =>
             {
                 WalkPath();
+                MonsterAnimator.SetInteger("MoveDir", (int)Walk.DirState);
             },
 
             () =>

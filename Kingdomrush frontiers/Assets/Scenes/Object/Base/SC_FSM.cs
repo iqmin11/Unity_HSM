@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class SC_FSM : MonoBehaviour
 {
     public class State
     {
-        public string Name;
+        public int EnumValue;
         public System.Action Start;
         public System.Action Update;
         public System.Action End;
@@ -24,22 +26,26 @@ public class SC_FSM : MonoBehaviour
         CurState.Update();
     }
 
-    public void CreateState(string StateName, System.Action StateStart, System.Action StateUpdate, System.Action StateEnd)
+    public void CreateState(int Value, System.Action StateStart, System.Action StateUpdate, System.Action StateEnd)
     {
-        if (FindState(StateName) != null)
+        if (FindState(Value) != null)
         {
             return;
         }
 
-        AllState.Add(StateName, new SC_FSM.State());
-        SC_FSM.State Temp = AllState[StateName];
-        Temp.Name = StateName;
+        AllState.Add(Value, new SC_FSM.State());
+        SC_FSM.State Temp = AllState[Value];
+        Temp.EnumValue = Value;
         Temp.Start = StateStart;
         Temp.Update = StateUpdate;
         Temp.End = StateEnd;
     }
+    public void CreateState<EnumT>(EnumT Value, System.Action StateStart, System.Action StateUpdate, System.Action StateEnd)
+    {
+        CreateState(Convert.ToInt32(Value), StateStart, StateUpdate, StateEnd);
+    }
 
-    public void ChangeState(string StateName)
+    public void ChangeState(int Value)
     {
         if (null != CurState)
         {
@@ -49,7 +55,7 @@ public class SC_FSM : MonoBehaviour
             }
         }
 
-        CurState = FindState(StateName);
+        CurState = FindState(Value);
 
         if (CurState == null)
         {
@@ -58,22 +64,36 @@ public class SC_FSM : MonoBehaviour
 
         CurState.Start();
     }
-
-    private State FindState(string StateName)
+    public void ChangeState<EnumT>(EnumT Value)
     {
-        if (AllState.ContainsKey(StateName))
+        ChangeState(Convert.ToInt32(Value));
+    }
+
+
+    private State FindState(int Value)
+    {
+        if (AllState.ContainsKey(Value))
         {
-            return AllState[StateName];
+            return AllState[Value];
         }
 
         return null;
     }
 
-    public string GetCurState()
+    public int GetCurState()
     {
-        return CurState.Name;
+        return CurState.EnumValue;
+    }
+    public EnumT GetCurState<EnumT>()
+    {
+        if (CurState.EnumValue is EnumT variable)
+        {
+            return variable;
+        }
+
+        throw new InvalidCastException($"Cannot cast {CurState.EnumValue} to {typeof(EnumT)}");
     }
 
-    private Dictionary<string, State> AllState = new Dictionary<string, State>();
+    private Dictionary<int, State> AllState = new Dictionary<int, State>();
     private State CurState;
 }
