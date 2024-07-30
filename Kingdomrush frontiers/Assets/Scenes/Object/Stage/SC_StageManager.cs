@@ -19,6 +19,7 @@ public class SC_StageManager : MonoBehaviour
     {
         LoadData();
         StageBGManagerInst = Instantiate(StageBGManagerPrefab);
+        StageMouseInsts = Instantiate(StageMousePrefab);
     }
 
     // Start is called before the first frame update
@@ -47,6 +48,7 @@ public class SC_StageManager : MonoBehaviour
         MaxWave = AllStageData[CurStage].Waves.Count;
         SetStageBG(CurStage);
         SetStagePath(CurStage);
+        SetStageBuildArea(CurStage);
     }
 
     //Private Member
@@ -64,6 +66,14 @@ public class SC_StageManager : MonoBehaviour
 
     [SerializeField]
     private GameObject MonsterWavePrefab;
+
+    [SerializeField]
+    private GameObject BuildAreaPrefab;
+    private List<GameObject> BuildAreaInsts = new List<GameObject>();
+
+    [SerializeField]
+    private GameObject StageMousePrefab;
+    private GameObject StageMouseInsts;
 
     private int curstage = -1;
     private int CurStage
@@ -96,6 +106,14 @@ public class SC_StageManager : MonoBehaviour
     {
         SC_MonsterWaveManager.CurStagePaths = AllStageData[CurStage].Lines;
     }
+    private void SetStageBuildArea(int CurStage)
+    {
+        BuildAreaInsts.Capacity = AllStageData[CurStage].BuildAreaPos.Count;
+        for (int i = 0; i < BuildAreaInsts.Capacity; i++)
+        {
+            BuildAreaInsts.Add(Instantiate(BuildAreaPrefab, AllStageData[CurStage].BuildAreaPos[i], Quaternion.identity));
+        }
+    }
 
     // LoadData//////////////////////////////////////////////////////
     private void LoadData()
@@ -105,16 +123,12 @@ public class SC_StageManager : MonoBehaviour
         LoadAreaBinData();
         LoadRallyBinData();
     }
-    private Vector4 CentimeterToMeter(Vector4 Centimeter)
-    {
-        return new Vector4(Centimeter.x / 100, Centimeter.y / 100, Centimeter.z / 100, Centimeter.w);
-    }
 
     // LoadPath
     private void LoadPathBinData()
     {
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resource/StageScene/Data/PathData.txt"));
+        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/PathData.txt"));
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
         AllStageData.Capacity = StgSize;
@@ -151,7 +165,7 @@ public class SC_StageManager : MonoBehaviour
             Buffer.Read(ref temp.y);
             Buffer.Read(ref temp.z);
             Buffer.Read(ref temp.w);
-            temp = CentimeterToMeter(temp); 
+            temp = MyMath.CentimeterToMeter(temp); 
 
             CurLineData.Points.Add(temp);
         }
@@ -161,7 +175,7 @@ public class SC_StageManager : MonoBehaviour
     private void LoadWaveBinData()
     {
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resource/StageScene/Data/WaveData.txt"));
+        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/WaveData.txt"));
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
         
@@ -206,7 +220,7 @@ public class SC_StageManager : MonoBehaviour
     private void LoadAreaBinData()
     {
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resource/StageScene/Data/BuildAreaData.txt"));
+        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/BuildAreaData.txt"));
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
 
@@ -228,7 +242,7 @@ public class SC_StageManager : MonoBehaviour
             Buffer.Read(ref temp.y);
             Buffer.Read(ref temp.z);
             Buffer.Read(ref temp.w);
-            temp = CentimeterToMeter(temp);
+            temp = MyMath.CentimeterToMeter(temp);
 
             CurBuildAreaInfos.Add(temp);
         }
@@ -238,7 +252,7 @@ public class SC_StageManager : MonoBehaviour
     private void LoadRallyBinData()
     {
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resource/StageScene/Data/RallyData.txt"));
+        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/RallyData.txt"));
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
 
@@ -261,7 +275,7 @@ public class SC_StageManager : MonoBehaviour
             Buffer.Read(ref temp.y);
             Buffer.Read(ref temp.z);
             Buffer.Read(ref temp.w);
-            temp = CentimeterToMeter(temp);
+            temp = MyMath.CentimeterToMeter(temp);
 
             CurRallyInfo.Add(temp);
         }

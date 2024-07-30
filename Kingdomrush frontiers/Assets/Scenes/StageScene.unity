@@ -260,6 +260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageBGManagerPrefab: {fileID: 7661350251303672170, guid: 84c9d298ecf5cd1458507678c626e6fb, type: 3}
   MonsterWavePrefab: {fileID: 3709365195450752765, guid: 89cdb93a262897d4c98cd703a58c6e3c, type: 3}
+  BuildAreaPrefab: {fileID: 7211476112772693015, guid: 009c58748a2bbe642845bd1eb1a0e751, type: 3}
+  StageMousePrefab: {fileID: 8836718159508843050, guid: 72180c19c29480442b4fe7871290f689, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -188,7 +188,6 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterFSM.CreateState<MonsterState>(MonsterState.Move,
             () =>
             {
-                Debug.Log("MoveState Start");
                 MonsterAnimator.SetInteger("MonsterState", GetCurState());
             },
 
@@ -200,7 +199,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
             () =>
             {
-                Debug.Log("MoveState End");
+
             }
         );
     }
