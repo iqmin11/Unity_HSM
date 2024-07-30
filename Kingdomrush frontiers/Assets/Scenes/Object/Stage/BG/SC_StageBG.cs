@@ -7,41 +7,22 @@ public class SC_StageBG : MonoBehaviour
 {
     private void Awake()
     {
-        for (int i = 0; i < 6; i++)
-        {
-            BGList.Add(Instantiate(BGPrefabs[i]));
-            BGList[i].SetActive(false);
-        }
-    }
+        BGRenderer = gameObject.AddComponent<SpriteRenderer>();
+        BGRenderer.sortingOrder = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_1"));
+        BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_2"));
+        BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_3"));
+        BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_4"));
+        BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_5"));
+        BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_6"));
     }
 
     public void SetStageBG(int CurStage)
     {
-        for(int i = 0; i < BGList.Count; i++)
-        {
-            if(CurStage == i)
-            {
-                BGList[i].SetActive(true);
-                continue;
-            }
-
-            BGList[i].SetActive(false);
-        }
+        BGRenderer.sprite = BGSprite[CurStage];
     }
 
-    [SerializeField]
-    private List<GameObject> BGPrefabs;
-
-    private List<GameObject> BGList = new List<GameObject>();
+    private List<Sprite> BGSprite = new List<Sprite>();
+    private SpriteRenderer BGRenderer;
 }
