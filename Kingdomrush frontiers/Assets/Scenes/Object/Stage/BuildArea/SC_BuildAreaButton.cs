@@ -14,6 +14,10 @@ public class SC_BuildAreaButton : SC_MyButton
         HoverSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
         PressSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
         ColScale = MyMath.CentimeterToMeter(new Vector4(105, 60, 1));
+        Click = () =>
+        {
+            Debug.Log("BuildAreaButton Click");
+        };
 
         base.Start();
     }

@@ -25,6 +25,7 @@ public class SC_MyButton : MonoBehaviour
 
         ButtonCol = gameObject.AddComponent<BoxCollider2D>();
         ButtonCol.size = new Vector2(ColScale.x, ColScale.y);
+        gameObject.tag = "MyButton";
     }
 
     // Update is called once per frame
@@ -64,6 +65,17 @@ public class SC_MyButton : MonoBehaviour
     protected Sprite PressSprite;
     protected Vector4 ColScale = Vector4.one;
     protected System.Action ClickCallBack;
+    public System.Action Click
+    {
+        get
+        {
+            return ClickCallBack;
+        }
+        set
+        {
+            ClickCallBack = value;
+        }
+    }
 
     private ButtonState State = ButtonState.Null;
     private SpriteRenderer ButtonRenderer;
