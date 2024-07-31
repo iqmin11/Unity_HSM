@@ -1,3 +1,4 @@
+using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -26,7 +27,7 @@ public class SC_MyButton : MonoBehaviour
     {
         ButtonRenderer = gameObject.AddComponent<SpriteRenderer>();
         ButtonRenderer.sprite = ReleaseSprite;
-        ButtonRenderer.sortingOrder = 1;
+        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameObject;
 
         ButtonCol = gameObject.AddComponent<BoxCollider2D>();
         ButtonCol.size = new Vector2(ColScale.x, ColScale.y);

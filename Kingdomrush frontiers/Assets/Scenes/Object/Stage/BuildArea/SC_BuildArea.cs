@@ -8,6 +8,11 @@ public class SC_BuildArea : MonoBehaviour
     void Start()
     {
         ButtonInst = Instantiate(ButtonPrefab, gameObject.transform);
+        ButtonSetting = ButtonInst.GetComponent<SC_BuildAreaButton>();
+        ButtonSetting.Click = () =>
+        {
+            ChildTowerInst = Instantiate(RangedTowerPrefab, gameObject.transform);
+        };
     }
 
     // Update is called once per frame
@@ -19,4 +24,10 @@ public class SC_BuildArea : MonoBehaviour
     [SerializeField]
     private GameObject ButtonPrefab;
     private GameObject ButtonInst;
+    private SC_BuildAreaButton ButtonSetting;
+
+    [SerializeField]
+    private GameObject RangedTowerPrefab;
+
+    private GameObject ChildTowerInst;
 }

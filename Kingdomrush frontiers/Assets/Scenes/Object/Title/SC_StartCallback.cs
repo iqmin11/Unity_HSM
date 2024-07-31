@@ -7,6 +7,6 @@ public class StartCallback : MonoBehaviour
 {
     public void OnClickFunc()
     {
-        SceneManager.LoadScene("WorldMapScene");
+        SceneManager.LoadScene("StageScene");
     }
 }

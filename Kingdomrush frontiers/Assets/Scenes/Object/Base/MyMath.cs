@@ -27,10 +27,22 @@ namespace Assets.Scenes.Object.Base
         {
             return GetAngleRadZ(Value) * Mathf.Rad2Deg;
         }
+        
+        static public float CentimeterToMeter(float Centimeter)
+        {
+            return Centimeter / 100.0f;
+        }
+
         static public Vector4 CentimeterToMeter(Vector4 Centimeter)
         {
-            return new Vector4(Centimeter.x / 100, Centimeter.y / 100, Centimeter.z / 100, Centimeter.w);
+            return new Vector4(
+                Centimeter.x / 100.0f, 
+                Centimeter.y / 100.0f, 
+                Centimeter.z / 100.0f, 
+                Centimeter.w);
         }
+
+        
 
 
     }

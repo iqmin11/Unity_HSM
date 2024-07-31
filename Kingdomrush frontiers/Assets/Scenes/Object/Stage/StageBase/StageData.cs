@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Mathematics;
 using Assets.Scenes.Object.Stage.ContentsEnum;
+using System.Diagnostics;
 
 namespace Assets.Scenes.Object.Stage.StageData
 {
@@ -282,5 +283,243 @@ namespace Assets.Scenes.Object.Stage.StageData
         public bool IsBurrow = false;
         public bool IsFlying = false;
         public bool IsRanged = false;
+    }
+
+    public class TowerData
+    {
+        public static readonly float Short = Base.MyMath.CentimeterToMeter(140.0f);
+        public static readonly float Average = Base.MyMath.CentimeterToMeter(160.0f);
+        public static readonly float Long = Base.MyMath.CentimeterToMeter(180.0f);
+        public static readonly float Great = Base.MyMath.CentimeterToMeter(198.0f);
+
+        public TowerData GetNextTowerData()
+        {
+            if (Level == 4)
+            {
+                return this;
+            }
+            TowerData ResultDataTowerType = new TowerData();
+            ResultDataTowerType.SetData((TowerEnum)(((int)TowerType) + Level + 1));
+            return ResultDataTowerType;
+        }
+
+        public float GetNextLvRange()
+        {
+            TowerEnum NextEnum = (TowerEnum)(((int)TowerType) + Level + 1);
+            TowerData NextData = new TowerData();
+            NextData.SetData(NextEnum);
+            if (NextData.TowerType != TowerType)
+            {
+                UnityEngine.Debug.Log("Over Index");
+                return this.Range;
+            }
+
+            return NextData.Range;
+        }
+
+        public void SetData(TowerEnum Enum)
+        {
+            switch (Enum)
+            {
+            case TowerEnum.Null:
+                break;
+            case TowerEnum.RangedTower_CityTower:
+                TowerType = TowerEnum.RangedTower;
+                Level = 0;
+                FireRate = 0.8f;
+                Range = Short;
+                Damage_min = 4;
+                Damage_MAX = 6;
+                BulletTime = 1.0f;
+                BuildCost = 0;
+                SellCost = 0;
+                break;
+            case TowerEnum.RangedTower_Level1:
+                TowerType = TowerEnum.RangedTower;
+                Level = 1;
+                FireRate = 0.8f;
+                Range = Short;
+                Damage_min = 4;
+                Damage_MAX = 6;
+                BulletTime = 1.0f;
+                BuildCost = 70;
+                SellCost = 70;
+                break;
+            case TowerEnum.RangedTower_Level2:
+                TowerType = TowerEnum.RangedTower;
+                Level = 2;
+                FireRate = 0.6f;
+                Range = Average;
+                Damage_min = 7;
+                Damage_MAX = 11;
+                BulletTime = 1.0f;
+                BuildCost = 110;
+                SellCost = 180;
+                break;
+            case TowerEnum.RangedTower_Level3:
+                TowerType = TowerEnum.RangedTower;
+                Level = 3;
+                FireRate = 0.5f;
+                Range = Long;
+                Damage_min = 10;
+                Damage_MAX = 16;
+                BulletTime = 1.0f;
+                BuildCost = 160;
+                SellCost = 340;
+                break;
+            case TowerEnum.RangedTower_Level4:
+                TowerType = TowerEnum.RangedTower;
+                Level = 4;
+                FireRate = 0.5f;
+                Range = Great;
+                Damage_min = 15;
+                Damage_MAX = 23;
+                BulletTime = 1.0f;
+                BuildCost = 230;
+                SellCost = 570;
+                break;
+            case TowerEnum.MeleeTower_Level1:
+                TowerType = TowerEnum.MeleeTower;
+                Level = 1;
+                FireRate = 1.0f;
+                Range = Short;
+                Damage_min = 1;
+                Damage_MAX = 3;
+                BuildCost = 70;
+                SellCost = 70;
+                break;
+            case TowerEnum.MeleeTower_Level2:
+                TowerType = TowerEnum.MeleeTower;
+                Level = 2;
+                FireRate = 1.36f;
+                Range = Short;
+                Damage_min = 3;
+                Damage_MAX = 4;
+                BuildCost = 110;
+                SellCost = 180;
+                break;
+            case TowerEnum.MeleeTower_Level3:
+                TowerType = TowerEnum.MeleeTower;
+                Level = 3;
+                FireRate = 1.36f;
+                Range = Short;
+                Damage_min = 6;
+                Damage_MAX = 10;
+                BuildCost = 160;
+                SellCost = 340;
+                break;
+            case TowerEnum.MeleeTower_Level4:
+                TowerType = TowerEnum.MeleeTower;
+                Level = 4;
+                FireRate = 1.0f;
+                Range = Short;
+                Damage_min = 10;
+                Damage_MAX = 14;
+                BuildCost = 230;
+                SellCost = 570;
+                break;
+            case TowerEnum.MagicTower_Level1:
+                TowerType = TowerEnum.MagicTower;
+                Level = 1;
+                FireRate = 1.5f;
+                Range = Short;
+                Damage_min = 9;
+                Damage_MAX = 17;
+                BulletTime = 0.4f;
+                BuildCost = 100;
+                SellCost = 100;
+                break;
+            case TowerEnum.MagicTower_Level2:
+                TowerType = TowerEnum.MagicTower;
+                Level = 2;
+                FireRate = 1.5f;
+                Range = Average;
+                Damage_min = 23;
+                Damage_MAX = 43;
+                BulletTime = 0.4f;
+                BuildCost = 160;
+                SellCost = 260;
+                break;
+            case TowerEnum.MagicTower_Level3:
+                TowerType = TowerEnum.MagicTower;
+                Level = 3;
+                FireRate = 1.5f;
+                Range = Long;
+                Damage_min = 40;
+                Damage_MAX = 74;
+                BulletTime = 0.4f;
+                BuildCost = 240;
+                SellCost = 500;
+                break;
+            case TowerEnum.MagicTower_Level4:
+                TowerType = TowerEnum.MagicTower;
+                Level = 4;
+                FireRate = 1.5f;
+                Range = Great;
+                Damage_min = 60;
+                Damage_MAX = 120;
+                BulletTime = 0.4f;
+                BuildCost = 300;
+                SellCost = 800;
+                break;
+            case TowerEnum.ArtilleryTower_Level1:
+                TowerType = TowerEnum.ArtilleryTower;
+                Level = 1;
+                FireRate = 3.0f;
+                Range = Average;
+                Damage_min = 8;
+                Damage_MAX = 15;
+                BulletTime = 1.0f;
+                BuildCost = 125;
+                SellCost = 125;
+                break;
+            case TowerEnum.ArtilleryTower_Level2:
+                TowerType = TowerEnum.ArtilleryTower;
+                Level = 2;
+                FireRate = 3.0f;
+                Range = Average;
+                Damage_min = 20;
+                Damage_MAX = 40;
+                BulletTime = 1.0f;
+                BuildCost = 220;
+                SellCost = 345;
+                break;
+            case TowerEnum.ArtilleryTower_Level3:
+                TowerType = TowerEnum.ArtilleryTower;
+                Level = 3;
+                FireRate = 3.0f;
+                Range = Long;
+                Damage_min = 30;
+                Damage_MAX = 60;
+                BulletTime = 1.0f;
+                BuildCost = 320;
+                SellCost = 665;
+                break;
+            case TowerEnum.ArtilleryTower_Level4:
+                TowerType = TowerEnum.ArtilleryTower;
+                Level = 4;
+                FireRate = 3.0f;
+                Range = Long;
+                Damage_min = 25;
+                Damage_MAX = 45;
+                BulletTime = 1.0f;
+                BuildCost = 400;
+                SellCost = 1065;
+                break;
+            default:
+                UnityEngine.Debug.LogAssertion("Wrong TowerTypeEnum Value");
+                break;
+            }
+        }
+
+        public TowerEnum TowerType = TowerEnum.Null;
+        public int Level = 0;
+        public float FireRate = 0.0f;
+        public float Range = 0.0f;
+        public int Damage_min = 0;
+        public int Damage_MAX = 0;
+        public float BulletTime = 1.0f;
+        public int BuildCost = 0;
+        public int SellCost = 0;
     }
 }

@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class SC_BuildAreaButton : SC_MyButton
 {
-    //캐싱을 위해 반드시 만들면 좋은 인터페이스
     static Sprite CacheReleaseSprite = null;
     static Sprite CacheHoverSprite = null;
     static Sprite CachePressSprite = null;
@@ -36,10 +35,6 @@ public class SC_BuildAreaButton : SC_MyButton
         PressSprite = CachePressSprite;
 
         ColScale = MyMath.CentimeterToMeter(new Vector4(105, 60, 1));
-        Click = () =>
-        {
-            Debug.Log("BuildAreaButton Click");
-        };
 
         base.Start();
     }

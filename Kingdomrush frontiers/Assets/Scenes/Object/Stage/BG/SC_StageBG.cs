@@ -1,3 +1,4 @@
+using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ public class SC_StageBG : MonoBehaviour
     private void Awake()
     {
         BGRenderer = gameObject.AddComponent<SpriteRenderer>();
-        BGRenderer.sortingOrder = 0;
+        BGRenderer.sortingOrder = (int)RenderOrder.Bg;
 
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_1"));
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_2"));

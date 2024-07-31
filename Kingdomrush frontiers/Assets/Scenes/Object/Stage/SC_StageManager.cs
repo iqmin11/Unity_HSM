@@ -280,6 +280,4 @@ public class SC_StageManager : MonoBehaviour
             CurRallyInfo.Add(temp);
         }
     }
-
-
 }
