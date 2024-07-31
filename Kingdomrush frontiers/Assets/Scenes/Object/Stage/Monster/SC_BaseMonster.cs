@@ -45,6 +45,35 @@ abstract public class SC_BaseMonster : MonoBehaviour
     // Use Update in FSM
     //private void Update()
 
+    public Vector4 CurMonsterPos
+    {
+        get
+        {
+            return Walk.MonsterPos;
+        }
+    }
+    public Vector4 DestPoint
+    {
+        get
+        {
+            return Walk.DestPoint;
+        }
+    }
+    public Vector4 CurMonsterDir
+    {
+        get
+        {
+            return Walk.MonsterDir;
+        }
+    }
+    public float MonsterSpeed
+    {
+        get
+        {
+            return Data.Speed;
+        }
+    }
+
     // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
     abstract protected void SetData();
@@ -82,6 +111,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         public List<Vector4> PathInfo = null;
         public List<Vector4>.Enumerator CurPoint;
         public List<Vector4>.Enumerator NextPoint;
+        public Vector4 DestPoint = Vector4.zero;
 
         public float Ratio = 0.0f;
         public float Time = 0.0f;
@@ -96,6 +126,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
         Walk.NextPoint = Walk.CurPoint;
         Walk.NextPoint.MoveNext();
+        Walk.DestPoint = PathValue[PathValue.Count - 1];
 
         transform.position = Walk.CurPoint.Current;
     }
@@ -161,7 +192,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
     // Animation ///////////////////////////////////// 
     private Animator MonsterAnimator;
     private SpriteRenderer MonsterRenderer;
-    protected int GetCurState()
+    public int GetCurState()
     {
         return MonsterFSM.GetCurState();
     }

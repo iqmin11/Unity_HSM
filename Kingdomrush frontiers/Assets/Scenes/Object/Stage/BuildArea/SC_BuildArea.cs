@@ -12,6 +12,7 @@ public class SC_BuildArea : MonoBehaviour
         ButtonSetting.Click = () =>
         {
             ChildTowerInst = Instantiate(RangedTowerPrefab, gameObject.transform);
+            ButtonInst.SetActive(false);
         };
     }
 
