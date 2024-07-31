@@ -72,6 +72,12 @@ sealed public class SC_RangedTower : SC_BaseShootingTower
         AttackOrder = !AttackOrder;
     }
 
+    protected override void TransitionTargetInfoToShooter()
+    {
+        Shooter0Setting.TargetPos = TargetPos;
+        Shooter1Setting.TargetPos = TargetPos;
+    }
+
     [SerializeField]
     private GameObject RangedShooterPrefab;
 

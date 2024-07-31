@@ -20,6 +20,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         if(IsFindTargetMonster())
         {
             CalTargetPos();
+            TransitionTargetInfoToShooter();
             if (IsCoolTimeEnd)
             {
                 IsCoolTimeEnd = false;
@@ -32,6 +33,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     protected SC_BaseMonster TargetMonster = null;
     protected Vector4 TargetPos = Vector4.zero;
     List<RaycastHit2D> Filter = new List<RaycastHit2D>();
+    private bool IsTarget;
     private bool IsFindTargetMonster()
     {
         RaycastHit2D[] Hits = Physics2D.CircleCastAll(gameObject.transform.position, Data.Range, Vector2.zero);
@@ -82,6 +84,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
 
         TargetPos = CurPos + Dir * MonsterSpeed * BulletTime;
     }
+    abstract protected void TransitionTargetInfoToShooter();
 
     //Attack
     protected bool IsCoolTimeEnd = true;

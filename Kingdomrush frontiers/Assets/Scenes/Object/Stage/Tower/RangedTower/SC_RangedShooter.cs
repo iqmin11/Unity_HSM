@@ -14,4 +14,15 @@ public class SC_RangedShooter : SC_BaseShooter
     {
         Debug.Log("Shooter Attack");
     }
+
+    public Vector4 TargetPos
+    {
+        set
+        {
+            TargetPosition = value;
+        }
+    }
+
+    private Vector4 TargetPosition;
+
 }

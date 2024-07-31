@@ -11,6 +11,13 @@ public enum ShooterState
 	Attack
 };
 
+public enum ShooterDir
+{
+    Null = -1,
+    Forward,
+    Backward
+}
+
 abstract public class SC_BaseShooter : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -25,7 +32,6 @@ abstract public class SC_BaseShooter : MonoBehaviour
         ShooterAnimator = gameObject.GetComponent<Animator>();
         ShooterRenderer = gameObject.GetComponent<SpriteRenderer>();
         ShooterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
-        
     }
 
     protected GameObject parenttower = null;
@@ -58,6 +64,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
             state = value;
         }
     }
+    public ShooterDir Dir = ShooterDir.Forward;
 
     abstract protected void Attack();
     virtual protected void IdleStateInit()
@@ -71,12 +78,11 @@ abstract public class SC_BaseShooter : MonoBehaviour
         ShooterFSM.CreateState<ShooterState>(ShooterState.Idle,
             () =>
             {
-
+                ShooterAnimator.SetInteger("State", (int)State);
             },
 
             () =>
             {
-                CheckDir();
                 if(State == ShooterState.Attack)
                 {
                     ShooterFSM.ChangeState(State);
@@ -102,6 +108,9 @@ abstract public class SC_BaseShooter : MonoBehaviour
         ShooterFSM.CreateState<ShooterState>(ShooterState.Attack,
             () =>
             {
+                CheckDir();
+                ShooterAnimator.SetInteger("State", (int)State);
+                ShooterAnimator.SetInteger("ShooterDir", (int)Dir);
                 //쏘는 애니메이션 실행
                 //노티파이 2개.
                 //1. 실제로 화살이 나가야 하는 노티파이.

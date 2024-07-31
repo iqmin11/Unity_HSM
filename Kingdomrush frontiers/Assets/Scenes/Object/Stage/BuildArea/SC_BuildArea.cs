@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class SC_BuildArea : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         ButtonInst = Instantiate(ButtonPrefab, gameObject.transform);
         ButtonSetting = ButtonInst.GetComponent<SC_BuildAreaButton>();
@@ -14,6 +13,12 @@ public class SC_BuildArea : MonoBehaviour
             ChildTowerInst = Instantiate(RangedTowerPrefab, gameObject.transform);
             ButtonInst.SetActive(false);
         };
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
