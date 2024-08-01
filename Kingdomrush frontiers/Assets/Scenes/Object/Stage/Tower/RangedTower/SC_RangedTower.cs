@@ -72,7 +72,7 @@ sealed public class SC_RangedTower : SC_ShooterTower
         AttackOrder = !AttackOrder;
     }
 
-    protected override void TransitionTargetInfoToShooter()
+    protected override void TransmissionTargetInfoToShooter()
     {
         Shooter0Setting.TargetPos = TargetPos;
         Shooter1Setting.TargetPos = TargetPos;

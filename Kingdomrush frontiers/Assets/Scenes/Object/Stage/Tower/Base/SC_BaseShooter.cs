@@ -96,7 +96,6 @@ abstract public class SC_BaseShooter : MonoBehaviour
             }
         );
     }
-
     virtual protected void AttackStateInit()
     {
         if (ShooterFSM == null)
