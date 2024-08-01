@@ -7,22 +7,36 @@ using Unity.VisualScripting;
 
 abstract public class SC_BaseBullet : MonoBehaviour
 {
-    private void Awake()
+    virtual protected void Awake()
     {
         BulletRenderer = gameObject.AddComponent<SpriteRenderer>();
         BulletRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        gameObject.SetActive(false);
+    }
+
+    virtual public void BulletSetting(Vector4 StartPos, Vector4 DestPos)
+    {
+        ShooterPos = StartPos;
+        TargetPos = DestPos;
     }
 
     // Update is called once per frame
-    void Update()
+    virtual protected void Update()
     {
-        
+        AccTime += Time.deltaTime;
+        Ratio = AccTime / Data.BulletTime;
+        CalBulletTransform();
     }
 
     protected SpriteRenderer BulletRenderer;
     protected TowerData data;
     public TowerData Data
     {
+        get
+        {
+            return data;
+        }
+
         set
         {
             data = value;
@@ -37,6 +51,11 @@ abstract public class SC_BaseBullet : MonoBehaviour
         get
         {
             return shooterPos;
+        }
+
+        set
+        {
+            shooterPos = value;
         }
     }
 
@@ -53,7 +72,7 @@ abstract public class SC_BaseBullet : MonoBehaviour
             targetPos = value;
         }
     }
-    private float Time;
+    private float AccTime;
     private float ratio;
     protected float Ratio
     {
@@ -61,8 +80,12 @@ abstract public class SC_BaseBullet : MonoBehaviour
         {
             return ratio;
         }
-    }
 
+        set
+        {
+            ratio = value;
+        }
+    }
 
     private bool IsBulletDeath = false;
 

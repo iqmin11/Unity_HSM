@@ -4,19 +4,25 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
+using Unity.VisualScripting;
 
 public class SC_RangedBullet : SC_HowitzerBullet
 {
-    // Start is called before the first frame update
-    void Start()
+    static private Sprite ArrowSprite = null;
+    override protected void Awake()
     {
-        BulletRenderer.sprite = Resources.Load<Sprite>("StageScene/Tower/Ranged/RangedTower/arrow");
-        
+        base.Awake();
+        if (ArrowSprite == null)
+        {
+            ArrowSprite = Resources.Load<Sprite>("StageScene/Tower/Ranged/RangedTower/arrow");
+        }
+
+        BulletRenderer.sprite = ArrowSprite;
     }
 
-    // Update is called once per frame
-    void Update()
+    override public void BulletSetting(Vector4 StartPos, Vector4 DestPos)
     {
+        base.BulletSetting(StartPos, DestPos);
     }
 
     protected override void CalRotBulletRot()

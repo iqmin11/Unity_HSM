@@ -9,16 +9,10 @@ using Assets.Scenes.Object.Base;
 
 abstract public class SC_HowitzerBullet : SC_BaseBullet
 {
-    // Start is called before the first frame update
-    void Start()
+    override public void BulletSetting(Vector4 StartPos, Vector4 DestPos)
     {
+        base.BulletSetting(StartPos, DestPos);
         CalBezierMid();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     override protected void CalBulletTransform()

@@ -5,14 +5,13 @@ using UnityEngine;
 public class SC_RangedShooter : SC_BaseShooter
 {
     // Start is called before the first frame update
-
-    protected override void Attack()
-    {
-        Debug.Log("Shooter Attack");
-    }
-
     public Vector4 TargetPos
     {
+        get
+        {
+            return TargetPosition;
+        }
+
         set
         {
             TargetPosition = value;

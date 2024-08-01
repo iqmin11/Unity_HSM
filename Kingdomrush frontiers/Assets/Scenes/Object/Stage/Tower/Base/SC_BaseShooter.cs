@@ -21,6 +21,9 @@ public enum ShooterDir
 
 abstract public class SC_BaseShooter : MonoBehaviour
 {
+    [SerializeField]
+    protected GameObject BulletPrefab;
+
     virtual protected void Awake()
     {
         ShooterAnimator = gameObject.GetComponent<Animator>();
@@ -66,7 +69,12 @@ abstract public class SC_BaseShooter : MonoBehaviour
     }
     protected ShooterDir Dir = ShooterDir.Forward;
 
-    abstract protected void Attack();
+    virtual protected void Attack()
+    {
+        SC_BaseBullet CurShotBullet = Instantiate(BulletPrefab).GetComponent<SC_BaseBullet>();
+        CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
+        CurShotBullet.gameObject.SetActive(true);
+    }
     virtual protected void IdleStateInit()
     {
         if (ShooterFSM == null)

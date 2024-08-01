@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 770b44d95994acf45af8d795bac1c480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 2898657404791829070, guid: 7d093e693136d7d4da95974238b4d92d, type: 3}
 --- !u!95 &430587854683429458
 Animator:
   serializedVersion: 5
