@@ -7,8 +7,7 @@ using UnityEngine;
 
 abstract public class SC_BaseTower : MonoBehaviour
 {
-    // Start is called before the first frame update
-    virtual protected void Start()
+    virtual protected void Awake()
     {
         SpriteCaching();
 

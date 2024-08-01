@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
 
-sealed public class SC_RangedTower : SC_BaseShootingTower
+sealed public class SC_RangedTower : SC_ShooterTower
 {
     static private List<Sprite> RangedTowerSpriteCache = new List<Sprite>();
 
-    // Start is called before the first frame update
-    override protected void Start()
+    override protected void Awake()
     {
-        base.Start();
+        base.Awake();
         TowerSprite = RangedTowerSpriteCache;
         TowerRenderer.sprite = TowerSprite[Data.Level - 1];
 

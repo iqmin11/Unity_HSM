@@ -8,10 +8,16 @@ using static UnityEngine.UI.Image;
 
 abstract public class SC_BaseShootingTower : SC_BaseTower
 {
-    // Start is called before the first frame update
-    override protected void Start()
+    // Debug
+    private void OnDrawGizmos()
     {
-        base.Start();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(gameObject.transform.position, Data.Range);
+    }
+
+    override protected void Awake()
+    {
+        base.Awake();
     }
 
     // Update is called once per frame
@@ -21,7 +27,6 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         if (IsFindTargetMonster())
         {
             CalTargetPos();
-            TransitionTargetInfoToShooter();
             if (IsCoolTimeEnd)
             {
                 IsCoolTimeEnd = false;
@@ -36,11 +41,6 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     List<Collider2D> Filter = new List<Collider2D>();
     private bool IsTarget;
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(gameObject.transform.position, Data.Range);
-    }
 
     private bool IsFindTargetMonster()
     {
@@ -79,7 +79,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         TargetMonster = Filter[0].GetComponent<SC_BaseMonster>();
         return true;
     }
-    private void CalTargetPos()
+    virtual protected void CalTargetPos()
     {
         Vector4 CurPos = TargetMonster.CurMonsterPos;
         Vector4 Dir = TargetMonster.CurMonsterDir;
@@ -92,7 +92,6 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
 
         TargetPos = CurPos + Dir * MonsterSpeed * BulletTime;
     }
-    abstract protected void TransitionTargetInfoToShooter();
 
     //Attack
     protected bool IsCoolTimeEnd = true;
@@ -103,6 +102,4 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         IsCoolTimeEnd = true;
     }
     abstract protected void AttackAction();
-
-
 }
