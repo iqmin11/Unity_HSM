@@ -86,7 +86,4 @@ abstract public class SC_BaseBullet : MonoBehaviour
             ratio = value;
         }
     }
-
-    private bool IsBulletDeath = false;
-
 }

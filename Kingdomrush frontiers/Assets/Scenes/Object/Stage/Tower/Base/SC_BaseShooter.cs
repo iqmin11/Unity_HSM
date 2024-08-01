@@ -120,10 +120,6 @@ abstract public class SC_BaseShooter : MonoBehaviour
                 CheckDir();
                 ShooterAnimator.SetInteger("ShooterState", (int)State);
                 ShooterAnimator.SetInteger("ShooterDir", (int)Dir);
-                //쏘는 애니메이션 실행
-                //노티파이 2개.
-                //1. 실제로 화살이 나가야 하는 노티파이.
-                //2. 끝나면 Idle로 스테이트를 바꿔주는 노티파이
             },
 
             () =>
@@ -158,7 +154,23 @@ abstract public class SC_BaseShooter : MonoBehaviour
     }
     private void CheckDir()
     {
-        //타겟과 나의 위치를 통해 슈터가 바라볼 방향 정하기
+        if(TargetPos.y > transform.position.y)
+        {
+            Dir = ShooterDir.Backward;
+        }
+        else
+        {
+            Dir = ShooterDir.Forward;
+        }
+
+        if (TargetPos.x > transform.position.x)
+        {
+            ShooterRenderer.flipX = false;
+        }
+        else
+        {
+            ShooterRenderer.flipX = true;
+        }
     }
     
 
