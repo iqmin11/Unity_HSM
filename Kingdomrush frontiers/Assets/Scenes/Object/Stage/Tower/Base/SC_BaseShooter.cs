@@ -141,7 +141,19 @@ abstract public class SC_BaseShooter : MonoBehaviour
     }
 
     private float Time;
-    private Vector4 TargetPos;
+    private Vector4 targetPos;
+    public Vector4 TargetPos
+    {
+        get
+        {
+            return targetPos;
+        }
+
+        set
+        {
+            targetPos = value;
+        }
+    }
     private void CheckDir()
     {
         //타겟과 나의 위치를 통해 슈터가 바라볼 방향 정하기
