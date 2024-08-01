@@ -9,5 +9,4 @@ public class SC_RangedShooter : SC_BaseShooter
     {
         State = ShooterState.Idle;
     }
-
 }
