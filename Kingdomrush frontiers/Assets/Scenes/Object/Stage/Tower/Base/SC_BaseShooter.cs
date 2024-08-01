@@ -1,4 +1,5 @@
 using Assets.Scenes.Object.Stage.ContentsEnum;
+using Assets.Scenes.Object.Stage.StageData;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -37,17 +38,17 @@ abstract public class SC_BaseShooter : MonoBehaviour
         ShooterFSM.ChangeState<ShooterState>(ShooterState.Idle);
     }
 
-    protected GameObject parentTower = null;
-    public GameObject ParentTower
+    private TowerData data;
+    public TowerData Data 
     {
         get
         {
-            return parentTower;
+            return data;
         }
 
         set
         {
-            parentTower = value;
+            data = value;
         }
     }
 
@@ -73,6 +74,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
     {
         SC_BaseBullet CurShotBullet = Instantiate(BulletPrefab).GetComponent<SC_BaseBullet>();
         CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
+        CurShotBullet.Data = Data;
         CurShotBullet.gameObject.SetActive(true);
     }
     virtual protected void IdleStateInit()

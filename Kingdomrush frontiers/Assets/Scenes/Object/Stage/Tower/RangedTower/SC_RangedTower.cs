@@ -18,10 +18,12 @@ sealed public class SC_RangedTower : SC_ShooterTower
         Shooter0Inst = Instantiate(RangedShooterPrefab, gameObject.transform);
         Shooter0Inst.transform.localPosition = Lv1Shooter0LocalPos;
         Shooter0Setting = Shooter0Inst.GetComponent<SC_RangedShooter>();
+        Shooter0Setting.Data = Data;
 
         Shooter1Inst = Instantiate(RangedShooterPrefab, gameObject.transform);
         Shooter1Inst.transform.localPosition = Lv1Shooter1LocalPos;
         Shooter1Setting = Shooter1Inst.GetComponent<SC_RangedShooter>();
+        Shooter1Setting.Data = Data;
     }
 
     // Update is called once per frame
