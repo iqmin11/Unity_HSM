@@ -3,6 +3,7 @@ using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scenes.Object.Base;
 
 sealed public class SC_RangedTower : SC_BaseShootingTower
 {
@@ -16,9 +17,11 @@ sealed public class SC_RangedTower : SC_BaseShootingTower
         TowerRenderer.sprite = TowerSprite[Data.Level - 1];
 
         Shooter0Inst = Instantiate(RangedShooterPrefab, gameObject.transform);
+        Shooter0Inst.transform.localPosition = Lv1Shooter0LocalPos;
         Shooter0Setting = Shooter0Inst.GetComponent<SC_RangedShooter>();
 
         Shooter1Inst = Instantiate(RangedShooterPrefab, gameObject.transform);
+        Shooter1Inst.transform.localPosition = Lv1Shooter1LocalPos;
         Shooter1Setting = Shooter1Inst.GetComponent<SC_RangedShooter>();
     }
 
@@ -88,4 +91,12 @@ sealed public class SC_RangedTower : SC_BaseShootingTower
 
     private bool AttackOrder = false;
 
+    readonly Vector3 Lv1Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 47, -47));
+    readonly Vector3 Lv1Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 47, -47));
+    readonly Vector3 Lv2Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 49, -49));
+    readonly Vector3 Lv2Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 49, -49));
+    readonly Vector3 Lv3Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 54, -54));
+    readonly Vector3 Lv3Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 54, -54));
+    readonly Vector3 Lv4Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 56, -56));
+    readonly Vector3 Lv4Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 56, -56));
 }

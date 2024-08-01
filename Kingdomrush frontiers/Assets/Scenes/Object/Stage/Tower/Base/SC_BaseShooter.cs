@@ -2,6 +2,7 @@ using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 public enum ShooterState
@@ -20,31 +21,30 @@ public enum ShooterDir
 
 abstract public class SC_BaseShooter : MonoBehaviour
 {
-    // Start is called before the first frame update
-    virtual protected void Start()
+    virtual protected void Awake()
     {
+        ShooterAnimator = gameObject.GetComponent<Animator>();
+        ShooterRenderer = gameObject.GetComponent<SpriteRenderer>();
+        ShooterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+
         //FSM Init
         ShooterFSM = gameObject.AddComponent<SC_FSM>();
         IdleStateInit();
         AttackStateInit();
         ShooterFSM.ChangeState<ShooterState>(ShooterState.Idle);
-
-        ShooterAnimator = gameObject.GetComponent<Animator>();
-        ShooterRenderer = gameObject.GetComponent<SpriteRenderer>();
-        ShooterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
     }
 
-    protected GameObject parenttower = null;
+    protected GameObject parentTower = null;
     public GameObject ParentTower
     {
         get
         {
-            return parenttower;
+            return parentTower;
         }
 
         set
         {
-            parenttower = value;
+            parentTower = value;
         }
     }
 
@@ -64,7 +64,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
             state = value;
         }
     }
-    public ShooterDir Dir = ShooterDir.Forward;
+    protected ShooterDir Dir = ShooterDir.Forward;
 
     abstract protected void Attack();
     virtual protected void IdleStateInit()
@@ -78,7 +78,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
         ShooterFSM.CreateState<ShooterState>(ShooterState.Idle,
             () =>
             {
-                ShooterAnimator.SetInteger("State", (int)State);
+                ShooterAnimator.SetInteger("ShooterState", (int)State);
             },
 
             () =>
@@ -109,7 +109,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
             () =>
             {
                 CheckDir();
-                ShooterAnimator.SetInteger("State", (int)State);
+                ShooterAnimator.SetInteger("ShooterState", (int)State);
                 ShooterAnimator.SetInteger("ShooterDir", (int)Dir);
                 //쏘는 애니메이션 실행
                 //노티파이 2개.
