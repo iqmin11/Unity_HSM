@@ -43,9 +43,9 @@ namespace Assets.Scenes.Object.Stage.StageData
         public static readonly float Def_Low = 0.3f;
         public static readonly float Def_Midium = 0.5f;
         public static readonly float Def_High = 0.85f;
-        public static readonly float Speed_Slow = 25.0f / 100.0f;
-        public static readonly float Speed_Midium = 50.0f / 100.0f;
-        public static readonly float Speed_Fast = 100.0f / 100.0f;
+        public static readonly float Speed_Slow = Base.MyMath.CentimeterToMeter(25.0f);
+        public static readonly float Speed_Midium = Base.MyMath.CentimeterToMeter(50.0f);
+        public static readonly float Speed_Fast = Base.MyMath.CentimeterToMeter(100.0f);
 
         public void SetData(MonsterEnum _MonsterType)
         {

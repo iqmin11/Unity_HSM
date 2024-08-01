@@ -20,5 +20,9 @@ public class SC_RangedShooter : SC_BaseShooter
     }
 
     private Vector4 TargetPosition;
+    public void AttackEndEvent()
+    {
+        State = ShooterState.Idle;
+    }
 
 }

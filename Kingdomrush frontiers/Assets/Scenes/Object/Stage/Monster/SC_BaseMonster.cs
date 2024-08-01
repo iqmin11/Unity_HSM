@@ -32,14 +32,14 @@ public enum MoveDir
 
 abstract public class SC_BaseMonster : MonoBehaviour
 {
-    // Start is called before the first frame update
-    protected virtual void Start() 
+    protected virtual void Awake()
     {
         MonsterInit();
         SetData();
         //CurHp = Data.Hp;
         StateInit();
         MonsterFSM.ChangeState(MonsterState.Move);
+        gameObject.SetActive(false);
     }
 
     // Use Update in FSM
@@ -76,6 +76,9 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
+    protected CircleCollider2D MonsterCol;
+    abstract protected void SetColRadius();
+
     abstract protected void SetData();
     private void MonsterInit()
     {
@@ -97,6 +100,15 @@ abstract public class SC_BaseMonster : MonoBehaviour
         {
             Debug.LogAssertion("MonsterRenderer is null");
         }
+
+        MonsterCol = gameObject.AddComponent<CircleCollider2D>();
+        SetColRadius();
+        if (MonsterCol.radius == 0.0f)
+        {
+            Debug.LogAssertion("Pleas Set Monster Collider Scale");
+        }
+
+        gameObject.tag = "Monster";
     }
 
     // Walk ///////////////////////////////////// 
@@ -190,8 +202,8 @@ abstract public class SC_BaseMonster : MonoBehaviour
     }
 
     // Animation ///////////////////////////////////// 
-    private Animator MonsterAnimator;
     private SpriteRenderer MonsterRenderer;
+    private Animator MonsterAnimator;
     public int GetCurState()
     {
         return MonsterFSM.GetCurState();

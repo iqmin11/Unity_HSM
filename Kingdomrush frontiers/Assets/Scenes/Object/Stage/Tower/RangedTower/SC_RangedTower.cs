@@ -65,11 +65,9 @@ sealed public class SC_RangedTower : SC_BaseShootingTower
         if (AttackOrder)
         {
             Shooter0Setting.State = ShooterState.Attack;
-            Shooter1Setting.State = ShooterState.Idle;
         }
         else
         {
-            Shooter0Setting.State = ShooterState.Idle;
             Shooter1Setting.State = ShooterState.Attack;
         }
         AttackOrder = !AttackOrder;

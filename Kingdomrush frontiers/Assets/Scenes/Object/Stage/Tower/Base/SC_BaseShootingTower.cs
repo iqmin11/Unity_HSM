@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 abstract public class SC_BaseShootingTower : SC_BaseTower
 {
@@ -17,7 +18,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     override protected void Update()
     {
         base.Update();
-        if(IsFindTargetMonster())
+        if (IsFindTargetMonster())
         {
             CalTargetPos();
             TransitionTargetInfoToShooter();
@@ -32,11 +33,19 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     //Target
     protected SC_BaseMonster TargetMonster = null;
     protected Vector4 TargetPos = Vector4.zero;
-    List<RaycastHit2D> Filter = new List<RaycastHit2D>();
+    List<Collider2D> Filter = new List<Collider2D>();
     private bool IsTarget;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(gameObject.transform.position, Data.Range);
+    }
+
     private bool IsFindTargetMonster()
     {
-        RaycastHit2D[] Hits = Physics2D.CircleCastAll(gameObject.transform.position, Data.Range, Vector2.zero);
+        Collider2D[] Hits = Physics2D.OverlapCircleAll(gameObject.transform.position, Data.Range);
+
         if (Hits.Length == 0)
         {
             TargetMonster = null;
@@ -44,10 +53,9 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         }
         
         Filter.Clear();
-        Filter.Capacity = Hits.Length;
-        for(int i = 0; i < Filter.Capacity; i++)
+        for(int i = 0; i < Hits.Length; i++)
         {
-            if (Hits[i].collider.CompareTag("Monster"))
+            if (Hits[i].CompareTag("Monster"))
             {
                 Filter.Add(Hits[i]);
             }
@@ -61,14 +69,14 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
 
         Filter.Sort((Left, Right) =>
         {
-            SC_BaseMonster LeftMonster = Left.collider.gameObject.GetComponent<SC_BaseMonster>();
-            SC_BaseMonster RightMonster = Right.collider.gameObject.GetComponent<SC_BaseMonster>();
+            SC_BaseMonster LeftMonster = Left.GetComponent<Collider2D>().gameObject.GetComponent<SC_BaseMonster>();
+            SC_BaseMonster RightMonster = Right.GetComponent<Collider2D>().gameObject.GetComponent<SC_BaseMonster>();
             float LeftRemainDist = Vector4.Distance(LeftMonster.DestPoint, LeftMonster.CurMonsterPos);
             float RightRemainDist = Vector4.Distance(RightMonster.DestPoint, RightMonster.CurMonsterPos);
             return LeftRemainDist.CompareTo(RightRemainDist); 
         });
 
-        TargetMonster = Filter[0].collider.GetComponent<SC_BaseMonster>();
+        TargetMonster = Filter[0].GetComponent<SC_BaseMonster>();
         return true;
     }
     private void CalTargetPos()

@@ -139,5 +139,6 @@ abstract public class SC_BaseShooter : MonoBehaviour
     {
         //타겟과 나의 위치를 통해 슈터가 바라볼 방향 정하기
     }
+    
 
 }

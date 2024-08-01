@@ -89,6 +89,7 @@ public class SC_MonsterWaveManager : MonoBehaviour
         GameObject SpawnMonster = Instantiate(MonsterPrefabs[(int)CurMonster.Monster]);
         SC_BaseMonster SpawnMonsterSC = SpawnMonster.GetComponent<SC_BaseMonster>();
         SpawnMonsterSC.SetPathInfo(CurStagePaths[CurMonster.LineIndex].Points);
+        SpawnMonster.SetActive(true);
     }
     SortedDictionary<float, Queue<MonsterSpawnData>> SpawnDatas = new SortedDictionary<float, Queue<MonsterSpawnData>>();
 
