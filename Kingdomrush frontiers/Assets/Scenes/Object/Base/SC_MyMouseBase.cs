@@ -1,3 +1,4 @@
+using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,10 @@ using UnityEngine;
 
 public class SC_MyMouseBase : MonoBehaviour
 {
+    private void Awake()
+    {
+        ButtonLayer = 1 << LayerMask.NameToLayer("MyButton");
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -24,38 +29,21 @@ public class SC_MyMouseBase : MonoBehaviour
 
     private void ButtonClick()
     {
-        RaycastHit2D[] HitInfos = Physics2D.RaycastAll(WorldPos, Vector2.zero);
-        Filter.Clear();
-        Filter.Capacity = HitInfos.Length;
+        RaycastHit2D[] HitInfos = Physics2D.RaycastAll(WorldPos, Vector2.zero, 10.0f, ButtonLayer);
         HitInfos.OrderBy(HitInfos => 
         HitInfo.collider.GetComponent<SpriteRenderer>().sortingOrder
         );
-        for (int i = 0; i < HitInfos.Length; i++)
-        {
-            if (!(HitInfos[i].collider.gameObject.CompareTag("MyButton")))
-            {
-                continue;
-            }
 
-            Filter.Add(HitInfos[i].collider.gameObject);
-        }
-
-        Filter.Sort(
-            (Left, Right) =>
-            Left.GetComponent<SpriteRenderer>().sortingOrder.
-            CompareTo(Right.GetComponent<SpriteRenderer>().sortingOrder)
-            );
-
-        if (Filter.Count == 0)
+        if (HitInfos.Length == 0)
         {
             return;
         }
 
-        Filter[0].GetComponent<SC_MyButton>().Click();
+        HitInfos[0].collider.gameObject.GetComponent<SC_MyButton>().Click();
     }
 
+    private LayerMask ButtonLayer;
     private Vector2 WorldPos = Vector2.zero;
     private RaycastHit2D HitInfo;
     private Physics2D MousePhysics;
-    private List<GameObject> Filter = new List<GameObject>();
 }

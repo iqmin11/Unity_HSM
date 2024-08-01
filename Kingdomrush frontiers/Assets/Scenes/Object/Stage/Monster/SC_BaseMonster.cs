@@ -76,7 +76,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
-    protected CircleCollider2D MonsterCol;
+    protected SphereCollider MonsterCol;
     abstract protected void SetColRadius();
 
     abstract protected void SetData();
@@ -101,7 +101,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
             Debug.LogAssertion("MonsterRenderer is null");
         }
 
-        MonsterCol = gameObject.AddComponent<CircleCollider2D>();
+        MonsterCol = gameObject.AddComponent<SphereCollider>();
         SetColRadius();
         if (MonsterCol.radius == 0.0f)
         {
@@ -109,6 +109,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
 
         gameObject.tag = "Monster";
+        gameObject.layer = LayerMask.NameToLayer("Monster");
     }
 
     // Walk ///////////////////////////////////// 

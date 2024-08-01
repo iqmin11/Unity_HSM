@@ -32,6 +32,7 @@ public class SC_MyButton : MonoBehaviour
         ButtonCol = gameObject.AddComponent<BoxCollider2D>();
         ButtonCol.size = new Vector2(ColScale.x, ColScale.y);
         gameObject.tag = "MyButton";
+        gameObject.layer = LayerMask.NameToLayer("MyButton");
     }
 
     // Update is called once per frame

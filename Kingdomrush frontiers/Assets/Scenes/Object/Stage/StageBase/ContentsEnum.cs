@@ -58,4 +58,5 @@ namespace Assets.Scenes.Object.Stage.ContentsEnum
         //Shooter,
         //Ground = 999,
     };
+
 }

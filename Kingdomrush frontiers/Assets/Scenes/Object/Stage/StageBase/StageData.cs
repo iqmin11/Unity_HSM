@@ -285,7 +285,7 @@ namespace Assets.Scenes.Object.Stage.StageData
         public bool IsRanged = false;
     }
 
-    public class TowerData
+    public struct TowerData
     {
         public static readonly float Short = Base.MyMath.CentimeterToMeter(140.0f);
         public static readonly float Average = Base.MyMath.CentimeterToMeter(160.0f);
@@ -512,14 +512,14 @@ namespace Assets.Scenes.Object.Stage.StageData
             }
         }
 
-        public TowerEnum TowerType = TowerEnum.Null;
-        public int Level = 0;
-        public float FireRate = 0.0f;
-        public float Range = 0.0f;
-        public int Damage_min = 0;
-        public int Damage_MAX = 0;
-        public float BulletTime = 1.0f;
-        public int BuildCost = 0;
-        public int SellCost = 0;
+        public TowerEnum TowerType;
+        public int Level;
+        public float FireRate;
+        public float Range;
+        public int Damage_min;
+        public int Damage_MAX;
+        public float BulletTime;
+        public int BuildCost;
+        public int SellCost;
     }
 }

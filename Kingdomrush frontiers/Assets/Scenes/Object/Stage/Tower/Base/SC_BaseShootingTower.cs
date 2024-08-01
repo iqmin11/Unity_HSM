@@ -1,5 +1,7 @@
+using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -15,9 +17,11 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         Gizmos.DrawWireSphere(gameObject.transform.position, Data.Range);
     }
 
+    // Contents
     override protected void Awake()
     {
         base.Awake();
+        TargetLayer = 1 << LayerMask.NameToLayer("Monster");
     }
 
     // Update is called once per frame
@@ -37,14 +41,18 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
 
     //Target
     protected SC_BaseMonster TargetMonster = null;
+    Collider Hit = new Collider();
     protected Vector4 TargetPos = Vector4.zero;
-    List<Collider2D> Filter = new List<Collider2D>();
     private bool IsTarget;
-
+    private LayerMask TargetLayer;
 
     private bool IsFindTargetMonster()
     {
-        Collider2D[] Hits = Physics2D.OverlapCircleAll(gameObject.transform.position, Data.Range);
+        Collider[] Hits = Physics.OverlapSphere(gameObject.transform.position, Data.Range, TargetLayer.value);
+        Hits.OrderBy(Hits =>
+            Vector4.Distance(
+            Hit.gameObject.GetComponent<SC_BaseMonster>().DestPoint,
+            Hit.gameObject.GetComponent<SC_BaseMonster>().CurMonsterPos));
 
         if (Hits.Length == 0)
         {
@@ -52,31 +60,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
             return false;
         }
         
-        Filter.Clear();
-        for(int i = 0; i < Hits.Length; i++)
-        {
-            if (Hits[i].CompareTag("Monster"))
-            {
-                Filter.Add(Hits[i]);
-            }
-        }
-
-        if (Filter.Count == 0)
-        {
-            TargetMonster = null;
-            return false;
-        }
-
-        Filter.Sort((Left, Right) =>
-        {
-            SC_BaseMonster LeftMonster = Left.GetComponent<Collider2D>().gameObject.GetComponent<SC_BaseMonster>();
-            SC_BaseMonster RightMonster = Right.GetComponent<Collider2D>().gameObject.GetComponent<SC_BaseMonster>();
-            float LeftRemainDist = Vector4.Distance(LeftMonster.DestPoint, LeftMonster.CurMonsterPos);
-            float RightRemainDist = Vector4.Distance(RightMonster.DestPoint, RightMonster.CurMonsterPos);
-            return LeftRemainDist.CompareTo(RightRemainDist); 
-        });
-
-        TargetMonster = Filter[0].GetComponent<SC_BaseMonster>();
+        TargetMonster = Hits[0].GetComponent<SC_BaseMonster>();
         return true;
     }
     virtual protected void CalTargetPos()
