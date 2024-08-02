@@ -21,7 +21,6 @@ sealed public class SC_RangedShooter : SC_BaseShooter
     }
     public override void ChangeShooter()
     {
-        Debug.Log("Call ChangeShooter");
         ShooterAnimator.runtimeAnimatorController = RangedShooterAnimators[Data.Level - 1];
     }
 
