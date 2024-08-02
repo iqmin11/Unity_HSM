@@ -13,7 +13,22 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(gameObject.transform.position, ArrowColScale);
     }
+    override protected void Awake()
+    {
+        base.Awake();
 
+        if (ArrowSprite == null)
+        {
+            ArrowSprite = Resources.Load<Sprite>("StageScene/Tower/Ranged/RangedTower/arrow");
+        }
+
+        if (ArrowMissSprite == null)
+        {
+            ArrowMissSprite = Resources.Load<Sprite>("StageScene/Tower/Ranged/RangedTower/decal_arrow");
+        }
+
+        BulletRenderer.sprite = ArrowSprite;
+    }
     protected override void Update()
     {
         base.Update();
@@ -36,22 +51,7 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
             enabled = false;
         }
     }
-    override protected void Awake()
-    {
-        base.Awake();
-        
-        if (ArrowSprite == null)
-        {
-            ArrowSprite = Resources.Load<Sprite>("StageScene/Tower/Ranged/RangedTower/arrow");
-        }
 
-        if (ArrowMissSprite == null)
-        {
-            ArrowMissSprite = Resources.Load<Sprite>("StageScene/Tower/Ranged/RangedTower/decal_arrow");
-        }
-
-        BulletRenderer.sprite = ArrowSprite;
-    }
 
     override public void BulletSetting(Vector4 StartPos, Vector4 DestPos)
     {
