@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class SC_MagicShooter : SC_BaseShooter
+sealed public class SC_MagicShooter : SC_BaseShooter
 {
     protected override void Awake()
     {

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class SC_MagicBullet : SC_DirectBullet
+sealed public class SC_MagicBullet : SC_DirectBullet
 {
     override protected void Awake()
     {

@@ -27,7 +27,7 @@ abstract public class SC_HowitzerBullet : SC_BaseBullet
         Vector4 Pos = Vector4.Lerp(B0, B1, Ratio);
 
         gameObject.transform.position = Pos;
-        CalRotBulletRot();
+        CalBulletRot();
     }
     private void CalBezierMid()
     {

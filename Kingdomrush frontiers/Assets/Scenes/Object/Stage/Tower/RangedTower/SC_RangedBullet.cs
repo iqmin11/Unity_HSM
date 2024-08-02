@@ -58,7 +58,7 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
         base.BulletSetting(StartPos, DestPos);
     }
 
-    protected override void CalRotBulletRot()
+    protected override void CalBulletRot()
     {
         float ZDeg = Mathf.Atan2(B1.y - B0.y, B1.x - B0.x) * Mathf.Rad2Deg;
         Vector4 V4Deg = new Vector4(0, 0, ZDeg, 1);

@@ -10,7 +10,7 @@ public class SC_BuildArea : MonoBehaviour
         ButtonSetting = ButtonInst.GetComponent<SC_BuildAreaButton>();
         ButtonSetting.Click = () =>
         {
-            ChildTowerInst = Instantiate(MagicTowerPrefab, gameObject.transform);
+            ChildTowerInst = Instantiate(ArtilleryTowerPrefab, gameObject.transform);
             ButtonInst.SetActive(false);
         };
     }
@@ -34,9 +34,10 @@ public class SC_BuildArea : MonoBehaviour
 
     [SerializeField]
     private GameObject RangedTowerPrefab;
-
     [SerializeField]
     private GameObject MagicTowerPrefab;
+    [SerializeField]
+    private GameObject ArtilleryTowerPrefab;
 
     private GameObject ChildTowerInst;
 }

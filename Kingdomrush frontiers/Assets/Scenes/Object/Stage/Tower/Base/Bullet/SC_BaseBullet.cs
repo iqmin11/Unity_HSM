@@ -45,7 +45,7 @@ abstract public class SC_BaseBullet : MonoBehaviour
     }
     protected LayerMask BulletLayerMask;
     abstract protected void CalBulletTransform();
-    abstract protected void CalRotBulletRot();
+    abstract protected void CalBulletRot();
 
     private Vector4 shooterPos;
     protected Vector4 ShooterPos
