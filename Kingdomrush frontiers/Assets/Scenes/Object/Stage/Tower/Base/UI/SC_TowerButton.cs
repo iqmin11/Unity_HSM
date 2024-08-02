@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Assets.Scenes.Object.Base;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class SC_BuildAreaButton : SC_MyButton
+public class SC_TowerButton : SC_MyButton
 {
     static Sprite CacheReleaseSprite = null;
     static Sprite CacheHoverSprite = null;
@@ -16,26 +14,26 @@ public class SC_BuildAreaButton : SC_MyButton
     {
         if (CacheReleaseSprite == null)
         {
-            CacheReleaseSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004");
+            CacheReleaseSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/terrain_0004");
         }
 
         ReleaseSprite = CacheReleaseSprite;
 
         if (CacheHoverSprite == null)
         {
-            CacheHoverSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
+            CacheHoverSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/terrain_0004_Hover");
         }
 
         HoverSprite = CacheHoverSprite;
 
         if (CachePressSprite == null)
         {
-            CachePressSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/build_terrain_0004_Hover");
+            CachePressSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/terrain_0004_Hover");
         }
 
         PressSprite = CachePressSprite;
 
-        ColScale = MyMath.CentimeterToMeter(new Vector4(105, 60, 1));
+        ColScale = MyMath.CentimeterToMeter(new Vector4(110, 95, 1));
 
         base.Awake();
     }

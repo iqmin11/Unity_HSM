@@ -22,8 +22,7 @@ public class SC_MyButton : MonoBehaviour
     //static Sprite CacheHoverSprite = null;
     //static Sprite CachePressSprite = null;
 
-    // Start is called before the first frame update
-    protected virtual void Start()
+    virtual protected void Awake()
     {
         ButtonRenderer = gameObject.AddComponent<SpriteRenderer>();
         ButtonRenderer.sprite = ReleaseSprite;

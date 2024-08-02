@@ -5,34 +5,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
 
-sealed public class SC_RangedTower : SC_ShooterTower
+public sealed class SC_RangedTower : SC_ShooterTower
 {
-    static private List<Sprite> RangedTowerSpriteCache = new List<Sprite>();
+    private static List<Sprite> RangedTowerSpriteCache = new List<Sprite>();
 
-    override protected void Awake()
+    protected override void Awake()
     {
         base.Awake();
+        if (ShooterPosData.Count == 0)
+        {
+            ShooterPosData.Add(new List<Vector3>());
+            ShooterPosData[0].Add(Lv1Shooter0LocalPos);
+            ShooterPosData[0].Add(Lv1Shooter1LocalPos);
+
+            ShooterPosData.Add(new List<Vector3>());
+            ShooterPosData[1].Add(Lv2Shooter0LocalPos);
+            ShooterPosData[1].Add(Lv2Shooter1LocalPos);
+
+            ShooterPosData.Add(new List<Vector3>());
+            ShooterPosData[2].Add(Lv3Shooter0LocalPos);
+            ShooterPosData[2].Add(Lv3Shooter1LocalPos);
+
+            ShooterPosData.Add(new List<Vector3>());
+            ShooterPosData[3].Add(Lv4Shooter0LocalPos);
+            ShooterPosData[3].Add(Lv4Shooter1LocalPos);
+        }
+
         TowerSprite = RangedTowerSpriteCache;
         TowerRenderer.sprite = TowerSprite[Data.Level - 1];
 
         Shooter0Inst = Instantiate(RangedShooterPrefab, gameObject.transform);
-        Shooter0Inst.transform.localPosition = Lv1Shooter0LocalPos;
+        Shooter0Inst.transform.localPosition = ShooterPosData[Data.Level - 1][0];
         Shooter0Setting = Shooter0Inst.GetComponent<SC_RangedShooter>();
         Shooter0Setting.Data = Data;
 
         Shooter1Inst = Instantiate(RangedShooterPrefab, gameObject.transform);
-        Shooter1Inst.transform.localPosition = Lv1Shooter1LocalPos;
+        Shooter1Inst.transform.localPosition = ShooterPosData[Data.Level - 1][1];
         Shooter1Setting = Shooter1Inst.GetComponent<SC_RangedShooter>();
         Shooter1Setting.Data = Data;
     }
 
     // Update is called once per frame
-    override protected void Update()
+    protected override void Update()
     {
         base.Update();
     }
-
-    override protected void SpriteCaching()
+    protected override void SpriteCaching()
     {
         if (RangedTowerSpriteCache.Count == 0)
         {
@@ -42,15 +60,13 @@ sealed public class SC_RangedTower : SC_ShooterTower
             }
         }
     }
-
-    override protected void InitData()
+    protected override void InitData()
     {
         Data.SetData(TowerEnum.RangedTower_Level1);
     }
-
-    public void SetRangedTower(TowerEnum TowerValue)
+    protected override void ChangeTower(TowerEnum TowerValue)
     {
-        if (TowerValue < TowerEnum.RangedTower_Level1 || TowerValue > TowerEnum.RangedTower_Level4)
+        if (!TowerData.IsRangedTower(TowerValue))
         {
             Debug.LogAssertion("Set Ranged Tower : Input Wrong EnumValue");
             return;
@@ -58,10 +74,16 @@ sealed public class SC_RangedTower : SC_ShooterTower
 
         Data.SetData(TowerValue);
         TowerRenderer.sprite = TowerSprite[Data.Level - 1];
-        //ChangeShooter(Data.Level);
-    }
 
-    override protected void AttackAction()
+        Shooter0Setting.Data = Data;
+        Shooter0Setting.ChangeShooter();
+        Shooter0Inst.transform.localPosition = ShooterPosData[Data.Level - 1][0];
+
+        Shooter1Setting.Data = Data;
+        Shooter1Setting.ChangeShooter();
+        Shooter1Inst.transform.localPosition = ShooterPosData[Data.Level - 1][1];
+    }
+    protected override void AttackAction()
     {
         if (AttackOrder)
         {
@@ -73,7 +95,6 @@ sealed public class SC_RangedTower : SC_ShooterTower
         }
         AttackOrder = !AttackOrder;
     }
-
     protected override void TransmissionTargetInfoToShooter()
     {
         Shooter0Setting.TargetPos = TargetPos;
@@ -90,12 +111,14 @@ sealed public class SC_RangedTower : SC_ShooterTower
 
     private bool AttackOrder = false;
 
-    readonly Vector3 Lv1Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 47, -47));
-    readonly Vector3 Lv1Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 47, -47));
-    readonly Vector3 Lv2Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 49, -49));
-    readonly Vector3 Lv2Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 49, -49));
-    readonly Vector3 Lv3Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 54, -54));
-    readonly Vector3 Lv3Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 54, -54));
-    readonly Vector3 Lv4Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 56, -56));
-    readonly Vector3 Lv4Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 56, -56));
+    static readonly List<List<Vector3>> ShooterPosData = new List<List<Vector3>>();
+
+    static readonly Vector3 Lv1Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 47, -47));
+    static readonly Vector3 Lv1Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 47, -47));
+    static readonly Vector3 Lv2Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 49, -49));
+    static readonly Vector3 Lv2Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 49, -49));
+    static readonly Vector3 Lv3Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 54, -54));
+    static readonly Vector3 Lv3Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 54, -54));
+    static readonly Vector3 Lv4Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 56, -56));
+    static readonly Vector3 Lv4Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 56, -56));
 }

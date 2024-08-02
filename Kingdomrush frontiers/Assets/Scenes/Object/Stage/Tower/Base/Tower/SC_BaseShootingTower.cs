@@ -25,9 +25,8 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     }
 
     // Update is called once per frame
-    override protected void Update()
+    virtual protected void Update()
     {
-        base.Update();
         if (IsFindTargetMonster())
         {
             CalTargetPos();

@@ -69,6 +69,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
         }
     }
     protected ShooterDir Dir = ShooterDir.Forward;
+    public abstract void ChangeShooter();
 
     virtual protected void Attack()
     {
