@@ -45,6 +45,12 @@ abstract public class SC_BaseMonster : MonoBehaviour
     // Use Update in FSM
     //private void Update()
 
+    public void TakeDamage(float Damage)
+    {
+        Debug.Log("Call TakeDamage");
+        //curHp -= Damage;
+    }
+
     public Vector4 CurMonsterPos
     {
         get
@@ -77,6 +83,19 @@ abstract public class SC_BaseMonster : MonoBehaviour
     // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
     protected SphereCollider MonsterCol;
+    private float curHp = 0.0f;
+    public float CurHp
+    {
+        get
+        {
+            return curHp;
+        }
+
+        set
+        {
+            curHp = value;
+        }
+    }
     abstract protected void SetColRadius();
 
     abstract protected void SetData();

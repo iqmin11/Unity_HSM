@@ -1,20 +1,33 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
 using Unity.VisualScripting;
 using UnityEditor;
 
-public class SC_RangedBullet : SC_HowitzerBullet
+sealed public class SC_RangedBullet : SC_HowitzerBullet
 {
-    static private Sprite ArrowSprite = null;
-    static private Sprite ArrowMissSprite = null;
+    //Debug
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(gameObject.transform.position, ArrowColScale);
+    }
 
     protected override void Update()
     {
         base.Update();
+        Collider[] Hits = Physics.OverlapSphere(transform.position, ArrowColScale, BulletLayerMask);
+
+        //Hit
+        if (Hits.Length >= 1)
+        {
+            Hits[0].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+            Destroy(gameObject);
+            return;
+        }
+
+        //Miss
         if (Ratio > 1.0f)
         {
             BulletRenderer.sprite = ArrowMissSprite;
@@ -55,7 +68,7 @@ public class SC_RangedBullet : SC_HowitzerBullet
     private IEnumerator MissArrow()
     {
         float FadeTime = 1.0f;
-        while (FadeTime > 0)
+        while (FadeTime > 0f)
         {
             FadeTime -= Time.deltaTime;
             StartColor.a = FadeTime;
@@ -72,6 +85,13 @@ public class SC_RangedBullet : SC_HowitzerBullet
         Destroy(gameObject);
     }
 
-    static private readonly Vector4 ArrowColScale = MyMath.CentimeterToMeter(new Vector4(20.0f, 6.0f, 1.0f, 1.0f));
+    static private readonly float ArrowColScale = 0.03f;
     static private Color StartColor;
+    static private Sprite ArrowSprite = null;
+    static private Sprite ArrowMissSprite = null;
+
+    private float CalDamage()
+    {
+        return Random.Range(Data.Damage_min, Data.Damage_MAX);
+    }
 }

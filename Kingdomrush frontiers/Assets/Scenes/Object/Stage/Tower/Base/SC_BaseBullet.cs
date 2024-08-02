@@ -12,6 +12,7 @@ abstract public class SC_BaseBullet : MonoBehaviour
         BulletRenderer = gameObject.AddComponent<SpriteRenderer>();
         BulletRenderer.sortingOrder = (int)RenderOrder.InGameObject;
         gameObject.SetActive(false);
+        BulletLayerMask = 1 << LayerMask.NameToLayer("Monster");
     }
 
     virtual public void BulletSetting(Vector4 StartPos, Vector4 DestPos)
@@ -42,6 +43,7 @@ abstract public class SC_BaseBullet : MonoBehaviour
             data = value;
         }
     }
+    protected LayerMask BulletLayerMask;
     abstract protected void CalBulletTransform();
     abstract protected void CalRotBulletRot();
 
