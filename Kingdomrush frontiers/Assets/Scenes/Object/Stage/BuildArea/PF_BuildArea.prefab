@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ButtonPrefab: {fileID: 4329424165250896006, guid: 7461cc6b496450a42bec063400c6f051, type: 3}
   RangedTowerPrefab: {fileID: 117692631270651480, guid: 94168c2b72729dc41aa082f77c51deff, type: 3}
+  MagicTowerPrefab: {fileID: 7548459494078052371, guid: 52a60f2096109024fb3f04090c2817af, type: 3}

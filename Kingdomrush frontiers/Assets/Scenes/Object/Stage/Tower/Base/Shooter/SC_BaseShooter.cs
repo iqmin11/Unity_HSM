@@ -78,6 +78,11 @@ abstract public class SC_BaseShooter : MonoBehaviour
         CurShotBullet.Data = Data;
         CurShotBullet.gameObject.SetActive(true);
     }
+    virtual public void AttackEndEvent()
+    {
+        State = ShooterState.Idle;
+    }
+
     virtual protected void IdleStateInit()
     {
         if (ShooterFSM == null)

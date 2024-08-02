@@ -8,6 +8,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
+public enum ShootingTowerState
+{
+    Null = -1,
+    Idle,
+    Attack
+}
+
 abstract public class SC_BaseShootingTower : SC_BaseTower
 {
     // Debug

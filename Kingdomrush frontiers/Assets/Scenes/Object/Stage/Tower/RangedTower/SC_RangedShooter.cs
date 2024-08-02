@@ -25,10 +25,6 @@ sealed public class SC_RangedShooter : SC_BaseShooter
     }
 
     // Start is called before the first frame update
-    public void AttackEndEvent()
-    {
-        State = ShooterState.Idle;
-    }
 
     static readonly List<AnimatorOverrideController> RangedShooterAnimators = new List<AnimatorOverrideController>();
 }

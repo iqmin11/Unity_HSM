@@ -519,17 +519,17 @@ namespace Assets.Scenes.Object.Stage.StageData
 
         public static bool IsMeleeTower(TowerEnum Enum)
         {
-            return !(TowerEnum.MeleeTower_Level1 < Enum || TowerEnum.MeleeTower_Level4 > Enum);
+            return !(TowerEnum.MeleeTower_Level1 > Enum || TowerEnum.MeleeTower_Level4 < Enum);
         }
 
         public static bool IsMagicTower(TowerEnum Enum)
         {
-            return !(TowerEnum.MagicTower_Level1 < Enum || TowerEnum.MagicTower_Level4 > Enum);
+            return !(TowerEnum.MagicTower_Level1 > Enum || TowerEnum.MagicTower_Level4 < Enum);
         }
 
         public static bool IsArtilleryTower(TowerEnum Enum)
         {
-            return !(TowerEnum.ArtilleryTower_Level1 < Enum || TowerEnum.ArtilleryTower_Level4 > Enum);
+            return !(TowerEnum.ArtilleryTower_Level1 > Enum || TowerEnum.ArtilleryTower_Level4 < Enum);
         }
 
         public TowerEnum TowerType;
