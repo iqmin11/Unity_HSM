@@ -36,6 +36,14 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower
         ArtilleryTowerAnimator.SetInteger("TowerState", (int)ShootingTowerState.Attack);
     }
 
+    public void AttackEvent()
+    {
+        SC_BaseBullet CurShotBullet = Instantiate(BulletPrefab).GetComponent<SC_BaseBullet>();
+        CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
+        CurShotBullet.Data = Data;
+        CurShotBullet.gameObject.SetActive(true);
+    }
+
     public void AttackEndEvent()
     {
         ArtilleryTowerAnimator.SetInteger("TowerState", (int)ShootingTowerState.Idle);
@@ -53,5 +61,7 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower
     }
 
     private Animator ArtilleryTowerAnimator;
+    [SerializeField]
+    private GameObject BulletPrefab;
 
 }
