@@ -21,6 +21,11 @@ abstract public class SC_BaseBullet : MonoBehaviour
         TargetPos = DestPos;
     }
 
+    virtual protected void Start()
+    {
+        gameObject.transform.position = ShooterPos;
+    }
+
     // Update is called once per frame
     virtual protected void Update()
     {

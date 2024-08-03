@@ -20,8 +20,9 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet
         BulletRenderer.sprite = BombSprits[0];
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if(Data.Level >= 1 && Data.Level <= 3)
         {
             BulletRenderer.sprite = BombSprits[Data.Level - 1];
@@ -70,6 +71,4 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet
     }
 
     static private List<Sprite> BombSprits = new List<Sprite>();
-
-
 }

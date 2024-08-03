@@ -19,8 +19,9 @@ sealed public class SC_MagicBullet : SC_DirectBullet
         BulletAnimator = gameObject.GetComponent<Animator>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (Data.Level == 4)
         {
             BulletAnimator.runtimeAnimatorController = Animators[1];
