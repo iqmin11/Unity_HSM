@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using Assets.Scenes.Object.Stage.ContentsEnum;
-using System;
 using Unity.Mathematics;
+
+using Assets.Scenes.Object.Stage.ContentsEnum;
 using Assets.Scenes.Object.Base;
 
 public abstract class SC_BaseTowerUI : MonoBehaviour
@@ -15,6 +17,7 @@ public abstract class SC_BaseTowerUI : MonoBehaviour
         if (RingSprite == null)
         {
             RingSprite = Resources.Load<Sprite>("StageScene/GUI/gui_ring");
+            SC_MyMouseBase.MouseInfo.RegistReleaseClickEvent(IsReleaseClickEvent);
         }
 
         TowerUIring = gameObject.AddComponent<SpriteRenderer>();
@@ -22,10 +25,11 @@ public abstract class SC_BaseTowerUI : MonoBehaviour
         TowerUIring.sortingOrder = (int)RenderOrder.InGameUI0;
 
         Vector2 spriteSize = TowerUIring.sprite.bounds.size;
-        Vector2 newScale = new Vector2(RingRenderScale.x / spriteSize.x, RingRenderScale.y / spriteSize.y);
-        transform.localScale = newScale;
+        transform.localScale = new Vector2(RingRenderScale.x / spriteSize.x, RingRenderScale.y / spriteSize.y);
 
         InitButtons();
+
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -58,7 +62,14 @@ public abstract class SC_BaseTowerUI : MonoBehaviour
     {
         SettingButtonCallback(Convert.ToInt32(Key), Callback);
     }
-    
+
+    private static void IsReleaseClickEvent()
+    {
+        if (UpdatingTowerUI != null)
+        {
+            UpdatingTowerUI.SetActive(false);
+        }
+    }
     
     [SerializeField]
     private List<GameObject> ButtonPrefabs = new List<GameObject>();

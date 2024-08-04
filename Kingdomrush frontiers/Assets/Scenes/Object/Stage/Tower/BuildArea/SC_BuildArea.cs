@@ -11,7 +11,6 @@ public class SC_BuildArea : MonoBehaviour
         ButtonSetting = ButtonInst.GetComponent<SC_BuildAreaButton>();
 
         TowerUiInst = Instantiate(TowerUiPrefab, transform);
-        TowerUiInst.SetActive(false);
         ButtonSetting.Click = () =>
         {
             TowerUiInst.SetActive(true);
@@ -54,7 +53,7 @@ public class SC_BuildArea : MonoBehaviour
     [SerializeField]
     private GameObject TowerUiPrefab;
     private GameObject TowerUiInst;
-    private SC_ConstructUI TowerUiSetting;
+    private SC_BaseTowerUI TowerUiSetting;
 
     private GameObject ChildTowerInst;
 }

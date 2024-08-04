@@ -7,8 +7,11 @@ using UnityEngine;
 
 public class SC_MyMouseBase : MonoBehaviour
 {
+    static public SC_MyMouseBase MouseInfo = null;
+
     private void Awake()
     {
+        MouseInfo = this;
         ButtonLayer = 1 << LayerMask.NameToLayer("MyButton");
     }
     // Start is called before the first frame update
@@ -36,14 +39,27 @@ public class SC_MyMouseBase : MonoBehaviour
 
         if (HitInfos.Length == 0)
         {
+            for(int i = 0; i < ReleaseClickEvents.Count; i++)
+            {
+                ReleaseClickEvents[i]();
+            }
             return;
         }
 
         HitInfos[0].collider.gameObject.GetComponent<SC_MyButton>().Click();
     }
 
+    public void RegistReleaseClickEvent(System.Action Event)
+    {
+        ReleaseClickEvents.Add(Event);
+    }
+
+    //관찰자 패턴 활용?
+    private List<System.Action> ReleaseClickEvents = new List<System.Action>();
+
     private LayerMask ButtonLayer;
     private Vector2 WorldPos = Vector2.zero;
     private RaycastHit2D HitInfo;
     private Physics2D MousePhysics;
+    
 }

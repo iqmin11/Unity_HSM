@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d340a7ff89e03cb4e9a8e0d57cf88194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerUiPrefab: {fileID: 3754239348979096742, guid: 24a01f0d4570b4b4ab6120383c5c447d, type: 3}
   MagicShooterPrefab: {fileID: 9217800815561209870, guid: 2ff567c6a6092ff4eb99c16c7ed632e9, type: 3}
 --- !u!95 &7727496519428899172
 Animator:
