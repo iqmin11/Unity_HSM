@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SC_SellButton : SC_MyButton
+public class SC_SellButton : SC_TowerUiButton
 {
     static Sprite CacheReleaseSprite = null;
     static Sprite CacheHoverSprite = null;

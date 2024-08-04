@@ -1,6 +1,7 @@
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
@@ -53,6 +54,10 @@ abstract public class SC_MyButton : MonoBehaviour
                 {
                     State = ButtonState.Hover;
                     ButtonRenderer.sprite = HoverSprite;
+                    if(HoverEvent != null)
+                    {
+                        HoverEvent();
+                    }
                 }
             }
         }
@@ -62,6 +67,10 @@ abstract public class SC_MyButton : MonoBehaviour
             {
                 State = ButtonState.Release;
                 ButtonRenderer.sprite = ReleaseSprite;
+                if (ReleaseEvent != null)
+                {
+                    ReleaseEvent();
+                }
             }
         }
     }
@@ -100,4 +109,32 @@ abstract public class SC_MyButton : MonoBehaviour
         }
     }
     private BoxCollider2D ButtonCol;
+
+    private System.Action hoverEvent = null;
+    public System.Action HoverEvent
+    {
+        get
+        {
+            return hoverEvent;
+        }
+
+        set
+        {
+            hoverEvent = value;
+        }
+    }
+
+    private System.Action releaseEvent = null;
+    public System.Action ReleaseEvent
+    {
+        get
+        {
+            return releaseEvent;
+        }
+
+        set
+        {
+            releaseEvent = value;
+        }
+    }
 }

@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa17bd22afd80494095c289479551cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GlowEffectPrefab: {fileID: 9018950340169793947, guid: ea54b878a7fe3d24a8ca729af246acd0, type: 3}

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class SC_BuildRangedButton : SC_MyButton
+public class SC_BuildRangedButton : SC_TowerUiButton
 {
     static Sprite CacheReleaseSprite = null;
     static Sprite CacheHoverSprite = null;
@@ -34,6 +34,7 @@ public class SC_BuildRangedButton : SC_MyButton
         transform.localPosition = LocPos;
 
         base.Awake();
+        GlowEffectInst.transform.localScale = new Vector3(1.3f, 1.3f);
     }
 
     protected override void SettingButtonRenderOrder()
