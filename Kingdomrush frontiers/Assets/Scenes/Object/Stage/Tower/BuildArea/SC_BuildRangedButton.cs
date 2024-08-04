@@ -34,7 +34,7 @@ public class SC_BuildRangedButton : SC_TowerUiButton
         transform.localPosition = LocPos;
 
         base.Awake();
-        GlowEffectInst.transform.localScale = new Vector3(1.3f, 1.3f);
+        GlowEffectInst.transform.localScale = new Vector3(1.35f, 1.35f);
     }
 
     protected override void SettingButtonRenderOrder()
