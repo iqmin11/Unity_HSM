@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SC_BuildArea : MonoBehaviour
@@ -8,23 +9,21 @@ public class SC_BuildArea : MonoBehaviour
     {
         ButtonInst = Instantiate(ButtonPrefab, gameObject.transform);
         ButtonSetting = ButtonInst.GetComponent<SC_BuildAreaButton>();
+
+        TowerUiInst = Instantiate(TowerUiPrefab, transform);
+        TowerUiInst.SetActive(false);
         ButtonSetting.Click = () =>
         {
-            ChildTowerInst = Instantiate(ArtilleryTowerPrefab, gameObject.transform);
-            ButtonInst.SetActive(false);
+            TowerUiInst.SetActive(true);
         };
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        TowerUiSetting = TowerUiInst.GetComponent<SC_BaseTowerUI>();
+        TowerUiSetting.SettingButtonCallback(ConstructButtonEnum.RangedTower, () =>
+        {
+            ChildTowerInst = Instantiate(RangedTowerPrefab, transform);
+            ButtonInst.SetActive(false);
+            TowerUiInst.SetActive(false);
+        });
     }
 
     [SerializeField]
@@ -38,6 +37,10 @@ public class SC_BuildArea : MonoBehaviour
     private GameObject MagicTowerPrefab;
     [SerializeField]
     private GameObject ArtilleryTowerPrefab;
+    [SerializeField]
+    private GameObject TowerUiPrefab;
+    private GameObject TowerUiInst;
+    private SC_BaseTowerUI TowerUiSetting;
 
     private GameObject ChildTowerInst;
 }

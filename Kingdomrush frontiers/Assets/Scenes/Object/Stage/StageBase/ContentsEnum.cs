@@ -54,9 +54,8 @@ namespace Assets.Scenes.Object.Stage.ContentsEnum
     public enum RenderOrder
     {
         Bg = 0,
-        InGameObject = 1,
-        //Shooter,
-        //Ground = 999,
+        InGameObject,
+        InGameUI,
     };
 
 }

@@ -1,46 +1,39 @@
-using Assets.Scenes.Object.Base;
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class SC_TowerButton : SC_MyButton
+public class SC_BuildRangedButton : SC_MyButton
 {
     static Sprite CacheReleaseSprite = null;
     static Sprite CacheHoverSprite = null;
     static Sprite CachePressSprite = null;
 
-    protected override void Awake()
+    override protected void Awake()
     {
         if (CacheReleaseSprite == null)
         {
-            CacheReleaseSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/terrain_0004");
+            CacheReleaseSprite = Resources.Load<Sprite>("StageScene/GUI/Button/main_icons_0001");
         }
-
         ReleaseSprite = CacheReleaseSprite;
 
         if (CacheHoverSprite == null)
         {
-            CacheHoverSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/terrain_0004_Hover");
+            CacheHoverSprite = Resources.Load<Sprite>("StageScene/GUI/Button/ButtonsGlow");
         }
-
         HoverSprite = CacheHoverSprite;
 
         if (CachePressSprite == null)
         {
-            CachePressSprite = Resources.Load<Sprite>("StageScene/Tower/TowerBase/terrain_0004_Hover");
+            CachePressSprite = Resources.Load<Sprite>("StageScene/GUI/Button/ButtonsGlow");
         }
-
         PressSprite = CachePressSprite;
-
-        ColScale = MyMath.CentimeterToMeter(new Vector4(110, 95, 1));
 
         base.Awake();
     }
 
     protected override void SettingButtonRenderOrder()
     {
-        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameUI;
     }
 }

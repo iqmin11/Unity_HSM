@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Scenes.Object.Base;
+using Assets.Scenes.Object.Stage.ContentsEnum;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class SC_BuildAreaButton : SC_MyButton
@@ -38,5 +40,10 @@ public class SC_BuildAreaButton : SC_MyButton
         ColScale = MyMath.CentimeterToMeter(new Vector4(105, 60, 1));
 
         base.Awake();
+    }
+
+    protected override void SettingButtonRenderOrder()
+    {
+        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameObject;
     }
 }

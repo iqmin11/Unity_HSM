@@ -15,7 +15,7 @@ enum ButtonState
     Press
 }
 
-public class SC_MyButton : MonoBehaviour
+abstract public class SC_MyButton : MonoBehaviour
 {
     //리소스 캐싱을 위해 만들면 좋은 인터페이스(권장합니다)
     //static Sprite CacheReleaseSprite = null;
@@ -26,7 +26,7 @@ public class SC_MyButton : MonoBehaviour
     {
         ButtonRenderer = gameObject.AddComponent<SpriteRenderer>();
         ButtonRenderer.sprite = ReleaseSprite;
-        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        SettingButtonRenderOrder();
 
         ButtonCol = gameObject.AddComponent<BoxCollider2D>();
         ButtonCol.size = new Vector2(ColScale.x, ColScale.y);
@@ -65,7 +65,9 @@ public class SC_MyButton : MonoBehaviour
             }
         }
     }
-
+    
+    protected abstract void SettingButtonRenderOrder();
+    
     protected Sprite ReleaseSprite;
     protected Sprite HoverSprite;
     protected Sprite PressSprite;
@@ -83,7 +85,7 @@ public class SC_MyButton : MonoBehaviour
         }
     }
 
+    protected SpriteRenderer ButtonRenderer;
     private ButtonState State = ButtonState.Null;
-    private SpriteRenderer ButtonRenderer;
     private BoxCollider2D ButtonCol;
 }
