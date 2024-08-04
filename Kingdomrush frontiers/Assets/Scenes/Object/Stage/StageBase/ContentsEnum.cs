@@ -55,7 +55,14 @@ namespace Assets.Scenes.Object.Stage.ContentsEnum
     {
         Bg = 0,
         InGameObject,
-        InGameUI,
+        InGameUI0,
+        InGameUI1,
+        InGameUI2,
+        InGameUI3,
+        InGameUI4,
+        InGameUI5,
+        InGameUI6,
+        InGameUI7,
     };
 
 }

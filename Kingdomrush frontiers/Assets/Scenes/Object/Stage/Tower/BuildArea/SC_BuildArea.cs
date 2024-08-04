@@ -17,10 +17,24 @@ public class SC_BuildArea : MonoBehaviour
             TowerUiInst.SetActive(true);
         };
 
-        TowerUiSetting = TowerUiInst.GetComponent<SC_BaseTowerUI>();
+        TowerUiSetting = TowerUiInst.GetComponent<SC_ConstructUI>();
         TowerUiSetting.SettingButtonCallback(ConstructButtonEnum.RangedTower, () =>
         {
             ChildTowerInst = Instantiate(RangedTowerPrefab, transform);
+            ButtonInst.SetActive(false);
+            TowerUiInst.SetActive(false);
+        });
+
+        TowerUiSetting.SettingButtonCallback(ConstructButtonEnum.MagicTower, () =>
+        {
+            ChildTowerInst = Instantiate(MagicTowerPrefab, transform);
+            ButtonInst.SetActive(false);
+            TowerUiInst.SetActive(false);
+        });
+
+        TowerUiSetting.SettingButtonCallback(ConstructButtonEnum.ArtilleryTower, () =>
+        {
+            ChildTowerInst = Instantiate(ArtilleryTowerPrefab, transform);
             ButtonInst.SetActive(false);
             TowerUiInst.SetActive(false);
         });
@@ -40,7 +54,7 @@ public class SC_BuildArea : MonoBehaviour
     [SerializeField]
     private GameObject TowerUiPrefab;
     private GameObject TowerUiInst;
-    private SC_BaseTowerUI TowerUiSetting;
+    private SC_ConstructUI TowerUiSetting;
 
     private GameObject ChildTowerInst;
 }

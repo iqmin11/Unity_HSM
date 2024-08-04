@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ConstructButtonEnum
+{
+    RangedTower,
+    MagicTower,
+    ArtilleryTower,
+}
+
 public class SC_ConstructUI : SC_BaseTowerUI
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void InitButtons()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        AddButton(ConstructButtonEnum.RangedTower);
+        AddButton(ConstructButtonEnum.MagicTower);
+        AddButton(ConstructButtonEnum.ArtilleryTower);
     }
 }

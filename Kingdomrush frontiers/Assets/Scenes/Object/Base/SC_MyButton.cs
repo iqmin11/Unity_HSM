@@ -7,7 +7,7 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using static Unity.Collections.AllocatorManager;
 
-enum ButtonState
+public enum ButtonState
 {
     Null = -1,
     Release,
@@ -86,6 +86,18 @@ abstract public class SC_MyButton : MonoBehaviour
     }
 
     protected SpriteRenderer ButtonRenderer;
-    private ButtonState State = ButtonState.Null;
+    private ButtonState state = ButtonState.Null;
+    protected ButtonState State
+    {
+        get
+        {
+            return state;
+        }
+
+        private set
+        {
+            state = value;
+        }
+    }
     private BoxCollider2D ButtonCol;
 }
