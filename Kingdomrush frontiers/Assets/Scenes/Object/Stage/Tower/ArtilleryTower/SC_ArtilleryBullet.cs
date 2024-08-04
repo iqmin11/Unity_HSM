@@ -4,7 +4,9 @@ using System.Data;
 using Unity.Mathematics;
 using UnityEngine;
 
-public sealed class SC_ArtilleryBullet : SC_HowitzerBullet
+using Assets.Scenes.Object.Base.MyInterface;
+
+public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
 {
     protected override void Awake()
     {
@@ -67,8 +69,19 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet
 
     private void Explosion()
     {
+        PlayEffect();
         Debug.Log("Bomb Explosion");
     }
 
+    public void PlayEffect()
+    {
+        //생애 주기를 같이하면 안되기 때문에 부모로 설정하면 안됩니다.
+        GameObject BombExplosionEffectInst = Instantiate(BombExplosionEffectPrefab);
+        BombExplosionEffectInst.transform.position = transform.position;
+    }
+
     static private List<Sprite> BombSprits = new List<Sprite>();
+
+    [SerializeField]
+    GameObject BombExplosionEffectPrefab;
 }

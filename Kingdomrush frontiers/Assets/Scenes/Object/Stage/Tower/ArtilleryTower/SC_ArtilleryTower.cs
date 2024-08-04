@@ -1,11 +1,15 @@
-using Assets.Scenes.Object.Stage.ContentsEnum;
-using Assets.Scenes.Object.Stage.StageData;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
-public sealed class SC_ArtilleryTower : SC_BaseShootingTower
+using Assets.Scenes.Object.Stage.ContentsEnum;
+using Assets.Scenes.Object.Stage.StageData;
+using Assets.Scenes.Object.Base;
+using Assets.Scenes.Object.Base.MyInterface;
+
+public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
 {
     private static List<AnimatorOverrideController> ArtilleryTowerAnimatorCache = new List<AnimatorOverrideController>();
 
@@ -14,6 +18,16 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower
         base.Awake();
         ArtilleryTowerAnimator = gameObject.GetComponent<Animator>();
         ArtilleryTowerAnimator.runtimeAnimatorController = ArtilleryTowerAnimatorCache[0];
+
+        if (FireEffectPos.Count == 0)
+        {
+            FireEffectPos.Capacity = 4;
+            FireEffectPos.Add(Lv1SmokeLocalPos);
+            FireEffectPos.Add(Lv2SmokeLocalPos);
+            FireEffectPos.Add(Lv3SmokeLocalPos);
+            FireEffectPos.Add(Lv4SmokeLocalPos);
+        }
+
     }
     protected override void SpriteCaching()
     {
@@ -38,6 +52,7 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower
 
     public void AttackEvent()
     {
+        PlayEffect();
         SC_BaseBullet CurShotBullet = Instantiate(BulletPrefab).GetComponent<SC_BaseBullet>();
         CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
         CurShotBullet.Data = Data;
@@ -60,8 +75,24 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower
         ArtilleryTowerAnimator.runtimeAnimatorController = ArtilleryTowerAnimatorCache[Data.Level - 1];
     }
 
-    private Animator ArtilleryTowerAnimator;
+    public void PlayEffect()
+    {
+        GameObject FireEffectInst = Instantiate(FireEffectPrefab, transform);
+        FireEffectInst.transform.localPosition = FireEffectPos[Data.Level - 1];
+    }
+
+private Animator ArtilleryTowerAnimator;
+
     [SerializeField]
     private GameObject BulletPrefab;
+
+    [SerializeField]
+    private GameObject FireEffectPrefab;
+
+    private static readonly List<Vector4> FireEffectPos = new List<Vector4>();
+    private static readonly Vector4 Lv1SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 60, -60));
+    private static readonly Vector4 Lv2SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 62, -62));
+    private static readonly Vector4 Lv3SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 67, -67));
+    private static readonly Vector4 Lv4SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 67, -67));
 
 }

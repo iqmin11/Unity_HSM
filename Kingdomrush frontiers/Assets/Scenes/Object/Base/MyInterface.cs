@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Scenes.Object.Base.MyInterface
 {
-    internal interface IEffect
+    internal interface IEffectPlayer
     {
-        void SettingEffect();
-        void PlayEffect();
-        void DestroyEffect();
+        void PlayEffect(); // Setting Play Logic
     }
 }
