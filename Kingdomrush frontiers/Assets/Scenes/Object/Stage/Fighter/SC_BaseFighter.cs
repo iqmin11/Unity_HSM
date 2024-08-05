@@ -192,6 +192,7 @@ public class SC_BaseFighter : MonoBehaviour
             {
                 MoveRatio = 0.0f;
                 MoveTime = 0.0f;
+                FighterAnimator.Play("Move");
             },
 
             () =>

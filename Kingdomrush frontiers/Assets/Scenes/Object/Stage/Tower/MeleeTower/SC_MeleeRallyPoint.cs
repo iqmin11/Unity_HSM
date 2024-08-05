@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class SC_MeleeRallyPoint : SC_BaseRallyPoint
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     protected void Start()
     {
         SetFighter(3, FighterEnum.MeleeLv1);
