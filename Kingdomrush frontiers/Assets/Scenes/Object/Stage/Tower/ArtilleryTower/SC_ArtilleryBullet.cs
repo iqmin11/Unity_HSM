@@ -75,23 +75,23 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
     {
         PlayEffect();
 
-        Collider[] Hits0 = Physics.OverlapSphere(transform.position, Phy0, BulletLayerMask);
-        Collider[] Hits1 = Physics.OverlapSphere(transform.position, Phy1, BulletLayerMask);
-        Collider[] Hits2 = Physics.OverlapSphere(transform.position, Phy2, BulletLayerMask);
+        Collider2D[] Hits0 = Physics2D.OverlapCircleAll(transform.position, Phy0, BulletLayerMask);
+        Collider2D[] Hits1 = Physics2D.OverlapCircleAll(transform.position, Phy1, BulletLayerMask);
+        Collider2D[] Hits2 = Physics2D.OverlapCircleAll(transform.position, Phy2, BulletLayerMask);
 
-        for(int i = 0; i < Hits0.Length; i++)
+        for (int i = 0; i < Hits0.Length; i++)
         {
-            Hits0[i].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+            Hits0[i].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster.TakeDamage(CalDamage());
         }
 
         for (int i = 0; i < Hits1.Length; i++)
         {
-            Hits1[i].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+            Hits1[i].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster.TakeDamage(CalDamage());
         }
 
         for (int i = 0; i < Hits2.Length; i++)
         {
-            Hits2[i].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+            Hits2[i].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster.TakeDamage(CalDamage());
         }
     }
 

@@ -41,7 +41,7 @@ sealed public class SC_MagicBullet : SC_DirectBullet
         //Hit
         if (Hits.Length >= 1)
         {
-            Hits[0].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+            Hits[0].gameObject.GetComponent<SC_Monster3DCol>().ParentMonster.TakeDamage(CalDamage());
             BulletAnimator.SetBool("IsDeath", true);
             enabled = false;
             return;

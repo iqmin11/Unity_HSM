@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Unity.Mathematics;
 using Assets.Scenes.Object.Base;
+using UnityEditor;
 
 public enum MonsterState
 {
@@ -41,6 +42,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterFSM.ChangeState(MonsterState.Move);
         gameObject.SetActive(false);
     }
+
 
     // Use Update in FSM
     //private void Update()
@@ -81,7 +83,27 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
-    protected SphereCollider MonsterCol;
+    
+    private GameObject Monster3DColPrefab;
+    private GameObject Monster3DColInst;
+    protected SphereCollider Monster3DCol
+    {
+        get
+        {
+            return Monster3DColInst.GetComponent<SphereCollider>();
+        }
+    }
+
+    private GameObject Monster2DColPrefab;
+    private GameObject Monster2DColInst;
+    protected CircleCollider2D Monster2DCol
+    {
+        get
+        {
+            return Monster2DColInst.GetComponent<CircleCollider2D>();
+        }
+    }
+
     private float curHp = 0.0f;
     public float CurHp
     {
@@ -125,9 +147,14 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
         MonsterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
 
-        MonsterCol = gameObject.AddComponent<SphereCollider>();
+        Monster3DColPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Scenes/Object/Stage/Monster/PF_Monster3DCol.prefab", typeof(GameObject));
+        Monster3DColInst = Instantiate(Monster3DColPrefab, transform);
+        
+        Monster2DColPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Scenes/Object/Stage/Monster/PF_Monster2DCol.prefab", typeof(GameObject));
+        Monster2DColInst = Instantiate(Monster2DColPrefab, transform);
+
         SetColRadius();
-        if (MonsterCol.radius == 0.0f)
+        if (Monster2DCol.radius == 0.0f || Monster3DCol.radius == 0.0f)
         {
             Debug.LogAssertion("Pleas Set Monster Collider Scale");
         }
@@ -330,7 +357,8 @@ abstract public class SC_BaseMonster : MonoBehaviour
             () =>
             {
                 MonsterAnimator.Play("Death");
-                MonsterCol.enabled = false;
+                Monster2DCol.enabled = false;
+                Monster3DCol.enabled = false;
             },
 
             () =>

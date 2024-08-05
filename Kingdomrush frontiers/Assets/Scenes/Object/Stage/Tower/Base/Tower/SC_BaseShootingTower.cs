@@ -54,11 +54,11 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
 
     private bool IsFindTargetMonster()
     {
-        Collider[] Hits = Physics.OverlapSphere(gameObject.transform.position, Data.Range, TargetLayer.value);
+        Collider2D[] Hits = Physics2D.OverlapCircleAll(gameObject.transform.position, Data.Range, TargetLayer.value);
         Hits.OrderBy(Hits =>
             -Vector4.Distance(
-            Hit.gameObject.GetComponent<SC_BaseMonster>().DestPoint,
-            Hit.gameObject.GetComponent<SC_BaseMonster>().CurMonsterPos));
+            Hit.GetComponent<SC_Monster2DCol>().DestPoint,
+            Hit.GetComponent<SC_Monster2DCol>().CurMonsterPos));
 
         if (Hits.Length == 0)
         {
@@ -66,7 +66,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
             return false;
         }
         
-        TargetMonster = Hits[0].GetComponent<SC_BaseMonster>();
+        TargetMonster = Hits[0].GetComponent<SC_Monster2DCol>().ParentMonster;
         return true;
     }
     virtual protected void CalTargetPos()

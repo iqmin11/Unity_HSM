@@ -19,7 +19,8 @@ sealed public class SC_DesertThug : SC_BaseMonster
     }
     override protected void SetColRadius()
     {
-        MonsterCol.radius = ColRadius;
+        Monster2DCol.radius = ColRadius;
+        Monster3DCol.radius = ColRadius;
     }
     override protected void StateInit()
     {
