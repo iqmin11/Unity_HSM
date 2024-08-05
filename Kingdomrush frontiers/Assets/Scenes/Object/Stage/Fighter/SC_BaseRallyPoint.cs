@@ -16,9 +16,9 @@ public class SC_BaseRallyPoint : MonoBehaviour
         Pivots[1].transform.SetParent(transform);
         Pivots[2].transform.SetParent(transform);
 
-        Pivots[0].transform.localPosition = MyMath.CentimeterToMeter(new Vector3(-25f, 0f, 0f));
-        Pivots[1].transform.localPosition = MyMath.CentimeterToMeter(new Vector3(0f, -25f, -25f));
-        Pivots[2].transform.localPosition = MyMath.CentimeterToMeter(new Vector3(25f, 0f, 0f));
+        Pivots[0].transform.localPosition = MyMath.CentimeterToMeter(new Vector4(-25f, 0f, 0f, 1f));
+        Pivots[1].transform.localPosition = MyMath.CentimeterToMeter(new Vector4(0f, -25f, -25f, 1f));
+        Pivots[2].transform.localPosition = MyMath.CentimeterToMeter(new Vector4(25f, 0f, 0f, 1f));
     }
 
     virtual protected void SetFighter(int Count, FighterEnum Value)
@@ -27,10 +27,10 @@ public class SC_BaseRallyPoint : MonoBehaviour
         {
             FighterInsts.Add(Instantiate(FighterPrefab));
             FighterInsts[FighterInsts.Count - 1].transform.SetParent(transform, false);
-            FighterInsts[FighterInsts.Count - 1].transform.position = transform.position;
+            FighterInsts[FighterInsts.Count - 1].transform.position = transform.parent.position;
 
             SC_BaseFighter CurFighterSetting = FighterInsts[FighterInsts.Count - 1].GetComponent<SC_BaseFighter>();
-            CurFighterSetting.PrevPos = transform.position;
+            CurFighterSetting.PrevPos = transform.parent.position;
             CurFighterSetting.RallyPos = Pivots[i].transform.position;
             CurFighterSetting.Data.SetData(Value);
         }

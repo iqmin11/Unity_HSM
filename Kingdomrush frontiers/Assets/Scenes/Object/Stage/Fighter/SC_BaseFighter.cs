@@ -87,8 +87,8 @@ public class SC_BaseFighter : MonoBehaviour
     protected Animator FighterAnimator = null;
     //private SC_BaseMonster TargetMonster = null;
 
-    private Vector3 prevPos = Vector3.zero;
-    public Vector3 PrevPos
+    private Vector4 prevPos = Vector4.zero;
+    public Vector4 PrevPos
     {
         get
         {
@@ -97,11 +97,14 @@ public class SC_BaseFighter : MonoBehaviour
 
         set
         {
-            prevPos = value;
+            prevPos.x = value.x;
+            prevPos.y = value.y;
+            prevPos.z = value.z;
+            prevPos.w = 1f;
         }
     }
-    private Vector3 rallyPos = Vector3.zero;
-    public Vector3 RallyPos
+    private Vector4 rallyPos = Vector4.zero;
+    public Vector4 RallyPos
     {
         get
         {
@@ -110,10 +113,39 @@ public class SC_BaseFighter : MonoBehaviour
 
         set
         {
-            rallyPos = value;
+            rallyPos.x = value.x;
+            rallyPos.y = value.y;
+            rallyPos.z = value.z;
+            rallyPos.w = 1f;
         }
     }
-    //Vector3 ActorPos = Vector3.zero;
+    Vector4 ActorPos = new Vector4(0f, 0f, 0f, 1f);
+
+    float Speed = 1f;
+    float MoveTime = 0.0f;
+    float MoveRatio = 0.0f;
+
+    void MoveToRally()
+    {
+        MoveTime += Time.deltaTime;
+        MoveRatio = MoveTime * (Speed / (RallyPos - PrevPos).magnitude);
+        ActorPos = Vector4.Lerp(PrevPos, RallyPos, MoveRatio);
+        transform.position = ActorPos;
+
+        if (ActorPos.x - RallyPos.x > 0)
+        {
+            FighterRenderer.flipX = true;
+        }
+        else if (ActorPos.x - RallyPos.x < 0)
+        {
+            FighterRenderer.flipX = false;
+        }
+
+        if (MoveRatio >= 1)
+        {
+            FighterFSM.ChangeState(FighterState.Idle);
+        }
+    }
 
     //FSM ////////////////////////////
     private SC_FSM FighterFSM = null;
@@ -121,7 +153,7 @@ public class SC_BaseFighter : MonoBehaviour
     {
         if (FighterFSM == null)
         {
-            Debug.LogAssertion("MonsterFSM Is null");
+            Debug.LogAssertion("FighterFSM Is null");
             return;
         }
 
@@ -133,7 +165,11 @@ public class SC_BaseFighter : MonoBehaviour
 
             () =>
             {
-
+                if (PrevPos != RallyPos)
+                {
+                    FighterFSM.ChangeState(FighterState.Move);
+                    return;
+                }
             },
 
             () =>
@@ -145,7 +181,29 @@ public class SC_BaseFighter : MonoBehaviour
 
     void MoveStateInit()
     {
+        if (FighterFSM == null)
+        {
+            Debug.LogAssertion("FighterFSM Is null");
+            return;
+        }
 
+        FighterFSM.CreateState<FighterState>(FighterState.Move,
+            () =>
+            {
+                MoveRatio = 0.0f;
+                MoveTime = 0.0f;
+            },
+
+            () =>
+            {
+                MoveToRally();
+            },
+
+            () =>
+            {
+                PrevPos = RallyPos;
+            }
+        );
     }
 
     void TraceMonsterStateInit()

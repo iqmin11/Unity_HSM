@@ -55,10 +55,11 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     private bool IsFindTargetMonster()
     {
         Collider2D[] Hits = Physics2D.OverlapCircleAll(gameObject.transform.position, Data.Range, TargetLayer.value);
-        Hits.OrderBy(Hits =>
-            -Vector4.Distance(
-            Hit.GetComponent<SC_Monster2DCol>().DestPoint,
-            Hit.GetComponent<SC_Monster2DCol>().CurMonsterPos));
+        Hits.OrderBy
+            (
+                Hits =>
+                (Hit.GetComponent<SC_Monster2DCol>().DestPoint - Hit.GetComponent<SC_Monster2DCol>().CurMonsterPos).magnitude
+            );
 
         if (Hits.Length == 0)
         {
