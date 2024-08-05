@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AC_MeleeFighterLv4
+  m_Controller: {fileID: 9100000, guid: 7311a9c1f9bee864983d23e5de204a04, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 86af49776d3910b4589351c244ad9824, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c98de24d3dad1744e90de1a14a8d3dcf, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 149df731377bfc943bfaa9a9400bbfc5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e704457d28017c644a5ed10eff5d16ab, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 70300e7d03d632c40923cced7b1f9e99, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 200998167d498bf41b21b06306b8ca07, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 866b421ddbd9b0747a6c8f2e362a0455, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 351f3dd34406e5948ad8901e22fecc54, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9591f6a49a501784eaafe701af80cadf, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9591f6a49a501784eaafe701af80cadf, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 22bd7328eb1a3ea4c9ecc3ef56c44d93, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 22bd7328eb1a3ea4c9ecc3ef56c44d93, type: 2}

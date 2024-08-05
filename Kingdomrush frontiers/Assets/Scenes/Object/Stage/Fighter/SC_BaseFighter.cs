@@ -53,11 +53,10 @@ public class SC_BaseFighter : MonoBehaviour
     private FighterData Data;
     private SpriteRenderer FighterRenderer = null;
     private Animator FighterAnimator = null;
-    private SC_BaseMonster TargetMonster = null;
+    //private SC_BaseMonster TargetMonster = null;
     
-    Vector3 PrevPos = Vector3.zero;
-    Vector3 ActorPos = Vector3.zero;
-
+    //Vector3 PrevPos = Vector3.zero;
+    //Vector3 ActorPos = Vector3.zero;
 
     //FSM ////////////////////////////
     private SC_FSM FighterFSM = null;
