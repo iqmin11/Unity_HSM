@@ -241,12 +241,10 @@ abstract public class SC_BaseMonster : MonoBehaviour
     {
         MonsterRenderer.flipX = false;
     }
-
     public virtual void DeathEndEvent()
     {
         StartCoroutine(FadeAndDestroy());
     }
-
     IEnumerator FadeAndDestroy()
     {
         Color c = MonsterRenderer.material.color;
@@ -320,7 +318,6 @@ abstract public class SC_BaseMonster : MonoBehaviour
             }
         );
     }
-
     virtual protected void DeathStateInit()
     {
         if (MonsterFSM == null)
