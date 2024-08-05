@@ -24,6 +24,7 @@ sealed public class SC_DesertThug : SC_BaseMonster
     override protected void StateInit()
     {
         MoveStateInit();
+        DeathStateInit();
     }
     private readonly float ColRadius = MyMath.CentimeterToMeter(18.0f);
 }

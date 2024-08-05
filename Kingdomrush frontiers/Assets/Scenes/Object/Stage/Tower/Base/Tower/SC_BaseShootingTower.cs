@@ -56,7 +56,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     {
         Collider[] Hits = Physics.OverlapSphere(gameObject.transform.position, Data.Range, TargetLayer.value);
         Hits.OrderBy(Hits =>
-            Vector4.Distance(
+            -Vector4.Distance(
             Hit.gameObject.GetComponent<SC_BaseMonster>().DestPoint,
             Hit.gameObject.GetComponent<SC_BaseMonster>().CurMonsterPos));
 

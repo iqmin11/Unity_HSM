@@ -55,11 +55,6 @@ sealed public class SC_MagicBullet : SC_DirectBullet
         }
     }
 
-    private float CalDamage()
-    {
-        return Random.Range(Data.Damage_min, Data.Damage_MAX);
-    }
-
     public void DeathEffectEndEvent()
     {
         Destroy(gameObject);

@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 
 abstract public class SC_BaseBullet : MonoBehaviour
 {
-    virtual protected void Awake()
+    protected virtual void Awake()
     {
         BulletRenderer = gameObject.AddComponent<SpriteRenderer>();
         BulletRenderer.sortingOrder = (int)RenderOrder.InGameObject;
@@ -15,19 +15,19 @@ abstract public class SC_BaseBullet : MonoBehaviour
         BulletLayerMask = 1 << LayerMask.NameToLayer("Monster");
     }
 
-    virtual public void BulletSetting(Vector4 StartPos, Vector4 DestPos)
+    public virtual void BulletSetting(Vector4 StartPos, Vector4 DestPos)
     {
         ShooterPos = StartPos;
         TargetPos = DestPos;
     }
 
-    virtual protected void Start()
+    protected virtual void Start()
     {
         gameObject.transform.position = ShooterPos;
     }
 
     // Update is called once per frame
-    virtual protected void Update()
+    protected virtual void Update()
     {
         AccTime += Time.deltaTime;
         Ratio = AccTime / Data.BulletTime;
@@ -49,8 +49,12 @@ abstract public class SC_BaseBullet : MonoBehaviour
         }
     }
     protected LayerMask BulletLayerMask;
-    abstract protected void CalBulletTransform();
-    abstract protected void CalBulletRot();
+    protected abstract void CalBulletTransform();
+    protected abstract void CalBulletRot();
+    protected virtual float CalDamage()
+    {
+        return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
+    }
 
     private Vector4 shooterPos;
     protected Vector4 ShooterPos

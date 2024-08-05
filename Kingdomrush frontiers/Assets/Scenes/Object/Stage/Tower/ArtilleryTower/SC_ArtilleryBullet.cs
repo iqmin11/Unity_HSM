@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using Unity.Mathematics;
 using UnityEngine;
 
 using Assets.Scenes.Object.Base.MyInterface;
@@ -25,7 +24,7 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
     protected override void Start()
     {
         base.Start();
-        if(Data.Level >= 1 && Data.Level <= 3)
+        if (Data.Level >= 1 && Data.Level <= 3)
         {
             BulletRenderer.sprite = BombSprits[Data.Level - 1];
         }
@@ -67,10 +66,33 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
         }
     }
 
+    protected override float CalDamage()
+    {
+        return base.CalDamage() / 3;
+    }
+
     private void Explosion()
     {
         PlayEffect();
-        Debug.Log("Bomb Explosion");
+
+        Collider[] Hits0 = Physics.OverlapSphere(transform.position, Phy0, BulletLayerMask);
+        Collider[] Hits1 = Physics.OverlapSphere(transform.position, Phy1, BulletLayerMask);
+        Collider[] Hits2 = Physics.OverlapSphere(transform.position, Phy2, BulletLayerMask);
+
+        for(int i = 0; i < Hits0.Length; i++)
+        {
+            Hits0[i].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+        }
+
+        for (int i = 0; i < Hits1.Length; i++)
+        {
+            Hits1[i].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+        }
+
+        for (int i = 0; i < Hits2.Length; i++)
+        {
+            Hits2[i].gameObject.GetComponent<SC_BaseMonster>().TakeDamage(CalDamage());
+        }
     }
 
     public void PlayEffect()
@@ -80,8 +102,14 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
         BombExplosionEffectInst.transform.position = transform.position;
     }
 
-    static private List<Sprite> BombSprits = new List<Sprite>();
+    private static List<Sprite> BombSprits = new List<Sprite>();
 
     [SerializeField]
     GameObject BombExplosionEffectPrefab;
+
+    private static float Phy0 = 0.3f;
+    private static float Phy1 = 0.6f;
+    private static float Phy2 = 0.9f;
+
+
 }

@@ -36,7 +36,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
     {
         MonsterInit();
         SetData();
-        //CurHp = Data.Hp;
+        CurHp = Data.Hp;
         StateInit();
         MonsterFSM.ChangeState(MonsterState.Move);
         gameObject.SetActive(false);
@@ -47,8 +47,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     public void TakeDamage(float Damage)
     {
-        Debug.Log("Call TakeDamage");
-        //curHp -= Damage;
+        CurHp -= Damage;
     }
 
     public Vector4 CurMonsterPos
@@ -93,6 +92,11 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
         set
         {
+            if(curHp <= -1000)
+            {
+                Debug.LogWarning("Hp Less then -1000");
+            }
+
             curHp = value;
         }
     }
@@ -131,7 +135,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Monster");
     }
 
-    // Walk ///////////////////////////////////// 
+    // Walk /////////////////////////////////////
     private class WalkData
     {
         public Vector4 MonsterPos = Vector4.zero;
@@ -196,7 +200,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
     {
         Walk.MonsterDir.w = 0.0f;
         Walk.MonsterDir = Walk.MonsterPos - Walk.PrevMonsterPos;
-        Walk.MonsterDir.Normalize(); // Áö¸§ÀÌ 1ÀÎ ¿ø
+        Walk.MonsterDir.Normalize(); // ì§€ë¦„ì´ 1ì¸ ì›
         Walk.PrevMonsterPos = Walk.MonsterPos;
 
         float DegZ = MyMath.GetAngleDegZ(Walk.MonsterDir);
@@ -237,6 +241,24 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterRenderer.flipX = false;
     }
 
+    public virtual void DeathEndEvent()
+    {
+        StartCoroutine(FadeAndDestroy());
+    }
+
+    IEnumerator FadeAndDestroy()
+    {
+        Color c = MonsterRenderer.material.color;
+        for (float DeathTime = 2f; DeathTime >= 0; DeathTime -= Time.deltaTime)
+        {
+            c.a = DeathTime / 2;
+            MonsterRenderer.material.color = c;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;
     abstract protected void StateInit();
@@ -256,8 +278,40 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
             () =>
             {
+                if (CurHp <= 0f)
+                {
+                    MonsterFSM.ChangeState(MonsterState.Death);
+                }
+
                 WalkPath();
                 MonsterAnimator.SetInteger("MoveDir", (int)Walk.DirState);
+            },
+
+            () =>
+            {
+
+            }
+        );
+    }
+
+    virtual protected void DeathStateInit()
+    {
+        if (MonsterFSM == null)
+        {
+            Debug.LogAssertion("MonsterFSM Is null");
+            return;
+        }
+
+        MonsterFSM.CreateState<MonsterState>(MonsterState.Death,
+            () =>
+            {
+                MonsterAnimator.Play("Death");
+                MonsterCol.enabled = false;
+            },
+
+            () =>
+            {
+
             },
 
             () =>

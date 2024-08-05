@@ -41,6 +41,8 @@ abstract public class SC_HowitzerBullet : SC_BaseBullet
         Mid1.z = ShooterPos.z + ((TargetPos.z - ShooterPos.z) / 4);
     }
 
+
+
     private Vector3 Mid0 = Vector3.zero;
     private Vector3 Mid1 = Vector3.zero;
 

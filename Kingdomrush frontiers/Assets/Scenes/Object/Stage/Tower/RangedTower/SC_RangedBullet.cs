@@ -83,9 +83,4 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
     static private Color StartColor;
     static private Sprite ArrowSprite = null;
     static private Sprite ArrowMissSprite = null;
-
-    private float CalDamage()
-    {
-        return Random.Range(Data.Damage_min, Data.Damage_MAX);
-    }
 }
