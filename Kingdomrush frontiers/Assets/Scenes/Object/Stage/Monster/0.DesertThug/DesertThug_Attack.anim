@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Death
+  m_Name: DesertThug_Attack
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,15 +21,17 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 9717ed875c024324797a53b91f4729eb, type: 3}
-    - time: 0.083333336
-      value: {fileID: 21300000, guid: a3175beb170d4a84abc790f70b6fc784, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 857723def2e2ef64eb7ae392ccd62ed2, type: 3}
+      value: {fileID: 21300000, guid: 687dac7da680898438d2e17935965be8, type: 3}
+    - time: 0.05
+      value: {fileID: 21300000, guid: a83710d1218bc2041b5dcdb3d8814f93, type: 3}
+    - time: 0.1
+      value: {fileID: 21300000, guid: d6070d88b6b6edc48974e2053a0263c3, type: 3}
+    - time: 0.15
+      value: {fileID: 21300000, guid: 8ec7d1db29272b5499673b4a85d306f1, type: 3}
+    - time: 0.2
+      value: {fileID: 21300000, guid: a0cb08269c7396a4bbc728e1434d13bf, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: ef41f6700bdb129429b1a51199f37bad, type: 3}
-    - time: 0.33333334
-      value: {fileID: 21300000, guid: d1a3cb5c446cc9040bb2ac4acf6d4d6a, type: 3}
+      value: {fileID: 21300000, guid: 6317c44af6b0c7c4285f836e9bfdbb46, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -52,17 +54,18 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 9717ed875c024324797a53b91f4729eb, type: 3}
-    - {fileID: 21300000, guid: a3175beb170d4a84abc790f70b6fc784, type: 3}
-    - {fileID: 21300000, guid: 857723def2e2ef64eb7ae392ccd62ed2, type: 3}
-    - {fileID: 21300000, guid: ef41f6700bdb129429b1a51199f37bad, type: 3}
-    - {fileID: 21300000, guid: d1a3cb5c446cc9040bb2ac4acf6d4d6a, type: 3}
+    - {fileID: 21300000, guid: 687dac7da680898438d2e17935965be8, type: 3}
+    - {fileID: 21300000, guid: a83710d1218bc2041b5dcdb3d8814f93, type: 3}
+    - {fileID: 21300000, guid: d6070d88b6b6edc48974e2053a0263c3, type: 3}
+    - {fileID: 21300000, guid: 8ec7d1db29272b5499673b4a85d306f1, type: 3}
+    - {fileID: 21300000, guid: a0cb08269c7396a4bbc728e1434d13bf, type: 3}
+    - {fileID: 21300000, guid: 6317c44af6b0c7c4285f836e9bfdbb46, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.35000002
+    m_StopTime: 0.26666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -81,11 +84,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.33333334
-    functionName: DeathEndEvent
-    data: 
-    objectReferenceParameter: {fileID: 3148032364431261241, guid: 707297571c5883142ad76d376d228849, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

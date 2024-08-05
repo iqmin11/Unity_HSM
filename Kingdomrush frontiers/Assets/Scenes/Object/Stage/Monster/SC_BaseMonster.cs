@@ -106,7 +106,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
     private void MonsterInit()
     {
         //Initialize FSM
-        MonsterFSM = GetComponent<SC_FSM>();
+        MonsterFSM = gameObject.AddComponent<SC_FSM>();
         if (MonsterFSM == null)
         {
             Debug.LogAssertion("MonsterFSM is null");
@@ -123,6 +123,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         {
             Debug.LogAssertion("MonsterRenderer is null");
         }
+        MonsterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
 
         MonsterCol = gameObject.AddComponent<SphereCollider>();
         SetColRadius();
@@ -273,7 +274,18 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterFSM.CreateState<MonsterState>(MonsterState.Move,
             () =>
             {
-                MonsterAnimator.SetInteger("MonsterState", GetCurState());
+                if(Walk.DirState == MoveDir.Profile)
+                {
+                    MonsterAnimator.Play("Move_Profile");
+                }
+                else if(Walk.DirState == MoveDir.Forward)
+                {
+                    MonsterAnimator.Play("Move_Forward");
+                }
+                else if(Walk.DirState == MoveDir.Backward)
+                {
+                    MonsterAnimator.Play("Move_Backward");
+                }
             },
 
             () =>
@@ -283,8 +295,23 @@ abstract public class SC_BaseMonster : MonoBehaviour
                     MonsterFSM.ChangeState(MonsterState.Death);
                 }
 
+                int PrevDir = (int)Walk.DirState;
                 WalkPath();
-                MonsterAnimator.SetInteger("MoveDir", (int)Walk.DirState);
+                if(PrevDir != (int)Walk.DirState)
+                {
+                    if (Walk.DirState == MoveDir.Profile)
+                    {
+                        MonsterAnimator.Play("Move_Profile");
+                    }
+                    else if (Walk.DirState == MoveDir.Forward)
+                    {
+                        MonsterAnimator.Play("Move_Forward");
+                    }
+                    else if (Walk.DirState == MoveDir.Backward)
+                    {
+                        MonsterAnimator.Play("Move_Backward");
+                    }
+                }
             },
 
             () =>

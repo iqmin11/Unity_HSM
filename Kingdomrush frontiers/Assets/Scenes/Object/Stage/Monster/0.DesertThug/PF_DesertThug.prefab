@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3148032364431261241
+--- !u!1 &626159483250187978
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8031539509764595289}
-  - component: {fileID: 7074840156630382892}
-  - component: {fileID: -840962796266230907}
-  - component: {fileID: 8024528908727630262}
-  - component: {fileID: 7772194566218621268}
+  - component: {fileID: 7711251034832458713}
+  - component: {fileID: 1580207880213487766}
+  - component: {fileID: 7304042121327953549}
+  - component: {fileID: 5437658517153249186}
   m_Layer: 0
   m_Name: PF_DesertThug
   m_TagString: Untagged
@@ -20,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8031539509764595289
+--- !u!4 &7711251034832458713
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148032364431261241}
+  m_GameObject: {fileID: 626159483250187978}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -35,41 +34,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7074840156630382892
+--- !u!114 &1580207880213487766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148032364431261241}
+  m_GameObject: {fileID: 626159483250187978}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e413c8ca8fbb81a4abff06c437a1ac11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-840962796266230907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148032364431261241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86ef4494769b409438c334794d8cdac8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &8024528908727630262
+--- !u!95 &7304042121327953549
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148032364431261241}
+  m_GameObject: {fileID: 626159483250187978}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 5176b8d9f01c3c8479da06f10bf344af, type: 2}
+  m_Controller: {fileID: 22100000, guid: 04a2e19b157d3734d8ea1bdf917bb6ba, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -80,13 +67,13 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!212 &7772194566218621268
+--- !u!212 &5437658517153249186
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148032364431261241}
+  m_GameObject: {fileID: 626159483250187978}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -120,8 +107,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 378aeb8172d320f4aa8b8290fffa4077, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 687dac7da680898438d2e17935965be8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

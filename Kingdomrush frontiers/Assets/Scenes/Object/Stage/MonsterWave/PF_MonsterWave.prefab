@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MonsterPrefabs:
-  - {fileID: 3148032364431261241, guid: 707297571c5883142ad76d376d228849, type: 3}
+  - {fileID: 626159483250187978, guid: 707297571c5883142ad76d376d228849, type: 3}
