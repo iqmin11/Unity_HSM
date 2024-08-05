@@ -112,6 +112,7 @@ public class SC_StageManager : MonoBehaviour
         for (int i = 0; i < BuildAreaInsts.Capacity; i++)
         {
             BuildAreaInsts.Add(Instantiate(BuildAreaPrefab, AllStageData[CurStage].BuildAreaPos[i], Quaternion.identity));
+            BuildAreaInsts[i].GetComponent<SC_BuildArea>().DefaultRallyPos = AllStageData[CurStage].AreaStartRallyPos[i];
         }
     }
 

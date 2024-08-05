@@ -41,6 +41,7 @@ public class SC_BuildArea : MonoBehaviour
         TowerUiSetting.SettingButtonCallback(ConstructButtonEnum.MeleeTower, () =>
         {
             ChildTowerInst = Instantiate(MeleeTowerPrefab, transform);
+            ChildTowerInst.GetComponent<SC_MeleeTower>().DefaultRallyPos = DefaultRallyPos;
             ButtonInst.SetActive(false);
             TowerUiInst.SetActive(false);
         });
@@ -66,4 +67,18 @@ public class SC_BuildArea : MonoBehaviour
     private SC_BaseTowerUI TowerUiSetting;
 
     private GameObject ChildTowerInst;
+
+    private Vector4 defaultRallyPos;
+    public Vector4 DefaultRallyPos
+    {
+        get
+        {
+            return defaultRallyPos;
+        }
+
+        set
+        {
+            defaultRallyPos = value;
+        }
+    }
 }

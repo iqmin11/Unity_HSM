@@ -33,6 +33,11 @@ public class SC_MeleeTower : SC_BaseTower
     {
         Data.SetData(TowerEnum.MeleeTower_Level1);
     }
+
+    private void Start()
+    {
+        MeleeRallyPointInst.transform.position = DefaultRallyPos;
+    }
     protected override void ChangeTower(TowerEnum TowerValue)
     {
         if (!TowerData.IsMeleeTower(TowerValue))
@@ -50,6 +55,19 @@ public class SC_MeleeTower : SC_BaseTower
     private GameObject MeleeRallyPointPrefab;
     private GameObject MeleeRallyPointInst = null;
     private SC_MeleeRallyPoint MeleeRallyPointSetting = null;
+    private Vector4 defaultRallyPos = Vector4.zero;
+    public Vector4 DefaultRallyPos
+    {
+        get
+        {
+            return defaultRallyPos;
+        }
+
+        set
+        {
+            defaultRallyPos = value;
+        }
+    }
 
     private static List<Sprite> MeleeTowerSpriteCache = new List<Sprite>();
 }
