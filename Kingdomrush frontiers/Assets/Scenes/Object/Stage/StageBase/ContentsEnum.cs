@@ -51,6 +51,27 @@ namespace Assets.Scenes.Object.Stage.ContentsEnum
         ArtilleryTower_Level4,
     };
 
+    public enum FighterEnum
+    {
+        Null = -1,
+        Melee,
+        MeleeLv1,
+        MeleeLv2,
+        MeleeLv3,
+        MeleeLv4,
+        Reinforce,
+        ReinforceLv0,
+        ReinforceLv1,
+        ReinforceLv2,
+        ReinforceLv3,
+        ReinforceLv4,
+        ReinforceLv5,
+        Hero,
+        Hero_Alric,
+        Creature,
+        Creature_Sandman
+    };
+
     public enum RenderOrder
     {
         Bg = 0,
