@@ -37,6 +37,13 @@ public class SC_BuildArea : MonoBehaviour
             ButtonInst.SetActive(false);
             TowerUiInst.SetActive(false);
         });
+
+        TowerUiSetting.SettingButtonCallback(ConstructButtonEnum.MeleeTower, () =>
+        {
+            ChildTowerInst = Instantiate(MeleeTowerPrefab, transform);
+            ButtonInst.SetActive(false);
+            TowerUiInst.SetActive(false);
+        });
     }
 
     [SerializeField]
@@ -50,6 +57,9 @@ public class SC_BuildArea : MonoBehaviour
     private GameObject MagicTowerPrefab;
     [SerializeField]
     private GameObject ArtilleryTowerPrefab;
+    [SerializeField]
+    private GameObject MeleeTowerPrefab;
+
     [SerializeField]
     private GameObject TowerUiPrefab;
     private GameObject TowerUiInst;

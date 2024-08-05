@@ -5,30 +5,33 @@ using UnityEngine;
 using Assets.Scenes.Object.Stage.StageData;
 using UnityEditor.Build.Content;
 using Unity.Mathematics;
+using Assets.Scenes.Object.Stage.ContentsEnum;
 
 public enum FighterState
 {
     Born,
-	Idle,
-	Move,
-	TraceMonster,
-	Attack,
-	Return,
-	Death,
-	Revive,
-	Skill0,
-	Skill1
+    Idle,
+    Move,
+    TraceMonster,
+    Attack,
+    Return,
+    Death,
+    Revive,
+    Skill0,
+    Skill1
 };
 
 public class SC_BaseFighter : MonoBehaviour
 {
     protected virtual void Awake()
-	{
-		FighterRenderer = GetComponent<SpriteRenderer>();
-		if(FighterRenderer == null)
-		{
-			Debug.LogAssertion("SC_BaseFighter : FighterRenderer is Null");
-		}
+    {
+        FighterRenderer = GetComponent<SpriteRenderer>();
+        if (FighterRenderer == null)
+        {
+            Debug.LogAssertion("SC_BaseFighter : FighterRenderer is Null");
+        }
+
+        FighterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
 
         FighterAnimator = GetComponent<Animator>();
         if (FighterAnimator == null)
@@ -36,26 +39,80 @@ public class SC_BaseFighter : MonoBehaviour
             Debug.LogAssertion("SC_BaseFighter : FighterRenderer is Null");
         }
 
-		FighterFSM = gameObject.AddComponent<SC_FSM>();
-		if (FighterFSM == null)
-		{
+        FighterFSM = gameObject.AddComponent<SC_FSM>();
+        if (FighterFSM == null)
+        {
             Debug.LogAssertion("SC_BaseFighter : FighterFSM is Null");
         }
 
-		IdleStateInit();
+        IdleStateInit();
         MoveStateInit();
         TraceMonsterStateInit();
         AttackStateInit();
         ReturnStateInit();
         DeathStateInit();
+
+        FighterFSM.ChangeState(FighterState.Idle);
     }
 
-    private FighterData Data;
+    protected virtual void Start()
+    {
+        CurHp = Data.Hp;
+    }
+
+    private FighterData data;
+    public FighterData Data
+    {
+        get
+        {
+            return data;
+        }
+    }
+
+    private float curHp = 0f;
+    protected float CurHp
+    {
+        get
+        {
+            return curHp;
+        }
+
+        set
+        {
+            curHp = value;
+        }
+    }
+
     private SpriteRenderer FighterRenderer = null;
-    private Animator FighterAnimator = null;
+    protected Animator FighterAnimator = null;
     //private SC_BaseMonster TargetMonster = null;
-    
-    //Vector3 PrevPos = Vector3.zero;
+
+    private Vector3 prevPos = Vector3.zero;
+    public Vector3 PrevPos
+    {
+        get
+        {
+            return prevPos;
+        }
+
+        set
+        {
+            prevPos = value;
+        }
+    }
+    private Vector3 rallyPos = Vector3.zero;
+    public Vector3 RallyPos
+    {
+        get
+        {
+            return rallyPos;
+        }
+
+        set
+        {
+            rallyPos = value;
+        }
+    }
     //Vector3 ActorPos = Vector3.zero;
 
     //FSM ////////////////////////////

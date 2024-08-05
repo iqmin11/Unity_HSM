@@ -48,4 +48,5 @@ MonoBehaviour:
   RangedTowerPrefab: {fileID: 117692631270651480, guid: 94168c2b72729dc41aa082f77c51deff, type: 3}
   MagicTowerPrefab: {fileID: 7548459494078052371, guid: 52a60f2096109024fb3f04090c2817af, type: 3}
   ArtilleryTowerPrefab: {fileID: 156351512724459695, guid: da8d4fb1cf5afef46b07bef36e2a2dfb, type: 3}
+  MeleeTowerPrefab: {fileID: 3568433266547929195, guid: dd1cee0ecd90f8540a10721d7019d098, type: 3}
   TowerUiPrefab: {fileID: 8839889489646879171, guid: 8ec99db0a13cb754c80b5dac892e682d, type: 3}
