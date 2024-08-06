@@ -69,7 +69,8 @@ public class SC_BaseFighter : MonoBehaviour
 
     protected virtual void Start()
     {
-        CurHp = Data.Hp;
+        //CurHp = Data.Hp;
+        CurHp = 1;
     }
 
     private void Update()
@@ -120,18 +121,36 @@ public class SC_BaseFighter : MonoBehaviour
             isWork = value;
         }
     }
+    
+    public int GetCurState()
+    {
+        return FighterFSM.GetCurState();
+    }
     public void SetTarget(SC_BaseMonster Monster)
     {
+        if(TargetMonster != null)
+        {
+            if (TargetMonster.GetCurState() == (int)MonsterState.Death)
+            {
+                return;
+            }
+        }
+
         isWork = true;
         TargetMonster = Monster;
         Monster.StartInteractionWithFighter(this);
-
+        
         FighterFSM.ChangeState(FighterState.TraceMonster);
     }
 
     public void ClearTarget()
     {
-        if(TargetMonster == null || TargetMonster.GetCurState() == (int)MonsterState.Death)
+        if (TargetMonster == null)
+        {
+            return;
+        }
+
+        if (TargetMonster.GetCurState() == (int)MonsterState.Death)
         {
             return;
         }
@@ -288,6 +307,29 @@ public class SC_BaseFighter : MonoBehaviour
 
         transform.position = ActorPos;
     }
+    private IEnumerator FadeAndInactive()
+    {
+        Color c = FighterRenderer.material.color;
+        for (float DeathTime = 2f; DeathTime >= 0; DeathTime -= Time.deltaTime)
+        {
+            c.a = DeathTime / 2;
+            FighterRenderer.material.color = c;
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    float RespawnTime = 5.0f;
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(RespawnTime);
+        Debug.Log("Respawn");
+        CurHp = Data.Hp;
+        PrevPos = transform.parent.parent.position;
+        FighterFSM.ChangeState(FighterState.Idle);
+        gameObject.SetActive(true);
+    }
 
     //FSM ////////////////////////////
     private SC_FSM FighterFSM = null;
@@ -307,7 +349,11 @@ public class SC_BaseFighter : MonoBehaviour
 
             () =>
             {
-                if (PrevPos != RallyPos)
+                if (CurHp <= 0)
+                {
+                    FighterFSM.ChangeState(FighterState.Death);
+                }
+                else if (PrevPos != RallyPos)
                 {
                     FighterFSM.ChangeState(FighterState.Move);
                     return;
@@ -366,7 +412,14 @@ public class SC_BaseFighter : MonoBehaviour
 
             () =>
             {
-                MoveToTarget();
+                if (CurHp <= 0)
+                {
+                    FighterFSM.ChangeState(FighterState.Death);
+                }
+                else
+                {
+                    MoveToTarget();
+                }
             },
 
             () =>
@@ -393,7 +446,11 @@ public class SC_BaseFighter : MonoBehaviour
 
             () =>
             {
-                if(IsAttackCoolTimeEnd)
+                if(CurHp <= 0)
+                {
+                    FighterFSM.ChangeState(FighterState.Death);
+                }
+                else if(IsAttackCoolTimeEnd)
                 {
                     StartCoroutine(Attack(Data.AttackRate));
                 }
@@ -423,13 +480,18 @@ public class SC_BaseFighter : MonoBehaviour
 
             () =>
             {
-                if(MoveRatio >= 1.0f)
+                if (CurHp <= 0)
+                {
+                    FighterFSM.ChangeState(FighterState.Death);
+                }
+                else if (MoveRatio >= 1.0f)
                 {
                     FighterFSM.ChangeState(FighterState.Idle);
-                    return;
                 }
-
-                ReturnToRally();
+                else
+                {
+                    ReturnToRally();
+                }
             },
 
             () =>
@@ -442,7 +504,30 @@ public class SC_BaseFighter : MonoBehaviour
 
     void DeathStateInit()
     {
+        if (FighterFSM == null)
+        {
+            Debug.LogAssertion("FighterFSM Is null");
+            return;
+        }
 
+        FighterFSM.CreateState<FighterState>(FighterState.Death,
+            () =>
+            {
+                FighterAnimator.Play("Death");
+                ClearTarget();
+                StartCoroutine(FadeAndInactive());
+                //StartCoroutine(Respawn());
+                HpBarInst.SetActive(false);
+            },
+
+            () =>
+            {
+            },
+
+            () =>
+            {
+            }
+        );
     }
 
 }

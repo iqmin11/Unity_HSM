@@ -314,10 +314,6 @@ abstract public class SC_BaseMonster : MonoBehaviour
     {
         MonsterRenderer.flipX = false;
     }
-    public virtual void DeathEndEvent()
-    {
-        StartCoroutine(FadeAndDestroy());
-    }
     IEnumerator FadeAndDestroy()
     {
         Color c = MonsterRenderer.material.color;
@@ -376,6 +372,23 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     protected void AttackAction()
     {
+        SC_BaseFighter CurTarget = FindTargetFighter();
+
+        if (CurTarget == null)
+        {
+            Debug.LogAssertion("BaseMonster : CurTarget Is Null");
+            return;
+        }
+
+        if (transform.position.x - CurTarget.transform.position.x > 0)
+        {
+            MonsterRenderer.flipX = true;
+        }
+        else if (transform.position.x - CurTarget.transform.position.x < 0)
+        {
+            MonsterRenderer.flipX = false;
+        }
+
         MonsterAnimator.Play("Attack");
     }
 
@@ -463,6 +476,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
                 if (CurHp <= 0f)
                 {
                     MonsterFSM.ChangeState(MonsterState.Death);
+                    return;
                 }
 
                 int PrevDir = (int)Walk.DirState;
@@ -502,6 +516,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
             () =>
             {
                 MonsterAnimator.Play("Death");
+                StartCoroutine(FadeAndDestroy());
                 Monster2DCol.enabled = false;
                 Monster3DCol.enabled = false;
                 HpBarInst.SetActive(false);
@@ -539,6 +554,10 @@ abstract public class SC_BaseMonster : MonoBehaviour
                 if (CurHp <= 0f)
                 {
                     MonsterFSM.ChangeState(MonsterState.Death);
+                }
+                else if (AttackFighters.Count == 0)
+                {
+                    MonsterFSM.ChangeState(MonsterState.Move);
                 }
                 else if (IsAttackCoolTimeEnd)
                 {
