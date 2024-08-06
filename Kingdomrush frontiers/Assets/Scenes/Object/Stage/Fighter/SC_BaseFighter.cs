@@ -361,7 +361,7 @@ public class SC_BaseFighter : MonoBehaviour
         FighterFSM.CreateState<FighterState>(FighterState.Attack,
             () =>
             {
-                FighterAnimator.Play("Idle")
+                FighterAnimator.Play("Idle");
             },
 
             () =>
