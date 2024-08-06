@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class SC_BaseRallyPoint : MonoBehaviour
 {
+    // Debug
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(gameObject.transform.position, Radius);
+    }
+
     protected virtual void Awake()
     {
         Pivots.Add(new GameObject("Pivot"));
@@ -46,15 +53,18 @@ public class SC_BaseRallyPoint : MonoBehaviour
         
         if (Hits.Length == 0)
         {
+            PrevColCount = 0;
             return;
         }
 
         int ColCount = Hits.Length;
         ColCount = System.Math.Min(ColCount, FighterInsts.Count);
         
-        if(ColCount == PrevColCount)
+        if(ColCount != PrevColCount)
         {
-            return;
+            FighterSettings[0].ClearTarget();
+            FighterSettings[1].ClearTarget();
+            FighterSettings[2].ClearTarget();
         }
 
         FindTarget(Hits);
@@ -64,10 +74,6 @@ public class SC_BaseRallyPoint : MonoBehaviour
 
     void FindTarget(Collider2D[] Hits)
     {
-        FighterSettings[0].ClearTarget();
-        FighterSettings[1].ClearTarget();
-        FighterSettings[2].ClearTarget();
-
         if (Hits.Length == 1)
         {
             if (!FighterSettings[0].IsWork)

@@ -7,6 +7,7 @@ using UnityEditor.Build.Content;
 using Unity.Mathematics;
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine.XR;
 
 public enum FighterState
 {
@@ -64,13 +65,6 @@ public class SC_BaseFighter : MonoBehaviour
     }
 
 
-    public FighterData Data
-    {
-        get
-        {
-            return data;
-        }
-    }
     public Vector4 PrevPos
     {
         get
@@ -115,7 +109,6 @@ public class SC_BaseFighter : MonoBehaviour
     }
     public void SetTarget(SC_BaseMonster Monster)
     {
-        Debug.Log("Fighter Call SetTarget");
         isWork = true;
         TargetMonster = Monster;
         Monster.StartInteractionWithFighter(this);
@@ -125,15 +118,20 @@ public class SC_BaseFighter : MonoBehaviour
 
     public void ClearTarget()
     {
-        if(TargetMonster == null)
+        if(TargetMonster == null || TargetMonster.GetCurState() == (int)MonsterState.Death)
         {
             return;
         }
 
-        Debug.Log("Fighter Call ClearTarget");
-
-        isWork = false;
         TargetMonster.EndInteractionWithFighter(this);
+        TargetMonster = null;
+        isWork = false;
+    }
+
+    public void NotifyMonsterDeath()
+    {
+        FighterFSM.ChangeState(FighterState.Return);
+        isWork = false;
         TargetMonster = null;
     }
 
@@ -150,8 +148,7 @@ public class SC_BaseFighter : MonoBehaviour
         }
     }
 
-
-    private FighterData data = new FighterData();
+    public FighterData Data = new FighterData();
     private float curHp = 0f;
 
     private SpriteRenderer FighterRenderer = null;
@@ -165,12 +162,43 @@ public class SC_BaseFighter : MonoBehaviour
     private Vector4 ActorPos = new Vector4(0f, 0f, 0f, 1f);
     private Vector4 SavePos = new Vector4(0f, 0f, 0f, 1f);
 
-
+    private float Radius = 0.28f;
     private float Speed = 1f;
     private float MoveTime = 0.0f;
     private float MoveRatio = 0.0f;
 
+    private bool IsAttackCoolTimeEnd = true;
     private bool isWork = false;
+
+    protected virtual float CalDamage()
+    {
+        return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
+    }
+
+    public void AttackEvent()
+    {
+        if(TargetMonster == null)
+        {
+            return;
+        }
+        
+        FighterAnimator.Play("Idle");
+        TargetMonster.TakeDamage(CalDamage());
+    }
+
+    protected void AttackAction()
+    {
+        FighterAnimator.Play("Attack");
+    }
+
+    private IEnumerator Attack(float AttackRate)
+    {
+        IsAttackCoolTimeEnd = false;
+        AttackAction();
+        yield return new WaitForSeconds(AttackRate);
+        IsAttackCoolTimeEnd = true;
+    }
+
 
     private void MoveToRally()
     {
@@ -210,8 +238,29 @@ public class SC_BaseFighter : MonoBehaviour
         }
 
         transform.position = ActorPos;
-    }
 
+        if((TargetPos - ActorPos).magnitude < Radius)
+        {
+            FighterFSM.ChangeState(FighterState.Attack);
+        }
+    }
+    private void ReturnToRally()
+    {
+        MoveTime += Time.deltaTime;
+        MoveRatio = MoveTime * (Speed / (RallyPos - SavePos).magnitude);
+        ActorPos = Vector4.Lerp(SavePos, RallyPos, MoveRatio);
+
+        if (ActorPos.x - RallyPos.x > 0)
+        {
+            FighterRenderer.flipX = true;
+        }
+        else if (ActorPos.x - RallyPos.x < 0)
+        {
+            FighterRenderer.flipX = false;
+        }
+
+        transform.position = ActorPos;
+    }
 
     //FSM ////////////////////////////
     private SC_FSM FighterFSM = null;
@@ -244,6 +293,7 @@ public class SC_BaseFighter : MonoBehaviour
             }
         );
     }
+
     void MoveStateInit()
     {
         if (FighterFSM == null)
@@ -294,7 +344,6 @@ public class SC_BaseFighter : MonoBehaviour
 
             () =>
             {
-                PrevPos = RallyPos;
                 MoveRatio = 0.0f;
                 MoveTime = 0.0f;
             }
@@ -303,12 +352,65 @@ public class SC_BaseFighter : MonoBehaviour
 
     void AttackStateInit()
     {
-        
+        if (FighterFSM == null)
+        {
+            Debug.LogAssertion("FighterFSM Is null");
+            return;
+        }
+
+        FighterFSM.CreateState<FighterState>(FighterState.Attack,
+            () =>
+            {
+                FighterAnimator.Play("Idle")
+            },
+
+            () =>
+            {
+                if(IsAttackCoolTimeEnd)
+                {
+                    StartCoroutine(Attack(Data.AttackRate));
+                }
+            },
+
+            () =>
+            {
+
+            }
+        );
     }
 
     void ReturnStateInit()
     {
+        if (FighterFSM == null)
+        {
+            Debug.LogAssertion("FighterFSM Is null");
+            return;
+        }
 
+        FighterFSM.CreateState<FighterState>(FighterState.Return,
+            () =>
+            {
+                FighterAnimator.Play("Move");
+                SavePos = transform.position;
+            },
+
+            () =>
+            {
+                if(MoveRatio >= 1.0f)
+                {
+                    FighterFSM.ChangeState(FighterState.Idle);
+                    return;
+                }
+
+                ReturnToRally();
+            },
+
+            () =>
+            {
+                MoveRatio = 0.0f;
+                MoveTime = 0.0f;
+            }
+        );
     }
 
     void DeathStateInit()

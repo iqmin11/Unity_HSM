@@ -549,7 +549,7 @@ namespace Assets.Scenes.Object.Stage.StageData
     {
         public void SetData(int TowerLevel)
         {
-            if (TowerLevel <= 0 && TowerLevel > 4)
+            if (TowerLevel <= 1 && TowerLevel >= 4)
             {
                 UnityEngine.Debug.LogAssertion("Wrong Tower Level Index");
                 return;

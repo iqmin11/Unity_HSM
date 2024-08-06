@@ -58,8 +58,15 @@ abstract public class SC_BaseMonster : MonoBehaviour
     
     public void EndInteractionWithFighter(SC_BaseFighter Fighter)
     {
-        MonsterFSM.ChangeState(MonsterState.Idle);
         UnregisterFighter(Fighter);
+    }
+
+    private void BrodcastDeath()
+    {
+        foreach (var EachFighter in AttackFighters)
+        {
+            EachFighter.Value.GetComponent<SC_BaseFighter>().NotifyMonsterDeath();
+        }
     }
 
     private void RegistFighter(SC_BaseFighter Fighter)
@@ -408,6 +415,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
                 MonsterAnimator.Play("Death");
                 Monster2DCol.enabled = false;
                 Monster3DCol.enabled = false;
+                BrodcastDeath();
             },
 
             () =>
