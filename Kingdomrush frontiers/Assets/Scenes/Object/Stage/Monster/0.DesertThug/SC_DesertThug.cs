@@ -27,6 +27,7 @@ sealed public class SC_DesertThug : SC_BaseMonster
         IdleStateInit();
         MoveStateInit();
         DeathStateInit();
+        AttackStateInit();
     }
     private readonly float ColRadius = MyMath.CentimeterToMeter(18.0f);
 }

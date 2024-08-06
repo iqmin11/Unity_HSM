@@ -27,6 +27,7 @@ public class SC_BaseFighter : MonoBehaviour
 {
     protected virtual void Awake()
     {
+        //ComponentSetting
         FighterRenderer = GetComponent<SpriteRenderer>();
         if (FighterRenderer == null)
         {
@@ -47,6 +48,7 @@ public class SC_BaseFighter : MonoBehaviour
             Debug.LogAssertion("SC_BaseFighter : FighterFSM is Null");
         }
 
+        //FsmSetting
         IdleStateInit();
         MoveStateInit();
         TraceMonsterStateInit();
@@ -56,12 +58,23 @@ public class SC_BaseFighter : MonoBehaviour
 
         FighterFSM.ChangeState(FighterState.Idle);
 
+        //LayerMaskSetting
         Layer |= (1 << LayerMask.NameToLayer("Monster"));
+
+        //HpBarSetting
+        HpBarInst = Instantiate(HpBarPrefab, transform);
+        HpBarSetting = HpBarInst.GetComponent<SC_HpBar>();
+        HpBarInst.transform.localPosition = HpBarLocalPos;
     }
 
     protected virtual void Start()
     {
         CurHp = Data.Hp;
+    }
+
+    private void Update()
+    {
+        HpBarSetting.SetCurHp(CurHp / Data.Hp);
     }
 
 
@@ -134,7 +147,21 @@ public class SC_BaseFighter : MonoBehaviour
         isWork = false;
         TargetMonster = null;
     }
+    public void TakeDamage(float Damage)
+    {
+        CurHp -= Damage;
+        if (CurHp < 0)
+        {
+            CurHp = 0;
+        }
+    }
 
+    [SerializeField]
+    private GameObject HpBarPrefab;
+    private GameObject HpBarInst;
+    private SC_HpBar HpBarSetting;
+
+    private Vector3 HpBarLocalPos = new Vector3(0f, 0.35f, 0f);
     protected float CurHp
     {
         get
@@ -167,7 +194,6 @@ public class SC_BaseFighter : MonoBehaviour
     private float MoveTime = 0.0f;
     private float MoveRatio = 0.0f;
 
-    private bool IsAttackCoolTimeEnd = true;
     private bool isWork = false;
 
     protected virtual float CalDamage()
@@ -175,6 +201,7 @@ public class SC_BaseFighter : MonoBehaviour
         return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
     }
 
+    private bool IsAttackCoolTimeEnd = true;
     public void AttackEvent()
     {
         if(TargetMonster == null)

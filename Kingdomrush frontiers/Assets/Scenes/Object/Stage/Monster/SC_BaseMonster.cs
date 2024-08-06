@@ -44,11 +44,18 @@ abstract public class SC_BaseMonster : MonoBehaviour
     }
     
     // Use Update in FSM
-    //private void Update()
+    private void Update()
+    {
+        HpBarSetting.SetCurHp(CurHp / Data.Hp);
+    }
 
     public void TakeDamage(float Damage)
     {
         CurHp -= Damage;
+        if(CurHp < 0)
+        {
+            CurHp = 0;
+        }
     }
     public void StartInteractionWithFighter(SC_BaseFighter Fighter)
     {
@@ -79,7 +86,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         AttackFighters.Remove(Fighter.gameObject.GetInstanceID());
     }
 
-    private Dictionary<int, GameObject> AttackFighters = new Dictionary<int, GameObject>();
+    private SortedDictionary<int, GameObject> AttackFighters = new SortedDictionary<int, GameObject>();
 
     public Vector4 CurMonsterPos
     {
@@ -133,7 +140,13 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
     }
 
-    private float curHp = 0.0f;
+    [SerializeField]
+    private GameObject HpBarPrefab;
+    private GameObject HpBarInst;
+    private SC_HpBar HpBarSetting;
+
+    private Vector3 HpBarLocalPos = new Vector3(0f,0.35f,0f);
+
     public float CurHp
     {
         get
@@ -151,6 +164,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
             curHp = value;
         }
     }
+    private float curHp = 0.0f;
     protected abstract void SetColRadius();
     protected abstract void SetData();
     private void MonsterInit()
@@ -189,6 +203,10 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
         gameObject.tag = "Monster";
         gameObject.layer = LayerMask.NameToLayer("Monster");
+
+        HpBarInst = Instantiate(HpBarPrefab, transform);
+        HpBarSetting = HpBarInst.GetComponent<SC_HpBar>();
+        HpBarInst.transform.localPosition = HpBarLocalPos;
     }
 
     // Walk /////////////////////////////////////
@@ -313,6 +331,62 @@ abstract public class SC_BaseMonster : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // Attack /////////////////////////////////////
+    private bool IsAttackCoolTimeEnd = true;
+    protected virtual float CalDamage()
+    {
+        return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
+    }
+
+    private SC_BaseFighter FindTargetFighter()
+    {
+        if(AttackFighters.Count == 0)
+        {
+            return null;
+        }
+
+        var enumerator = AttackFighters.GetEnumerator();
+        enumerator.MoveNext();
+        return enumerator.Current.Value.GetComponent<SC_BaseFighter>();
+    }
+
+    public void AttackEvent()
+    {
+        if (AttackFighters == null)
+        {
+            return;
+        }
+
+        if (AttackFighters.Count == 0)
+        {
+            return;
+        }
+
+        SC_BaseFighter CurTarget = FindTargetFighter();
+
+        if(CurTarget == null)
+        {
+            Debug.LogAssertion("BaseMonster : CurTarget Is Null");
+            return;
+        }
+
+        CurTarget.TakeDamage(CalDamage());
+        MonsterAnimator.Play("Idle");
+    }
+
+    protected void AttackAction()
+    {
+        MonsterAnimator.Play("Attack");
+    }
+
+    private IEnumerator Attack(float AttackRate)
+    {
+        IsAttackCoolTimeEnd = false;
+        AttackAction();
+        yield return new WaitForSeconds(AttackRate);
+        IsAttackCoolTimeEnd = true;
+    }
+
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;
     protected abstract void StateInit();
@@ -335,6 +409,21 @@ abstract public class SC_BaseMonster : MonoBehaviour
                 if (CurHp <= 0f)
                 {
                     MonsterFSM.ChangeState(MonsterState.Death);
+                }
+                else if(AttackFighters.Count == 0)
+                {
+                    MonsterFSM.ChangeState(MonsterState.Move);
+                }
+                else
+                {
+                    var enumerator = AttackFighters.GetEnumerator();
+                    enumerator.MoveNext();
+                    Vector3 TargetPos = enumerator.Current.Value.transform.position;
+                    
+                    if ((TargetPos - transform.position).magnitude < 0.36f)
+                    {
+                        MonsterFSM.ChangeState(MonsterState.Attack);
+                    }
                 }
             },
 
@@ -415,12 +504,46 @@ abstract public class SC_BaseMonster : MonoBehaviour
                 MonsterAnimator.Play("Death");
                 Monster2DCol.enabled = false;
                 Monster3DCol.enabled = false;
+                HpBarInst.SetActive(false);
                 BrodcastDeath();
             },
 
             () =>
             {
 
+            },
+
+            () =>
+            {
+
+            }
+        );
+    }
+
+    protected virtual void AttackStateInit()
+    {
+        if (MonsterFSM == null)
+        {
+            Debug.LogAssertion("MonsterFSM Is null");
+            return;
+        }
+
+        MonsterFSM.CreateState<MonsterState>(MonsterState.Attack,
+            () =>
+            {
+                MonsterAnimator.Play("Idle");
+            },
+
+            () =>
+            {
+                if (CurHp <= 0f)
+                {
+                    MonsterFSM.ChangeState(MonsterState.Death);
+                }
+                else if (IsAttackCoolTimeEnd)
+                {
+                    StartCoroutine(Attack(Data.AttackRate));
+                }
             },
 
             () =>

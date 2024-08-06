@@ -15,7 +15,7 @@ public class SC_FSM : MonoBehaviour
     };
 
     // Update is called once per frame
-    public void Update()
+    public void LateUpdate()
     {
         if (CurState == null)
         {

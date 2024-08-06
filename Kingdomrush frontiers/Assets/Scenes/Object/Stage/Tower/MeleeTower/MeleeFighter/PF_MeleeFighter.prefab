@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef839eff26e19f419d7edcf50142487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HpBarPrefab: {fileID: 8957275619840261192, guid: 993228cff52873548bfc2927a3fca3b6, type: 3}
 --- !u!95 &4438498313302398278
 Animator:
   serializedVersion: 5
