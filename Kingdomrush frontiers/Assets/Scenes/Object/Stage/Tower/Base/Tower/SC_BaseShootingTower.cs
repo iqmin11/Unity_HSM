@@ -28,7 +28,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     override protected void Awake()
     {
         base.Awake();
-        TargetLayer = 1 << LayerMask.NameToLayer("Monster");
+        TargetLayer |= (1 << LayerMask.NameToLayer("Monster"));
     }
 
     // Update is called once per frame

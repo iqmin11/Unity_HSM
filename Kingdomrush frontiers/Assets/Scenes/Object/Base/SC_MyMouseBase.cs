@@ -12,7 +12,7 @@ public class SC_MyMouseBase : MonoBehaviour
     private void Awake()
     {
         MouseInfo = this;
-        ButtonLayer = 1 << LayerMask.NameToLayer("MyButton");
+        ButtonLayer |= (1 << LayerMask.NameToLayer("MyButton"));
     }
     // Start is called before the first frame update
     void Start()

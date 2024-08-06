@@ -42,8 +42,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterFSM.ChangeState(MonsterState.Move);
         gameObject.SetActive(false);
     }
-
-
+    
     // Use Update in FSM
     //private void Update()
 
@@ -51,6 +50,29 @@ abstract public class SC_BaseMonster : MonoBehaviour
     {
         CurHp -= Damage;
     }
+    public void StartInteractionWithFighter(SC_BaseFighter Fighter)
+    {
+        MonsterFSM.ChangeState(MonsterState.Idle);
+        RegistFighter(Fighter);
+    }
+    
+    public void EndInteractionWithFighter(SC_BaseFighter Fighter)
+    {
+        MonsterFSM.ChangeState(MonsterState.Idle);
+        UnregisterFighter(Fighter);
+    }
+
+    private void RegistFighter(SC_BaseFighter Fighter)
+    {
+        AttackFighters.Add(Fighter.gameObject.GetInstanceID(), Fighter.gameObject);
+    }
+    
+    private void UnregisterFighter(SC_BaseFighter Fighter)
+    {
+        AttackFighters.Remove(Fighter.gameObject.GetInstanceID());
+    }
+
+    private Dictionary<int, GameObject> AttackFighters = new Dictionary<int, GameObject>();
 
     public Vector4 CurMonsterPos
     {
@@ -83,7 +105,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     // MonsterBase /////////////////////////////////////
     protected MonsterData Data = new MonsterData();
-    
+
     private GameObject Monster3DColPrefab;
     private GameObject Monster3DColInst;
     protected SphereCollider Monster3DCol
@@ -114,7 +136,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
         set
         {
-            if(curHp <= -1000)
+            if (curHp <= -1000)
             {
                 Debug.LogWarning("Hp Less then -1000");
             }
@@ -122,9 +144,8 @@ abstract public class SC_BaseMonster : MonoBehaviour
             curHp = value;
         }
     }
-    abstract protected void SetColRadius();
-
-    abstract protected void SetData();
+    protected abstract void SetColRadius();
+    protected abstract void SetData();
     private void MonsterInit()
     {
         //Initialize FSM
@@ -149,7 +170,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
         Monster3DColPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Scenes/Object/Stage/Monster/PF_Monster3DCol.prefab", typeof(GameObject));
         Monster3DColInst = Instantiate(Monster3DColPrefab, transform);
-        
+
         Monster2DColPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Scenes/Object/Stage/Monster/PF_Monster2DCol.prefab", typeof(GameObject));
         Monster2DColInst = Instantiate(Monster2DColPrefab, transform);
 
@@ -196,7 +217,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
     }
     protected void WalkPath()
     {
-        if(Walk.PathInfo == null)
+        if (Walk.PathInfo == null)
         {
             Debug.LogAssertion("Monster PathInfo Is null");
             return;
@@ -287,8 +308,36 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     //FSM /////////////////////////////////////
     protected SC_FSM MonsterFSM;
-    abstract protected void StateInit();
-    virtual protected void MoveStateInit()
+    protected abstract void StateInit();
+    protected virtual void IdleStateInit()
+    {
+        if (MonsterFSM == null)
+        {
+            Debug.LogAssertion("MonsterFSM Is null");
+            return;
+        }
+
+        MonsterFSM.CreateState<MonsterState>(MonsterState.Idle,
+            () =>
+            {
+                MonsterAnimator.Play("Idle");
+            },
+
+            () =>
+            {
+                if (CurHp <= 0f)
+                {
+                    MonsterFSM.ChangeState(MonsterState.Death);
+                }
+            },
+
+            () =>
+            {
+
+            }
+        );
+    }
+    protected virtual void MoveStateInit()
     {
         if (MonsterFSM == null)
         {
@@ -299,15 +348,15 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterFSM.CreateState<MonsterState>(MonsterState.Move,
             () =>
             {
-                if(Walk.DirState == MoveDir.Profile)
+                if (Walk.DirState == MoveDir.Profile)
                 {
                     MonsterAnimator.Play("Move_Profile");
                 }
-                else if(Walk.DirState == MoveDir.Forward)
+                else if (Walk.DirState == MoveDir.Forward)
                 {
                     MonsterAnimator.Play("Move_Forward");
                 }
-                else if(Walk.DirState == MoveDir.Backward)
+                else if (Walk.DirState == MoveDir.Backward)
                 {
                     MonsterAnimator.Play("Move_Backward");
                 }
@@ -322,7 +371,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
                 int PrevDir = (int)Walk.DirState;
                 WalkPath();
-                if(PrevDir != (int)Walk.DirState)
+                if (PrevDir != (int)Walk.DirState)
                 {
                     if (Walk.DirState == MoveDir.Profile)
                     {
@@ -345,7 +394,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
             }
         );
     }
-    virtual protected void DeathStateInit()
+    protected virtual void DeathStateInit()
     {
         if (MonsterFSM == null)
         {

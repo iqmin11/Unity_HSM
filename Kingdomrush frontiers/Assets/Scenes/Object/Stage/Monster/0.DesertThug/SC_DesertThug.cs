@@ -24,6 +24,7 @@ sealed public class SC_DesertThug : SC_BaseMonster
     }
     override protected void StateInit()
     {
+        IdleStateInit();
         MoveStateInit();
         DeathStateInit();
     }
