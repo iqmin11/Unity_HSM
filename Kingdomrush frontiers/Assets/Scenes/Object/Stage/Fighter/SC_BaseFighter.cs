@@ -162,7 +162,7 @@ public class SC_BaseFighter : MonoBehaviour
     private Vector4 ActorPos = new Vector4(0f, 0f, 0f, 1f);
     private Vector4 SavePos = new Vector4(0f, 0f, 0f, 1f);
 
-    private float Radius = 0.28f;
+    private float Radius = 0.36f;
     private float Speed = 1f;
     private float MoveTime = 0.0f;
     private float MoveRatio = 0.0f;
