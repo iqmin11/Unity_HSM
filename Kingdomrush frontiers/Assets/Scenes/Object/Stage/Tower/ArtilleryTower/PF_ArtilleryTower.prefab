@@ -48,6 +48,7 @@ MonoBehaviour:
   TowerUiPrefab: {fileID: 3754239348979096742, guid: 24a01f0d4570b4b4ab6120383c5c447d, type: 3}
   BulletPrefab: {fileID: 445008965245967475, guid: 12c25121a9df39745ad21d914b3c2e5c, type: 3}
   FireEffectPrefab: {fileID: 5689332650665619790, guid: 6361ce346b7c78343ad2904f84ae2184, type: 3}
+  Lv4TowerEffectPrefab: {fileID: 6148093631602951126, guid: a90109a347eb02546b14aec9e256b541, type: 3}
 --- !u!95 &3612158798588544229
 Animator:
   serializedVersion: 5

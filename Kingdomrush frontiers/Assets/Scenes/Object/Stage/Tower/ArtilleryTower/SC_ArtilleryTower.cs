@@ -28,6 +28,7 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
             FireEffectPos.Add(Lv4SmokeLocalPos);
         }
 
+        ArtilleryTowerLayerMask |= 1 << LayerMask.NameToLayer("Monster");
     }
     protected override void SpriteCaching()
     {
@@ -53,10 +54,22 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
     public void AttackEvent()
     {
         PlayEffect();
-        SC_BaseBullet CurShotBullet = Instantiate(BulletPrefab).GetComponent<SC_BaseBullet>();
-        CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
-        CurShotBullet.Data = Data;
-        CurShotBullet.gameObject.SetActive(true);
+        if(Data.Level <= 3)
+        {
+            SC_BaseBullet CurShotBullet = Instantiate(BulletPrefab).GetComponent<SC_BaseBullet>();
+            CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
+            CurShotBullet.Data = Data;
+            CurShotBullet.gameObject.SetActive(true);
+        }
+        else if(Data.Level == 4)
+        {
+
+            Collider2D[] Hits = Physics2D.OverlapCircleAll(transform.position, Data.Range, ArtilleryTowerLayerMask);
+            for(int i = 0; i < Hits.Length; i++)
+            {
+                Hits[i].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster.TakeDamage(CalDamage());
+            }
+        }
     }
 
     public void AttackEndEvent()
@@ -77,17 +90,35 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
 
     public void PlayEffect()
     {
-        GameObject FireEffectInst = Instantiate(FireEffectPrefab, transform);
-        FireEffectInst.transform.localPosition = FireEffectPos[Data.Level - 1];
+        if (Data.Level <= 3)
+        {
+            GameObject FireEffectInst = Instantiate(FireEffectPrefab, transform);
+            FireEffectInst.transform.localPosition = FireEffectPos[Data.Level - 1];
+
+        }
+        else if(Data.Level == 4)
+        {
+            Instantiate(Lv4TowerEffectPrefab, transform);
+        }
     }
 
-private Animator ArtilleryTowerAnimator;
+    private float CalDamage()
+    {
+        return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
+    }
+
+    private LayerMask ArtilleryTowerLayerMask = 0;
+
+    private Animator ArtilleryTowerAnimator;
 
     [SerializeField]
     private GameObject BulletPrefab;
 
     [SerializeField]
     private GameObject FireEffectPrefab;
+
+    [SerializeField]
+    private GameObject Lv4TowerEffectPrefab;
 
     private static readonly List<Vector4> FireEffectPos = new List<Vector4>();
     private static readonly Vector4 Lv1SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 60, -60));
