@@ -69,7 +69,9 @@ namespace Assets.Scenes.Object.Stage.ContentsEnum
     public enum RenderOrder
     {
         Bg = 0,
-        InGameObject,
+        UnderObject,
+        InGameObject0,
+        InGameObject1,
         InGameUI0,
         InGameUI1,
         InGameUI2,

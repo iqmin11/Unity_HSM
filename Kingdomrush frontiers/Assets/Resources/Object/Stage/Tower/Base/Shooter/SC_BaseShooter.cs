@@ -24,7 +24,7 @@ abstract public class SC_BaseShooter : MonoBehaviour
     {
         ShooterAnimator = gameObject.GetComponent<Animator>();
         ShooterRenderer = gameObject.GetComponent<SpriteRenderer>();
-        ShooterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        ShooterRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
 
         //FSM Init
         ShooterFSM = gameObject.AddComponent<SC_FSM>();

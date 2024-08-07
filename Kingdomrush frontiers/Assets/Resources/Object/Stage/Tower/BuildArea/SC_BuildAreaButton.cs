@@ -38,6 +38,6 @@ public class SC_BuildAreaButton : SC_MyButton
 
     protected override void SettingButtonRenderOrder()
     {
-        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        ButtonRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
     }
 }

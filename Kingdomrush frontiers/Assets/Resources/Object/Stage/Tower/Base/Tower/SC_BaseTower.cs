@@ -10,7 +10,7 @@ public abstract class SC_BaseTower : MonoBehaviour
         SpriteCaching();
 
         TowerRenderer = gameObject.AddComponent<SpriteRenderer>();
-        TowerRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        TowerRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
 
         InitData();
         

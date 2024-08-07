@@ -14,7 +14,7 @@ public class SC_CurHpBar : MonoBehaviour
         
         CurHpBar = gameObject.AddComponent<SpriteRenderer>();
         CurHpBar.sprite = CurHpBarSprite;
-        CurHpBar.sortingOrder = (int)RenderOrder.InGameObject;
+        CurHpBar.sortingOrder = (int)RenderOrder.InGameObject0;
     }
 
     private static Sprite CurHpBarSprite = null;

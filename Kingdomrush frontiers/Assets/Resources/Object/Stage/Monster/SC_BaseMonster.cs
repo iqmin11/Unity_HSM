@@ -187,7 +187,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         {
             Debug.LogAssertion("MonsterRenderer is null");
         }
-        MonsterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        MonsterRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
 
         Monster3DColPrefab = Resources.Load<GameObject>("Object/Stage/Monster/PF_Monster3DCol");
         Monster3DColInst = Instantiate(Monster3DColPrefab, transform);

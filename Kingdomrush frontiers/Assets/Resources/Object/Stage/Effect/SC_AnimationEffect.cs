@@ -5,6 +5,6 @@ public class SC_AnimationEffect : SC_BaseEffect
 {
     protected virtual void Awake()
     {
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)RenderOrder.InGameObject;
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)RenderOrder.InGameObject0;
     }
 }

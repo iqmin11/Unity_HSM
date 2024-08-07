@@ -7,7 +7,7 @@ abstract public class SC_BaseBullet : MonoBehaviour
     protected virtual void Awake()
     {
         BulletRenderer = gameObject.AddComponent<SpriteRenderer>();
-        BulletRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        BulletRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
         gameObject.SetActive(false);
         BulletLayerMask |= (1 << LayerMask.NameToLayer("Monster"));
     }

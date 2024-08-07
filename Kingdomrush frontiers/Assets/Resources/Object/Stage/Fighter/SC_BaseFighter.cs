@@ -29,7 +29,7 @@ public class SC_BaseFighter : MonoBehaviour
             Debug.LogAssertion("SC_BaseFighter : FighterRenderer is Null");
         }
 
-        FighterRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        FighterRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
 
         FighterAnimator = GetComponent<Animator>();
         if (FighterAnimator == null)

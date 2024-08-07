@@ -14,7 +14,7 @@ public class SC_Lv4ArtilleryAttackEffect : SC_BaseEffect
 
         EffectSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         EffectSpriteRenderer.sprite = CacheSprite;
-        EffectSpriteRenderer.sortingOrder = (int)RenderOrder.InGameObject;
+        EffectSpriteRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
         StartCoroutine(StartEffect());
     }
 

@@ -14,7 +14,7 @@ public class SC_HpBar : MonoBehaviour
 
         HpBarBg = gameObject.AddComponent<SpriteRenderer>();
         HpBarBg.sprite = HpBarBgSprite;
-        HpBarBg.sortingOrder = (int)RenderOrder.InGameObject;
+        HpBarBg.sortingOrder = (int)RenderOrder.InGameObject0;
 
         CurHpBarInst = Instantiate(CurHpBarPrefab, transform);
         
