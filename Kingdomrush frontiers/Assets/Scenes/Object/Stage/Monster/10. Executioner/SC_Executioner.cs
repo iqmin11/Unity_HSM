@@ -6,16 +6,21 @@ using UnityEngine;
 
 public class SC_Executioner : SC_BaseMonster
 {
-    override protected void SetData()
+    protected override void Awake()
+    {
+        HpBarLocalPos = new Vector3(0f, 0.8f, 0f);
+        base.Awake();
+    }
+    protected override void SetData()
     {
         Data.SetData(MonsterEnum.Executioner);
     }
-    override protected void SetColRadius()
+    protected override void SetColRadius()
     {
         Monster2DCol.radius = ColRadius;
         Monster3DCol.radius = ColRadius;
     }
-    override protected void StateInit()
+    protected override void StateInit()
     {
         IdleStateInit();
         MoveStateInit();

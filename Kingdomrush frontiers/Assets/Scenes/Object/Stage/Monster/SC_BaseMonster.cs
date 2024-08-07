@@ -150,7 +150,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
     private GameObject HpBarInst;
     private SC_HpBar HpBarSetting;
 
-    private Vector3 HpBarLocalPos = new Vector3(0f,0.35f,0f);
+    protected Vector3 HpBarLocalPos = new Vector3(0f,0.35f,0f);
 
     public float CurHp
     {

@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class SC_Immortal : SC_BaseMonster
 {
+    protected override void Awake()
+    {
+        HpBarLocalPos = new Vector3(0f, 0.4f, 0f);
+        base.Awake();
+    }
     override protected void SetData()
     {
         Data.SetData(MonsterEnum.Immortal);
