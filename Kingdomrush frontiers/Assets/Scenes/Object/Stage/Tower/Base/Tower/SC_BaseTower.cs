@@ -41,15 +41,19 @@ public abstract class SC_BaseTower : MonoBehaviour
 
         TowerUiSetting.SettingButtonCallback(UpgradeUiEnum.Sell, () =>
         {
-            //SellTower();
-            //ButtonInst.SetActive(false);
-            //TowerUiInst.SetActive(false);
+            SellTower();
         });
     }
 
     protected abstract void SpriteCaching();
     protected abstract void InitData();
     protected abstract void ChangeTower(TowerEnum TowerValue);
+
+    private void SellTower()
+    {
+        transform.parent.GetComponent<SC_BuildArea>().OnBuildAreaButton();
+        Destroy(gameObject);
+    }
 
     protected TowerData Data = new TowerData();
     protected List<Sprite> TowerSprite = null;

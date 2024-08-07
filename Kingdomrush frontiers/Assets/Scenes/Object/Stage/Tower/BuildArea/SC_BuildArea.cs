@@ -47,6 +47,11 @@ public class SC_BuildArea : MonoBehaviour
         });
     }
 
+    public void OnBuildAreaButton()
+    {
+        ButtonInst.SetActive(true); 
+    }
+
     [SerializeField]
     private GameObject ButtonPrefab;
     private GameObject ButtonInst;
