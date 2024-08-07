@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AC_GiantWaspQueen
+  m_Controller: {fileID: 9100000, guid: 44e2d0fa1c20a7c48b8ba23a4a873610, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c0968299de8628c4b9f6c18dc55bdf78, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0d268ce33274bc44da4739da74d056aa, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 64edfa02485fb5e4b86991a9b6caf467, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 376960c4351106947990268e8e5961ee, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bee4d7413f17ba94eb88fd586534434f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1aa3cb1fbea94c248a9037aa5a58efca, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 585552c44c12093439ba799c693821bd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 597d01076cf948f44a8999e447e316cd, type: 2}

@@ -140,7 +140,6 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
     }
 
-    [SerializeField]
     private GameObject HpBarPrefab;
     private GameObject HpBarInst;
     private SC_HpBar HpBarSetting;
@@ -204,6 +203,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         gameObject.tag = "Monster";
         gameObject.layer = LayerMask.NameToLayer("Monster");
 
+        HpBarPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Scenes/Object/Stage/Etc/PF_HpBar.prefab", typeof(GameObject));
         HpBarInst = Instantiate(HpBarPrefab, transform);
         HpBarSetting = HpBarInst.GetComponent<SC_HpBar>();
         HpBarInst.transform.localPosition = HpBarLocalPos;
@@ -534,7 +534,6 @@ abstract public class SC_BaseMonster : MonoBehaviour
             }
         );
     }
-
     protected virtual void AttackStateInit()
     {
         if (MonsterFSM == null)

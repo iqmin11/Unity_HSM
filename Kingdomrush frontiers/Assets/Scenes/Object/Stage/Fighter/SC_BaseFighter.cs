@@ -77,7 +77,6 @@ public class SC_BaseFighter : MonoBehaviour
         HpBarSetting.SetCurHp(CurHp / Data.Hp);
     }
 
-
     public Vector4 PrevPos
     {
         get
@@ -213,13 +212,13 @@ public class SC_BaseFighter : MonoBehaviour
     private float MoveRatio = 0.0f;
 
     private bool isWork = false;
+    private bool IsAttackCoolTimeEnd = true;
+    float RespawnTime = 10.0f;
 
     protected virtual float CalDamage()
     {
         return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
     }
-
-    private bool IsAttackCoolTimeEnd = true;
     public void AttackEvent()
     {
         if(TargetMonster == null)
@@ -230,12 +229,10 @@ public class SC_BaseFighter : MonoBehaviour
         FighterAnimator.Play("Idle");
         TargetMonster.TakeDamage(CalDamage());
     }
-
     protected void AttackAction()
     {
         FighterAnimator.Play("Attack");
     }
-
     private IEnumerator Attack(float AttackRate)
     {
         IsAttackCoolTimeEnd = false;
@@ -243,7 +240,6 @@ public class SC_BaseFighter : MonoBehaviour
         yield return new WaitForSeconds(AttackRate);
         IsAttackCoolTimeEnd = true;
     }
-
 
     private void MoveToRally()
     {
@@ -323,8 +319,6 @@ public class SC_BaseFighter : MonoBehaviour
 
         Respawn();
     }
-
-    float RespawnTime = 10.0f;
     private void Respawn()
     {
         CurHp = Data.Hp;
@@ -371,7 +365,6 @@ public class SC_BaseFighter : MonoBehaviour
             }
         );
     }
-
     void MoveStateInit()
     {
         if (FighterFSM == null)
@@ -399,7 +392,6 @@ public class SC_BaseFighter : MonoBehaviour
             }
         );
     }
-
     void TraceMonsterStateInit()
     {
         if (FighterFSM == null)
@@ -434,7 +426,6 @@ public class SC_BaseFighter : MonoBehaviour
             }
         );
     }
-
     void AttackStateInit()
     {
         if (FighterFSM == null)
@@ -467,7 +458,6 @@ public class SC_BaseFighter : MonoBehaviour
             }
         );
     }
-
     void ReturnStateInit()
     {
         if (FighterFSM == null)
@@ -506,7 +496,6 @@ public class SC_BaseFighter : MonoBehaviour
             }
         );
     }
-
     void DeathStateInit()
     {
         if (FighterFSM == null)

@@ -8,11 +8,6 @@ using UnityEngine;
 
 sealed public class SC_DesertThug : SC_BaseMonster
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     override protected void SetData()
     {
         Data.SetData(MonsterEnum.DesertThug);
@@ -29,5 +24,6 @@ sealed public class SC_DesertThug : SC_BaseMonster
         DeathStateInit();
         AttackStateInit();
     }
+
     private readonly float ColRadius = MyMath.CentimeterToMeter(18.0f);
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AC_GiantScorpion
+  m_Controller: {fileID: 9100000, guid: 44e2d0fa1c20a7c48b8ba23a4a873610, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8d6b53bafc9be1d4e95bbf4b74fb87a3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 39a255f740d1354449b4a496f806b85d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c0968299de8628c4b9f6c18dc55bdf78, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6e10326a68095cd4d8ebba4b984df36e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5180cc08d7e09a9449e469667423643e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 142d81e612c48c545979b944d360db22, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bee4d7413f17ba94eb88fd586534434f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5ad7036421070894a825c152b699fe50, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 64edfa02485fb5e4b86991a9b6caf467, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7affa2cd2717ded42a7e5aecf29a5cd0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 585552c44c12093439ba799c693821bd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fb70a5497e2a5ef4a8f9136cc8b488fb, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b764b73d986f4b042bf9b4559a6ef8bb, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2bcadcec8e464634082d65cbd27b65b7, type: 2}

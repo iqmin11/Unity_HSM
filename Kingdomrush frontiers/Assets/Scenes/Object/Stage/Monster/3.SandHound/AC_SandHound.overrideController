@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AC_SandHound
+  m_Controller: {fileID: 9100000, guid: 44e2d0fa1c20a7c48b8ba23a4a873610, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8d6b53bafc9be1d4e95bbf4b74fb87a3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fd4d3ca8d9e3dee48859c42950f497d5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c0968299de8628c4b9f6c18dc55bdf78, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 09ae08a0bcf103d49bbff83cba5d4df1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5180cc08d7e09a9449e469667423643e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 383719d2e7dac754aa4f3ddeef993b16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bee4d7413f17ba94eb88fd586534434f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2befbddd77d7e174c98105a27e285b88, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 64edfa02485fb5e4b86991a9b6caf467, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: aad60ab50eeb5c5449dd5f6b353e9217, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 585552c44c12093439ba799c693821bd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 461354108f4b34245bea655911ddc1d3, type: 2}

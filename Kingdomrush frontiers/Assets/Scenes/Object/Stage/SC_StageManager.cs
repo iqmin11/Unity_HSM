@@ -25,7 +25,7 @@ public class SC_StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurStage = 0;
+        CurStage = 2;
         InitStage(CurStage);
     }
 
