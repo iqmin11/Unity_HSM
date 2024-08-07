@@ -69,8 +69,7 @@ public class SC_BaseFighter : MonoBehaviour
 
     protected virtual void Start()
     {
-        //CurHp = Data.Hp;
-        CurHp = 1;
+        CurHp = Data.Hp;
     }
 
     private void Update()
@@ -307,8 +306,9 @@ public class SC_BaseFighter : MonoBehaviour
 
         transform.position = ActorPos;
     }
-    private IEnumerator FadeAndInactive()
+    private IEnumerator DeathAndRespawn()
     {
+        HpBarInst.SetActive(false);
         Color c = FighterRenderer.material.color;
         for (float DeathTime = 2f; DeathTime >= 0; DeathTime -= Time.deltaTime)
         {
@@ -317,18 +317,23 @@ public class SC_BaseFighter : MonoBehaviour
             yield return null;
         }
 
-        gameObject.SetActive(false);
+        transform.position = transform.parent.parent.position;
+        PrevPos = transform.position;
+        yield return new WaitForSeconds(RespawnTime);
+
+        Respawn();
     }
 
-    float RespawnTime = 5.0f;
-    private IEnumerator Respawn()
+    float RespawnTime = 10.0f;
+    private void Respawn()
     {
-        yield return new WaitForSeconds(RespawnTime);
-        Debug.Log("Respawn");
         CurHp = Data.Hp;
         PrevPos = transform.parent.parent.position;
         FighterFSM.ChangeState(FighterState.Idle);
-        gameObject.SetActive(true);
+        Color c = FighterRenderer.material.color;
+        c.a = 1f;
+        FighterRenderer.material.color = c;
+        HpBarInst.SetActive(true);
     }
 
     //FSM ////////////////////////////
@@ -515,9 +520,7 @@ public class SC_BaseFighter : MonoBehaviour
             {
                 FighterAnimator.Play("Death");
                 ClearTarget();
-                StartCoroutine(FadeAndInactive());
-                //StartCoroutine(Respawn());
-                HpBarInst.SetActive(false);
+                StartCoroutine(DeathAndRespawn());
             },
 
             () =>
