@@ -86,7 +86,7 @@ namespace Assets.Scenes.Object.Stage.StageData
                     IsFlying = false;
                     IsRanged = false;
                     break;
-                case MonsterEnum.DessertArcher:
+                case MonsterEnum.DesertArcher:
                     MonsterType = _MonsterType;
                     Hp = 150;
                     AttackRate = 1.0f;

@@ -12,17 +12,17 @@ namespace Assets.Scenes.Object.Stage.ContentsEnum
         Null = -1,
         DesertThug,
         DuneRaider,
-        DessertArcher,
+        Immortal,
         SandHound,
         WarHound,
-        Immortal,
-        Fallen,
-        Executioner,
-        GiantScorpion,
+        DuneTerror,
         GiantWasp,
         GiantWaspQueen,
-        DuneTerror,
-        SandWraith
+        GiantScorpion,
+        DesertArcher,
+        Executioner,
+        SandWraith,
+        Fallen,
     }
 
     public enum TowerEnum
