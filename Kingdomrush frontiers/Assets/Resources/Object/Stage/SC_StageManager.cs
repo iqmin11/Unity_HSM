@@ -212,8 +212,9 @@ public class SC_StageManager : MonoBehaviour
     // LoadPath
     private void LoadPathBinData()
     {
+        TextAsset tempLoadData = Resources.Load<TextAsset>("StageScene/Data/PathData");
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/PathData.txt"));
+        LoadDesirializer.ReadFile(tempLoadData.bytes);
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
         AllStageData.Capacity = StgSize;
@@ -259,8 +260,9 @@ public class SC_StageManager : MonoBehaviour
     // LoadWave
     private void LoadWaveBinData()
     {
+        TextAsset tempLoadData = Resources.Load<TextAsset>("StageScene/Data/WaveData");
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/WaveData.txt"));
+        LoadDesirializer.ReadFile(tempLoadData.bytes);
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
         
@@ -304,8 +306,9 @@ public class SC_StageManager : MonoBehaviour
     // LoadArea 
     private void LoadAreaBinData()
     {
+        TextAsset tempLoadData = Resources.Load<TextAsset>("StageScene/Data/BuildAreaData");
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/BuildAreaData.txt"));
+        LoadDesirializer.ReadFile(tempLoadData.bytes);
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
 
@@ -336,8 +339,9 @@ public class SC_StageManager : MonoBehaviour
     // LoadRally
     private void LoadRallyBinData()
     {
+        TextAsset tempLoadData = Resources.Load<TextAsset>("StageScene/Data/RallyData");
         MyDeserializer LoadDesirializer = new MyDeserializer();
-        LoadDesirializer.ReadFile(System.IO.File.ReadAllBytes("Assets/Resources/StageScene/Data/RallyData.txt"));
+        LoadDesirializer.ReadFile(tempLoadData.bytes);
         int StgSize = 0;
         LoadDesirializer.Read(ref StgSize);
 
