@@ -41,6 +41,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         StateInit();
         MonsterFSM.ChangeState(MonsterState.Move);
         gameObject.SetActive(false);
+        SC_StageManager.PushLiveMonster(gameObject);
     }
     
     // Use Update in FSM
@@ -74,6 +75,11 @@ abstract public class SC_BaseMonster : MonoBehaviour
         {
             EachFighter.Value.GetComponent<SC_BaseFighter>().NotifyMonsterDeath();
         }
+    }
+
+    private void OnDestroy()
+    {
+        SC_StageManager.MonsterDeathNotify(gameObject.GetInstanceID());
     }
 
     private void RegistFighter(SC_BaseFighter Fighter)

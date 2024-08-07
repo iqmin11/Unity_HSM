@@ -8,6 +8,11 @@ using UnityEngine.UIElements;
 
 public class SC_MonsterWaveManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        SC_StageManager.PushLiveWave(gameObject);
+    }
+
     // static member
     static private List<LinePath> curstagepaths;
     static public List<LinePath> CurStagePaths
@@ -81,6 +86,11 @@ public class SC_MonsterWaveManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        SC_StageManager.WaveEndNotify(gameObject.GetInstanceID());
     }
 
     //private member

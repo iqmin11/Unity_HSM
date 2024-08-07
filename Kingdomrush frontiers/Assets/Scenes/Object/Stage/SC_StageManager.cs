@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using Assets.Scenes.Object.Stage.StageData;
-using Assets.Scenes.Object.Stage.ContentsEnum;
-using Assets.Scenes.Object.Base;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using Unity.Mathematics;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
+
+using Assets.Scenes.Object.Stage.StageData;
+using Assets.Scenes.Object.Stage.ContentsEnum;
+using Assets.Scenes.Object.Base;
 
 public class SC_StageManager : MonoBehaviour
 {
@@ -25,24 +27,43 @@ public class SC_StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurStage = 2;
+        CurStage = 0;
         InitStage(CurStage);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             StartWave();
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if(CurStage == 0)
+            {
+                return;
+            }
+
+            InitStage(--CurStage);
+        }
+        else if(Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (CurStage == 5)
+            {
+                return;
+            }
+
+            InitStage(++CurStage);
         }
     }
 
     //Func For Stage
-    public void InitStage(int Stage)
+    private void InitStage(int Stage)
     {
         //PlayStageBGM
-        //ClearStage();
+        ClearStage();
         CurStage = Stage;
         NextWave = 0;
         MaxWave = AllStageData[CurStage].Waves.Count;
@@ -51,9 +72,35 @@ public class SC_StageManager : MonoBehaviour
         SetStageBuildArea(CurStage);
     }
 
-    //Private Member
+    // MonsterManagerInterface//////////////////////////////////////////////////////
+    public static void PushLiveMonster(GameObject MonsterInst)
+    {
+        LiveMonsterManager.Add(MonsterInst.GetInstanceID(), MonsterInst);
+    }
+    public static void MonsterDeathNotify(int MonsterInstanceID)
+    {
+        LiveMonsterManager.Remove(MonsterInstanceID);
+    }
+
+    private static SortedDictionary<int, GameObject> LiveMonsterManager = new SortedDictionary<int, GameObject>();
+
+    // WaveManagerInterface//////////////////////////////////////////////////////
+    private static SortedDictionary<int, GameObject> LiveWaveManager = new SortedDictionary<int, GameObject>();
+    public static void PushLiveWave(GameObject WaveInst)
+    {
+        LiveMonsterManager.Add(WaveInst.GetInstanceID(), WaveInst);
+    }
+    public static void WaveEndNotify(int WaveInstanceID)
+    {
+        LiveWaveManager.Remove(WaveInstanceID);
+    }
     private void StartWave()
     {
+        if (AllStageData[CurStage].Waves.Count <= NextWave)
+        {
+            return;
+        }
+
         GameObject CurWave = Instantiate(MonsterWavePrefab);
         SC_MonsterWaveManager CurWaveSC = CurWave.GetComponent<SC_MonsterWaveManager>();
         CurWaveSC.Setting(AllStageData[CurStage].Waves[NextWave++].MonsterSpawn);
@@ -78,19 +125,19 @@ public class SC_StageManager : MonoBehaviour
     private int curstage = -1;
     private int CurStage
     {
-        get 
-        { 
-            return curstage; 
+        get
+        {
+            return curstage;
         }
 
-        set 
+        set
         {
             if (value < 0 || value >= 6)
             {
                 return;
             }
 
-            curstage = value; 
+            curstage = value;
         }
     }
 
@@ -114,6 +161,51 @@ public class SC_StageManager : MonoBehaviour
             BuildAreaInsts.Add(Instantiate(BuildAreaPrefab, AllStageData[CurStage].BuildAreaPos[i], Quaternion.identity));
             BuildAreaInsts[i].GetComponent<SC_BuildArea>().DefaultRallyPos = AllStageData[CurStage].AreaStartRallyPos[i];
         }
+    }
+
+    // ClearStage//////////////////////////////////////////////////////
+    private void ClearStage()
+    {
+        CurStage = -1;
+        NextWave = -1;
+        MaxWave = -1;
+        ClearStagePath();
+        ClearStageBuildArea();
+        ClearLiveWave();
+        ClearLiveMonster();
+    }
+
+    private void ClearStagePath()
+    {
+        SC_MonsterWaveManager.CurStagePaths = null;
+    }
+
+    private void ClearStageBuildArea()
+    {
+        for (int i = 0; i < BuildAreaInsts.Capacity; i++)
+        {
+            Destroy(BuildAreaInsts[i]);
+        }
+        BuildAreaInsts.Clear();
+    }
+
+    private void ClearLiveWave()
+    {
+        var CurEnumerator = LiveWaveManager.GetEnumerator();
+        while (CurEnumerator.MoveNext())
+        {
+            Destroy(CurEnumerator.Current.Value);
+        }
+        LiveWaveManager.Clear();
+    }
+    private void ClearLiveMonster()
+    {
+        var CurEnumerator = LiveMonsterManager.GetEnumerator();
+        while (CurEnumerator.MoveNext())
+        {
+            Destroy(CurEnumerator.Current.Value);
+        }
+        LiveMonsterManager.Clear();
     }
 
     // LoadData//////////////////////////////////////////////////////

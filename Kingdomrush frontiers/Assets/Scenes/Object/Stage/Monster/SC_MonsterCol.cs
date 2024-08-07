@@ -27,7 +27,7 @@ public class SC_MonsterCol : MonoBehaviour
         }
     }
 
-    public Vector4 DestPoint
+    public Vector2 DestPoint2D
     {
         get
         {
@@ -35,7 +35,7 @@ public class SC_MonsterCol : MonoBehaviour
         }
     }
 
-    public Vector4 CurMonsterPos
+    public Vector2 CurMonsterPos2D
     {
         get
         {

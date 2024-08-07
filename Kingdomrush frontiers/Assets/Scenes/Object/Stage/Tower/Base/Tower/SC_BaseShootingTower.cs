@@ -58,7 +58,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
         Hits.OrderBy
             (
                 Hits =>
-                (Hit.GetComponent<SC_Monster2DCol>().DestPoint - Hit.GetComponent<SC_Monster2DCol>().CurMonsterPos).magnitude
+                (Hit.GetComponent<SC_Monster2DCol>().DestPoint2D - Hit.GetComponent<SC_Monster2DCol>().CurMonsterPos2D).magnitude
             );
 
         if (Hits.Length == 0)
