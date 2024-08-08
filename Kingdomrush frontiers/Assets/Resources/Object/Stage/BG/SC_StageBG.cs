@@ -89,6 +89,7 @@ public class SC_StageBG : MonoBehaviour
     {
         StageBgmPlayer = gameObject.AddComponent<AudioSource>();
         StageBgmPlayer.loop = true;
+        StageBgmPlayer.volume = 0.5f;
     }
 
     private List<Sprite> BGSprite = new List<Sprite>();

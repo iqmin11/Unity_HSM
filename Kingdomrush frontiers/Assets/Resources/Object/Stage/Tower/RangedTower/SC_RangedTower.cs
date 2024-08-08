@@ -45,19 +45,14 @@ public sealed class SC_RangedTower : SC_ShooterTower
         Shooter1Setting = Shooter1Inst.GetComponent<SC_RangedShooter>();
         Shooter1Setting.Data = Data;
 
-        SoundManager_AwakeParentInst();
-        SoundManagerSetting.PlaySound("Lv1");
+        InitSoundClips();
+        PlaySound("0");
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-    }
-
-    private void OnDestroy()
-    {
-        SoundManager_OnDestroyParentInst();
     }
 
     protected override void SpriteCaching()
@@ -95,11 +90,11 @@ public sealed class SC_RangedTower : SC_ShooterTower
 
         if(Data.Level < 4)
         {
-            SoundManagerSetting.PlaySound("Lv" + Random.Range(2, 4).ToString());
+            PlaySound(Random.Range(1, 3).ToString());
         }
         else
         {
-            SoundManagerSetting.PlaySound("Lv4");
+            PlaySound("3");
         }
     }
     protected override void AttackAction()
@@ -143,47 +138,11 @@ public sealed class SC_RangedTower : SC_ShooterTower
 
     // Sound /////////////////////////////////////////////
 
-    private static GameObject SoundManagerInst;
-    private static SC_SoundManager SoundManagerSetting;
-    
-    private void SoundManager_AwakeParentInst()
+    private void InitSoundClips()
     {
-        InitSoundManager();
-        InitSoundClips();
-        ++SoundManagerSetting.RefCount;
-    }
-
-    private static void InitSoundManager()
-    {
-        if(SoundManagerInst != null)
-        {
-            return;
-        }
-
-        SoundManagerInst = new GameObject("RangedTower_SoundManager");
-        SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
-    }
-
-    private static void InitSoundClips()
-    {
-        if(SoundManagerSetting.ClipCount > 0)
-        {
-            return;
-        }
-
-        SoundManagerSetting.AddSoundClip("Lv1", "Sounds/PlayStage/Tower/Ranged/Archer_Ready");
-        SoundManagerSetting.AddSoundClip("Lv2", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt1");
-        SoundManagerSetting.AddSoundClip("Lv3", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt2");
-        SoundManagerSetting.AddSoundClip("Lv4", "Sounds/PlayStage/Tower/Ranged/crossbow_taunt_ready");
-    }
-
-    private static void SoundManager_OnDestroyParentInst()
-    {
-        if (--SoundManagerSetting.RefCount == 0)
-        {
-            Destroy(SoundManagerInst);
-            SoundManagerSetting = null;
-            SoundManagerInst = null; ;
-        }
+        AddAudioClip("0", "Sounds/PlayStage/Tower/Ranged/Archer_Ready");
+        AddAudioClip("1", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt1");
+        AddAudioClip("2", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt2");
+        AddAudioClip("3", "Sounds/PlayStage/Tower/Ranged/crossbow_taunt_ready");
     }
 }

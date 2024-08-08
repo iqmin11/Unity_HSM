@@ -55,4 +55,48 @@ public class SC_SoundManager : MonoBehaviour
     private int refCount = 0;
     private Dictionary<string, AudioClip> SoundClips = new Dictionary<string, AudioClip>();
     private AudioSource SoundPlayer = null;
+
+    // Sound /////////////////////////////////////////////
+
+    //private GameObject SoundManagerInst;
+    //private SC_SoundManager SoundManagerSetting;
+
+    //private void SoundManager_AwakeParentInst()
+    //{
+    //    InitSoundManager();
+    //    InitSoundClips();
+    //    ++SoundManagerSetting.RefCount;
+    //}
+
+    //private void InitSoundManager()
+    //{
+    //    if (SoundManagerInst != null)
+    //    {
+    //        return;
+    //    }
+
+    //    SoundManagerInst = new GameObject("RangedBullet_SoundManager");
+    //    SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
+    //}
+
+    //private void InitSoundClips()
+    //{
+    //    if (SoundManagerSetting.ClipCount > 0)
+    //    {
+    //        return;
+    //    }
+
+    //    SoundManagerSetting.AddSoundClip("0", "Sounds/PlayStage/Tower/Ranged/Sound_ArrowRelease2");
+    //    SoundManagerSetting.AddSoundClip("1", "Sounds/PlayStage/Tower/Ranged/Sound_ArrowRelease3");
+    //}
+
+    //private void SoundManager_OnDestroyParentInst()
+    //{
+    //    if (--SoundManagerSetting.RefCount == 0)
+    //    {
+    //        Destroy(SoundManagerInst);
+    //        SoundManagerSetting = null;
+    //        SoundManagerInst = null; ;
+    //    }
+    //}
 }

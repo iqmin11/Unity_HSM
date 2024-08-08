@@ -24,6 +24,7 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
         }
 
         BulletRenderer.sprite = ArrowSprite;
+        InitSoundClips();
     }
     protected override void Update()
     {
@@ -34,6 +35,7 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
         if (Hits.Length >= 1)
         {
             Hits[0].gameObject.GetComponent<SC_Monster3DCol>().ParentMonster.TakeDamage(CalDamage());
+            PlaySound(Random.Range(0,2).ToString());
             Destroy(gameObject);
             return;
         }
@@ -79,4 +81,12 @@ sealed public class SC_RangedBullet : SC_HowitzerBullet
     static private Color StartColor;
     static private Sprite ArrowSprite = null;
     static private Sprite ArrowMissSprite = null;
+
+    // Sound /////////////////////////////////////////////
+
+    private void InitSoundClips()
+    {
+        AddAudioClip("0", "Sounds/PlayStage/Tower/Ranged/Sound_ArrowRelease2");
+        AddAudioClip("1", "Sounds/PlayStage/Tower/Ranged/Sound_ArrowRelease3");
+    }
 }

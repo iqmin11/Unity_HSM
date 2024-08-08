@@ -1,9 +1,10 @@
+using Assets.Scenes.Object.Base.MyInterface;
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using Assets.Scenes.Object.Stage.StageData;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SC_BaseTower : MonoBehaviour
+public abstract class SC_BaseTower : MonoBehaviour, ISoundPlayer
 {
     protected virtual void Awake()
     {
@@ -40,6 +41,8 @@ public abstract class SC_BaseTower : MonoBehaviour
         {
             SellTower();
         });
+
+        InitSoundPlayer();
     }
 
     protected abstract void SpriteCaching();
@@ -64,4 +67,29 @@ public abstract class SC_BaseTower : MonoBehaviour
     private GameObject TowerUiPrefab;
     private GameObject TowerUiInst;
     private SC_BaseTowerUI TowerUiSetting;
+
+    // Sound /////////////////////////////////////////////
+    protected AudioSource SoundPlayer;
+    protected Dictionary<string, AudioClip> SoundClips = new Dictionary<string, AudioClip>();
+
+    public virtual void InitSoundPlayer()
+    {
+        SoundPlayer = gameObject.AddComponent<AudioSource>();
+    }
+
+    public virtual void AddAudioClip(string Name, string Path)
+    {
+        SoundClips.Add(Name, Resources.Load<AudioClip>(Path));
+    }
+
+    public virtual void PlaySound(string Name)
+    {
+        if(SoundPlayer.isPlaying)
+        {
+            return;
+        }
+
+        SoundPlayer.clip = SoundClips[Name];
+        SoundPlayer.Play();
+    }
 }
