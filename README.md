@@ -3,3 +3,4 @@
 >StageScene에서 v키를 누르면 Wave Start, Monster 등장.<br>
 >좌, 우 화살표를 누르면 스테이지를 바꿀 수 있음.<br>
 >[개발일지](https://velog.io/@iqmin11/series/Project%EC%9D%BC%EC%A7%80) 작성중<br>
+>[배포용 파일](https://github.com/iqmin11/Unity_HSM/releases/download/v0.0.0-alpha/HSM_UnityPractice_Release.zip)<br>
