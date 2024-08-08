@@ -3,6 +3,7 @@ using Assets.Scenes.Object.Stage.ContentsEnum;
 using Assets.Scenes.Object.Stage.StageData;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 sealed public class SC_MagicTower : SC_ShooterTower
 {
@@ -26,6 +27,8 @@ sealed public class SC_MagicTower : SC_ShooterTower
         ShooterInst.transform.localPosition = ShooterPosData[Data.Level - 1];
         ShooterSetting = ShooterInst.GetComponent<SC_MagicShooter>();
         ShooterSetting.Data = Data;
+
+        PlaySound("0");
     }
 
     // Update is called once per frame
@@ -60,6 +63,15 @@ sealed public class SC_MagicTower : SC_ShooterTower
         ShooterSetting.Data = Data;
         ShooterSetting.ChangeShooter();
         ShooterInst.transform.localPosition = ShooterPosData[Data.Level - 1];
+        
+        if(Data.Level < 4)
+        {
+            PlaySound(Random.Range(1,3).ToString());
+        }
+        else
+        {
+            PlaySound("3");
+        }
     }
     protected override void AttackAction()
     {
@@ -90,4 +102,13 @@ sealed public class SC_MagicTower : SC_ShooterTower
     static readonly Vector3 Lv2ShooterLocalPos = MyMath.CentimeterToMeter(new Vector3(1, 49, -49));
     static readonly Vector3 Lv3ShooterLocalPos = MyMath.CentimeterToMeter(new Vector3(1, 54, -54));
     static readonly Vector3 Lv4ShooterLocalPos = MyMath.CentimeterToMeter(new Vector3(1, 44, -34));
+
+    // Sound
+    public override void InitSoundClips()
+    {
+        AddAudioClip("0", "Sounds/PlayStage/Tower/Magic/Mage_Ready");
+        AddAudioClip("1", "Sounds/PlayStage/Tower/Magic/Mage_Taunt1");
+        AddAudioClip("2", "Sounds/PlayStage/Tower/Magic/Mage_Taunt2");
+        AddAudioClip("3", "Sounds/PlayStage/Tower/Magic/archmage_taunt_ready");
+    }
 }

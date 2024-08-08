@@ -184,7 +184,10 @@ abstract public class SC_BaseShooter : MonoBehaviour, ISoundPlayer
     public virtual void InitSoundPlayer()
     {
         SoundPlayer = gameObject.AddComponent<AudioSource>();
+        InitSoundClips();
     }
+
+    public abstract void InitSoundClips();
 
     public virtual void AddAudioClip(string Name, string Path)
     {

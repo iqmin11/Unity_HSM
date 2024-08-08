@@ -26,6 +26,7 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
         }
 
         ArtilleryTowerLayerMask |= 1 << LayerMask.NameToLayer("Monster");
+        PlaySound("0");
     }
     protected override void SpriteCaching()
     {
@@ -57,14 +58,15 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
             CurShotBullet.BulletSetting(gameObject.transform.position, TargetPos);
             CurShotBullet.Data = Data;
             CurShotBullet.gameObject.SetActive(true);
+            PlaySound("Attack");
         }
         else if(Data.Level == 4)
         {
-
             Collider2D[] Hits = Physics2D.OverlapCircleAll(transform.position, Data.Range, ArtilleryTowerLayerMask);
             for(int i = 0; i < Hits.Length; i++)
             {
                 Hits[i].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster.TakeDamage(CalDamage());
+                PlaySound("Lv4Attack");
             }
         }
     }
@@ -83,6 +85,15 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
 
         Data.SetData(TowerValue);
         ArtilleryTowerAnimator.runtimeAnimatorController = ArtilleryTowerAnimatorCache[Data.Level - 1];
+        
+        if(Data.Level < 4)
+        {
+            PlaySound(Random.Range(1,3).ToString());
+        }
+        else
+        {
+            PlaySound("3");
+        }
     }
 
     public void PlayEffect()
@@ -122,5 +133,16 @@ public sealed class SC_ArtilleryTower : SC_BaseShootingTower, IEffectPlayer
     private static readonly Vector4 Lv2SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 62, -62));
     private static readonly Vector4 Lv3SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 67, -67));
     private static readonly Vector4 Lv4SmokeLocalPos = MyMath.CentimeterToMeter(new Vector4(1, 67, -67));
+
+    //Sound
+    public override void InitSoundClips()
+    {
+        AddAudioClip("0", "Sounds/PlayStage/Tower/Artillery/Artillery_Ready");
+        AddAudioClip("1", "Sounds/PlayStage/Tower/Artillery/Artillery_Taunt1");
+        AddAudioClip("2", "Sounds/PlayStage/Tower/Artillery/Artillery_Taunt2");
+        AddAudioClip("3", "Sounds/PlayStage/Tower/Artillery/earthquake_taunt_ready");
+        AddAudioClip("Attack", "Sounds/PlayStage/Tower/Artillery/Sound_EngineerShot");
+        AddAudioClip("Lv4Attack", "Sounds/PlayStage/Tower/Artillery/dwaarp_attack");
+    }
 
 }

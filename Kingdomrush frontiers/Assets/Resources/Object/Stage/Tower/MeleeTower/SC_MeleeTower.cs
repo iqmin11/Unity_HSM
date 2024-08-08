@@ -15,6 +15,7 @@ public class SC_MeleeTower : SC_BaseTower
 
         MeleeRallyPointInst = Instantiate(MeleeRallyPointPrefab, transform);
         MeleeRallyPointSetting = MeleeRallyPointInst.GetComponent<SC_MeleeRallyPoint>();
+        PlaySound("0");
     }
 
     protected override void SpriteCaching()
@@ -47,6 +48,15 @@ public class SC_MeleeTower : SC_BaseTower
         Data.SetData(TowerValue);
         TowerRenderer.sprite = TowerSprite[Data.Level - 1];
         MeleeRallyPointSetting.ChangeTower(Data.Level);
+
+        if(Data.Level < 4)
+        {
+            PlaySound(Random.Range(1,3).ToString());
+        }
+        else
+        {
+            PlaySound("3");
+        }
     }
 
     [SerializeField]
@@ -68,4 +78,13 @@ public class SC_MeleeTower : SC_BaseTower
     }
 
     private static List<Sprite> MeleeTowerSpriteCache = new List<Sprite>();
+    
+    // Sound //////////////////////////////////////////////
+    public override void InitSoundClips()
+    {
+        AddAudioClip("0", "Sounds/PlayStage/Tower/Melee/Barrack_Ready");
+        AddAudioClip("1", "Sounds/PlayStage/Tower/Melee/Barrack_Taunt1");
+        AddAudioClip("2", "Sounds/PlayStage/Tower/Melee/Barrack_Taunt2");
+        AddAudioClip("3", "Sounds/PlayStage/Tower/Melee/assassin_taunt_ready");
+    }
 }

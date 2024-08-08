@@ -4,7 +4,7 @@ using UnityEngine;
 using Assets.Scenes.Object.Base.MyInterface;
 using System.Collections.Generic;
 
-abstract public class SC_BaseBullet : MonoBehaviour, ISoundPlayer
+abstract public class SC_BaseBullet : MonoBehaviour
 {
     protected virtual void Awake()
     {
@@ -12,7 +12,6 @@ abstract public class SC_BaseBullet : MonoBehaviour, ISoundPlayer
         BulletRenderer.sortingOrder = (int)RenderOrder.InGameObject0;
         gameObject.SetActive(false);
         BulletLayerMask |= (1 << LayerMask.NameToLayer("Monster"));
-        InitSoundPlayer();
     }
 
     public virtual void BulletSetting(Vector4 StartPos, Vector4 DestPos)
@@ -96,31 +95,5 @@ abstract public class SC_BaseBullet : MonoBehaviour, ISoundPlayer
         {
             ratio = value;
         }
-    }
-
-    /// Sound //////////////////////////////
-
-    protected AudioSource SoundPlayer;
-    protected Dictionary<string, AudioClip> SoundClips = new Dictionary<string, AudioClip>();
-
-    public virtual void InitSoundPlayer()
-    {
-        SoundPlayer = gameObject.AddComponent<AudioSource>();
-    }
-
-    public virtual void AddAudioClip(string Name, string Path)
-    {
-        SoundClips.Add(Name, Resources.Load<AudioClip>(Path));
-    }
-
-    public virtual void PlaySound(string Name)
-    {
-        if (SoundPlayer.isPlaying)
-        {
-            return;
-        }
-
-        SoundPlayer.clip = SoundClips[Name];
-        SoundPlayer.Play();
     }
 }

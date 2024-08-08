@@ -45,7 +45,6 @@ public sealed class SC_RangedTower : SC_ShooterTower
         Shooter1Setting = Shooter1Inst.GetComponent<SC_RangedShooter>();
         Shooter1Setting.Data = Data;
 
-        InitSoundClips();
         PlaySound("0");
     }
 
@@ -138,7 +137,7 @@ public sealed class SC_RangedTower : SC_ShooterTower
 
     // Sound /////////////////////////////////////////////
 
-    private void InitSoundClips()
+    public override void InitSoundClips()
     {
         AddAudioClip("0", "Sounds/PlayStage/Tower/Ranged/Archer_Ready");
         AddAudioClip("1", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt1");

@@ -15,7 +15,6 @@ sealed public class SC_RangedShooter : SC_BaseShooter
         }
 
         ShooterAnimator.runtimeAnimatorController = RangedShooterAnimators[0];
-        InitSoundClips();
     }
 
     public override void ChangeShooter()
@@ -35,7 +34,7 @@ sealed public class SC_RangedShooter : SC_BaseShooter
 
     // Sound /////////////////////////////////////////////
 
-    private void InitSoundClips()
+    public override void InitSoundClips()
     {
         AddAudioClip("0", "Sounds/PlayStage/Tower/Ranged/Sound_ArrowRelease2");
         AddAudioClip("1", "Sounds/PlayStage/Tower/Ranged/Sound_ArrowRelease3");

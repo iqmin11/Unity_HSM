@@ -8,6 +8,7 @@ public class SC_SoundManager : MonoBehaviour
     private void Awake()
     {
         SoundPlayer = gameObject.AddComponent<AudioSource>();
+        SoundPlayer.volume = 0.5f;
     }
 
     public void AddSoundClip(string Name, string Path)
@@ -58,8 +59,8 @@ public class SC_SoundManager : MonoBehaviour
 
     // Sound /////////////////////////////////////////////
 
-    //private GameObject SoundManagerInst;
-    //private SC_SoundManager SoundManagerSetting;
+    //static private GameObject SoundManagerInst;
+    //static private SC_SoundManager SoundManagerSetting;
 
     //private void SoundManager_AwakeParentInst()
     //{
@@ -68,7 +69,7 @@ public class SC_SoundManager : MonoBehaviour
     //    ++SoundManagerSetting.RefCount;
     //}
 
-    //private void InitSoundManager()
+    //static private void InitSoundManager()
     //{
     //    if (SoundManagerInst != null)
     //    {
@@ -79,7 +80,7 @@ public class SC_SoundManager : MonoBehaviour
     //    SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
     //}
 
-    //private void InitSoundClips()
+    //static private void InitSoundClips()
     //{
     //    if (SoundManagerSetting.ClipCount > 0)
     //    {

@@ -18,6 +18,7 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
         }
 
         BulletRenderer.sprite = BombSprits[0];
+        BoomSound = Resources.Load<AudioClip>("Sounds/PlayStage/Tower/Artillery/Sound_Bomb1");
     }
 
     protected override void Start()
@@ -99,16 +100,19 @@ public sealed class SC_ArtilleryBullet : SC_HowitzerBullet, IEffectPlayer
         //생애 주기를 같이하면 안되기 때문에 부모로 설정하면 안됩니다.
         GameObject BombExplosionEffectInst = Instantiate(BombExplosionEffectPrefab);
         BombExplosionEffectInst.transform.position = transform.position;
+        AudioSource PlaySound = BombExplosionEffectInst.AddComponent<AudioSource>();
+        PlaySound.clip = BoomSound;
+        PlaySound.volume = 0.5f;
+        PlaySound.Play();
     }
 
     private static List<Sprite> BombSprits = new List<Sprite>();
 
     [SerializeField]
     GameObject BombExplosionEffectPrefab;
+    AudioClip BoomSound; 
 
     private static float Phy0 = 0.3f;
     private static float Phy1 = 0.6f;
     private static float Phy2 = 0.9f;
-
-
 }

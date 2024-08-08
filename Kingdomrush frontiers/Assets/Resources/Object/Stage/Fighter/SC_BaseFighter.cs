@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Assets.Scenes.Object.Stage.StageData;
 using Assets.Scenes.Object.Stage.ContentsEnum;
+using UnityEngine.Playables;
 
 public enum FighterState
 {
@@ -214,7 +215,7 @@ public class SC_BaseFighter : MonoBehaviour
     {
         return UnityEngine.Random.Range(Data.Damage_min, Data.Damage_MAX);
     }
-    public void AttackEvent()
+    public virtual void AttackEvent()
     {
         if(TargetMonster == null)
         {
@@ -297,7 +298,7 @@ public class SC_BaseFighter : MonoBehaviour
 
         transform.position = ActorPos;
     }
-    private IEnumerator DeathAndRespawn()
+    protected virtual IEnumerator DeathAndRespawn()
     {
         HpBarInst.SetActive(false);
         Color c = FighterRenderer.material.color;
