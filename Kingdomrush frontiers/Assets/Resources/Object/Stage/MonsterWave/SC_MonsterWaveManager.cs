@@ -7,6 +7,13 @@ public class SC_MonsterWaveManager : MonoBehaviour
     private void Awake()
     {
         SC_StageManager.PushLiveWave(gameObject);
+        if(Clip == null)
+        {
+            Clip = Resources.Load<AudioClip>("Sounds/PlayStage/UI/Sound_WaveIncoming");
+        }
+        AudioSource Player = gameObject.AddComponent<AudioSource>();
+        Player.clip = Clip;
+        Player.Play();
     }
 
     // static member
@@ -101,4 +108,6 @@ public class SC_MonsterWaveManager : MonoBehaviour
 
     float WaveTime = 0.0f;
     float WaveEndTime = 5.0f; //마지막 몬스터가 소환되고 몇초후에 Wave가 끝나는가
+
+    static AudioClip Clip = null;
 }

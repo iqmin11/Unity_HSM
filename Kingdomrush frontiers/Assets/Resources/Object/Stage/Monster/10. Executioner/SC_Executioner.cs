@@ -76,8 +76,8 @@ public class SC_Executioner : SC_BaseMonster
             return;
         }
 
-        SoundManagerSetting.AddSoundClip("Death", "Sounds/PlayStage/Enemies/Sound_CommonAreaHit");
-        SoundManagerSetting.AddSoundClip("Attack", "Sounds/PlayStage/Enemies/Sound_EnemyBigDead");
+        SoundManagerSetting.AddSoundClip("Death", "Sounds/PlayStage/Enemies/Sound_EnemyBigDead");
+        SoundManagerSetting.AddSoundClip("Attack", "Sounds/PlayStage/Enemies/Sound_CommonAreaHit");
     }
 
     private void SoundManager_OnDestroyParentInst()
