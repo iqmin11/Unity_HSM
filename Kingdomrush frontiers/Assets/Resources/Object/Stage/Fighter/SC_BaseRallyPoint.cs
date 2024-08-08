@@ -75,55 +75,62 @@ public class SC_BaseRallyPoint : MonoBehaviour
     {
         if (Hits.Length == 1)
         {
-            if (!FighterSettings[0].IsWork && FighterSettings[0].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(0))
             {
                 FighterSettings[0].SetTarget(Hits[0].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
 
-            if(!FighterSettings[1].IsWork && FighterSettings[1].GetCurState() != (int)FighterState.Death)
+            if(CanAssignTargetToFighter(1))
             {
                 FighterSettings[1].SetTarget(Hits[0].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
 
-            if (!FighterSettings[2].IsWork && FighterSettings[2].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(2))
             {
                 FighterSettings[2].SetTarget(Hits[0].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
         }
         else if (Hits.Length == 2)
         {
-            if (!FighterSettings[0].IsWork && FighterSettings[0].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(0))
             {
                 FighterSettings[0].SetTarget(Hits[0].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
 
-            if (!FighterSettings[1].IsWork && FighterSettings[1].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(1))
             {
                 FighterSettings[1].SetTarget(Hits[1].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
 
-            if (!FighterSettings[2].IsWork && FighterSettings[2].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(2))
             {
                 FighterSettings[2].SetTarget(Hits[0].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
         }
         else if (Hits.Length >= 3)
         {
-            if (!FighterSettings[0].IsWork && FighterSettings[0].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(0))
             {
                 FighterSettings[0].SetTarget(Hits[0].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
 
-            if (!FighterSettings[1].IsWork && FighterSettings[1].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(1))
             {
                 FighterSettings[1].SetTarget(Hits[1].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
 
-            if (!FighterSettings[2].IsWork && FighterSettings[2].GetCurState() != (int)FighterState.Death)
+            if (CanAssignTargetToFighter(2))
             {
                 FighterSettings[2].SetTarget(Hits[2].gameObject.GetComponent<SC_Monster2DCol>().ParentMonster);
             }
         }
+    }
+
+    bool CanAssignTargetToFighter(int Index)
+    {
+        return !FighterSettings[Index].IsWork 
+            && FighterSettings[Index].GetCurState() != (int)FighterState.Death 
+            && FighterSettings[Index].GetCurState() != (int)FighterState.Move;
     }
 
     [SerializeField]
