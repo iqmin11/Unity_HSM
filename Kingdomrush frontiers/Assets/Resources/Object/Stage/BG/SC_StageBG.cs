@@ -9,13 +9,49 @@ public class SC_StageBG : MonoBehaviour
         BGRenderer = gameObject.AddComponent<SpriteRenderer>();
         BGRenderer.sortingOrder = (int)RenderOrder.Bg;
 
+        InitStageBgSprite();
+        InitStageBgDeco();
+        InitStageBgm();
+    }
+
+    
+    public void SetStageBG(int CurStage)
+    {
+        BGRenderer.sprite = BGSprite[CurStage];
+
+        for(int i = 0; i < BgDeco.Count; i++)
+        {
+            if (BgDeco[i] == null)
+            {
+                continue;
+            }
+
+            if(i == CurStage)
+            {
+                BgDeco[CurStage].SetActive(true);
+                continue;
+            }
+
+            BgDeco[i].SetActive(false);
+        }
+    }
+    public void PlayBgm(string Bgm)
+    {
+        StageBgmPlayer.clip = StageBgmClips[Bgm];
+        StageBgmPlayer.Play();
+    }
+
+    private void InitStageBgSprite()
+    {
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_1"));
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_2"));
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_3"));
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_4"));
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_5"));
         BGSprite.Add(Resources.Load<Sprite>("StageScene/StageBg/Stage_6"));
-
+    }
+    private void InitStageBgDeco()
+    {
         BgDeco.Add(new GameObject("Deco0"));
         BgDeco[0].AddComponent<SC_BgDeco0>();
         BgDeco[0].SetActive(false);
@@ -40,29 +76,21 @@ public class SC_StageBG : MonoBehaviour
 
         BgDeco.Add(null);
     }
-
-    public void SetStageBG(int CurStage)
+    private void InitStageBgm()
     {
-        BGRenderer.sprite = BGSprite[CurStage];
+        StageBgmPlayer = gameObject.AddComponent<AudioSource>();
+        StageBgmPlayer.loop = true;
 
-        for(int i = 0; i < BgDeco.Count; i++)
-        {
-            if (BgDeco[i] == null)
-            {
-                continue;
-            }
-
-            if(i == CurStage)
-            {
-                BgDeco[CurStage].SetActive(true);
-                continue;
-            }
-
-            BgDeco[i].SetActive(false);
-        }
+        AudioClip temp = Resources.Load<AudioClip>("Sounds/PlayStage/BGM/savage_music_desert_preparation");
+        StageBgmClips.Add("Preparation", temp);
+        temp = Resources.Load<AudioClip>("Sounds/PlayStage/BGM/Desert_Battle");
+        StageBgmClips.Add("Battle0", temp);
     }
 
     private List<Sprite> BGSprite = new List<Sprite>();
     private List<GameObject> BgDeco = new List<GameObject>();
     private SpriteRenderer BGRenderer;
+
+    private Dictionary<string, AudioClip> StageBgmClips = new Dictionary<string, AudioClip>();
+    private AudioSource StageBgmPlayer;
 }

@@ -13,6 +13,7 @@ public class SC_StageManager : MonoBehaviour
     {
         LoadData();
         StageBGManagerInst = Instantiate(StageBGManagerPrefab);
+        StageBGManagerSetting = StageBGManagerInst.GetComponent<SC_StageBG>();
         StageMouseInsts = Instantiate(StageMousePrefab);
     }
 
@@ -54,7 +55,7 @@ public class SC_StageManager : MonoBehaviour
     //Func For Stage
     private void InitStage(int Stage)
     {
-        //PlayStageBGM
+        StageBGManagerSetting.PlayBgm("Preparation");
         ClearStage();
         CurStage = Stage;
         NextWave = 0;
@@ -93,6 +94,11 @@ public class SC_StageManager : MonoBehaviour
             return;
         }
 
+        if (NextWave == 0)
+        {
+            StageBGManagerSetting.PlayBgm("Battle0");
+        }
+
         GameObject CurWave = Instantiate(MonsterWavePrefab);
         SC_MonsterWaveManager CurWaveSC = CurWave.GetComponent<SC_MonsterWaveManager>();
         CurWaveSC.Setting(AllStageData[CurStage].Waves[NextWave++].MonsterSpawn);
@@ -102,6 +108,7 @@ public class SC_StageManager : MonoBehaviour
     [SerializeField]
     private GameObject StageBGManagerPrefab;
     private GameObject StageBGManagerInst;
+    private SC_StageBG StageBGManagerSetting;
 
     [SerializeField]
     private GameObject MonsterWavePrefab;
