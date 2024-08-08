@@ -69,7 +69,7 @@ public class SC_SoundManager : MonoBehaviour
     //    ++SoundManagerSetting.RefCount;
     //}
 
-    //static private void InitSoundManager()
+    //private void InitSoundManager()
     //{
     //    if (SoundManagerInst != null)
     //    {
@@ -80,7 +80,7 @@ public class SC_SoundManager : MonoBehaviour
     //    SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
     //}
 
-    //static private void InitSoundClips()
+    //private void InitSoundClips()
     //{
     //    if (SoundManagerSetting.ClipCount > 0)
     //    {

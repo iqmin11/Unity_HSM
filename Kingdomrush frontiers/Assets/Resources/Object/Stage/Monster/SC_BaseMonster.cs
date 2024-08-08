@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
+using System;
 
 public enum MonsterState
 {
@@ -72,7 +73,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         SC_StageManager.MonsterDeathNotify(gameObject.GetInstanceID());
     }
@@ -371,7 +372,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterAnimator.Play("Idle");
     }
 
-    protected void AttackAction()
+    protected virtual void AttackAction()
     {
         SC_BaseFighter CurTarget = FindTargetFighter();
 
@@ -505,6 +506,17 @@ abstract public class SC_BaseMonster : MonoBehaviour
             }
         );
     }
+
+    protected virtual void DeathStateStart()
+    {
+        MonsterAnimator.Play("Death");
+        StartCoroutine(FadeAndDestroy());
+        Monster2DCol.enabled = false;
+        Monster3DCol.enabled = false;
+        HpBarInst.SetActive(false);
+        BrodcastDeath();
+    }
+
     protected virtual void DeathStateInit()
     {
         if (MonsterFSM == null)
@@ -514,16 +526,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         }
 
         MonsterFSM.CreateState<MonsterState>(MonsterState.Death,
-            () =>
-            {
-                MonsterAnimator.Play("Death");
-                StartCoroutine(FadeAndDestroy());
-                Monster2DCol.enabled = false;
-                Monster3DCol.enabled = false;
-                HpBarInst.SetActive(false);
-                BrodcastDeath();
-            },
-
+            DeathStateStart,
             () =>
             {
 
