@@ -1,3 +1,4 @@
+using Assets.Scenes.Object.Base.MyInterface;
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,8 @@ public class SC_StageBG : MonoBehaviour
 
         InitStageBgSprite();
         InitStageBgDeco();
-        InitStageBgm();
+        InitSoundClips();
+        InitSoundPlayer();
     }
 
     
@@ -35,9 +37,9 @@ public class SC_StageBG : MonoBehaviour
             BgDeco[i].SetActive(false);
         }
     }
-    public void PlayBgm(string Bgm)
+    public void PlaySound(string Name)
     {
-        StageBgmPlayer.clip = StageBgmClips[Bgm];
+        StageBgmPlayer.clip = StageBgmClips[Name];
         StageBgmPlayer.Play();
     }
 
@@ -76,15 +78,17 @@ public class SC_StageBG : MonoBehaviour
 
         BgDeco.Add(null);
     }
-    private void InitStageBgm()
+    private void InitSoundClips()
     {
-        StageBgmPlayer = gameObject.AddComponent<AudioSource>();
-        StageBgmPlayer.loop = true;
-
         AudioClip temp = Resources.Load<AudioClip>("Sounds/PlayStage/BGM/savage_music_desert_preparation");
         StageBgmClips.Add("Preparation", temp);
         temp = Resources.Load<AudioClip>("Sounds/PlayStage/BGM/Desert_Battle");
         StageBgmClips.Add("Battle0", temp);
+    }
+    private void InitSoundPlayer()
+    {
+        StageBgmPlayer = gameObject.AddComponent<AudioSource>();
+        StageBgmPlayer.loop = true;
     }
 
     private List<Sprite> BGSprite = new List<Sprite>();

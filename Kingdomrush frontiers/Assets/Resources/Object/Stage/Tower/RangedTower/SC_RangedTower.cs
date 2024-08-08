@@ -3,6 +3,8 @@ using Assets.Scenes.Object.Stage.ContentsEnum;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
+using Assets.Scenes.Object.Base.MyInterface;
+using UnityEngine.Windows;
 
 public sealed class SC_RangedTower : SC_ShooterTower
 {
@@ -42,6 +44,9 @@ public sealed class SC_RangedTower : SC_ShooterTower
         Shooter1Inst.transform.localPosition = ShooterPosData[Data.Level - 1][1];
         Shooter1Setting = Shooter1Inst.GetComponent<SC_RangedShooter>();
         Shooter1Setting.Data = Data;
+
+        SoundManager_AwakeParentInst();
+        SoundManagerSetting.PlaySound("Lv1");
     }
 
     // Update is called once per frame
@@ -49,6 +54,12 @@ public sealed class SC_RangedTower : SC_ShooterTower
     {
         base.Update();
     }
+
+    private void OnDestroy()
+    {
+        SoundManager_OnDestroyParentInst();
+    }
+
     protected override void SpriteCaching()
     {
         if (RangedTowerSpriteCache.Count == 0)
@@ -81,6 +92,15 @@ public sealed class SC_RangedTower : SC_ShooterTower
         Shooter1Setting.Data = Data;
         Shooter1Setting.ChangeShooter();
         Shooter1Inst.transform.localPosition = ShooterPosData[Data.Level - 1][1];
+
+        if(Data.Level < 4)
+        {
+            SoundManagerSetting.PlaySound("Lv" + Random.Range(2, 4).ToString());
+        }
+        else
+        {
+            SoundManagerSetting.PlaySound("Lv4");
+        }
     }
     protected override void AttackAction()
     {
@@ -110,14 +130,60 @@ public sealed class SC_RangedTower : SC_ShooterTower
 
     private bool AttackOrder = false;
 
-    static readonly List<List<Vector3>> ShooterPosData = new List<List<Vector3>>();
+    private static readonly List<List<Vector3>> ShooterPosData = new List<List<Vector3>>();
 
-    static readonly Vector3 Lv1Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 47, -47));
-    static readonly Vector3 Lv1Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 47, -47));
-    static readonly Vector3 Lv2Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 49, -49));
-    static readonly Vector3 Lv2Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 49, -49));
-    static readonly Vector3 Lv3Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 54, -54));
-    static readonly Vector3 Lv3Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 54, -54));
-    static readonly Vector3 Lv4Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 56, -56));
-    static readonly Vector3 Lv4Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 56, -56));
+    private static readonly Vector3 Lv1Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 47, -47));
+    private static readonly Vector3 Lv1Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 47, -47));
+    private static readonly Vector3 Lv2Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 49, -49));
+    private static readonly Vector3 Lv2Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 49, -49));
+    private static readonly Vector3 Lv3Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 54, -54));
+    private static readonly Vector3 Lv3Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 54, -54));
+    private static readonly Vector3 Lv4Shooter0LocalPos = MyMath.CentimeterToMeter(new Vector3(14, 56, -56));
+    private static readonly Vector3 Lv4Shooter1LocalPos = MyMath.CentimeterToMeter(new Vector3(-10, 56, -56));
+
+    // Sound /////////////////////////////////////////////
+
+    private static GameObject SoundManagerInst;
+    private static SC_SoundManager SoundManagerSetting;
+    
+    private void SoundManager_AwakeParentInst()
+    {
+        InitSoundManager();
+        InitSoundClips();
+        ++SoundManagerSetting.RefCount;
+    }
+
+    private static void InitSoundManager()
+    {
+        if(SoundManagerInst != null)
+        {
+            return;
+        }
+
+        SoundManagerInst = new GameObject("RangedTower_SoundManager");
+        SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
+    }
+
+    private static void InitSoundClips()
+    {
+        if(SoundManagerSetting.ClipCount > 0)
+        {
+            return;
+        }
+
+        SoundManagerSetting.AddSoundClip("Lv1", "Sounds/PlayStage/Tower/Ranged/Archer_Ready");
+        SoundManagerSetting.AddSoundClip("Lv2", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt1");
+        SoundManagerSetting.AddSoundClip("Lv3", "Sounds/PlayStage/Tower/Ranged/Archer_Taunt2");
+        SoundManagerSetting.AddSoundClip("Lv4", "Sounds/PlayStage/Tower/Ranged/crossbow_taunt_ready");
+    }
+
+    private static void SoundManager_OnDestroyParentInst()
+    {
+        if (--SoundManagerSetting.RefCount == 0)
+        {
+            Destroy(SoundManagerInst);
+            SoundManagerSetting = null;
+            SoundManagerInst = null; ;
+        }
+    }
 }

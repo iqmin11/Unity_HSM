@@ -55,7 +55,7 @@ public class SC_StageManager : MonoBehaviour
     //Func For Stage
     private void InitStage(int Stage)
     {
-        StageBGManagerSetting.PlayBgm("Preparation");
+        StageBGManagerSetting.PlaySound("Preparation");
         ClearStage();
         CurStage = Stage;
         NextWave = 0;
@@ -96,7 +96,7 @@ public class SC_StageManager : MonoBehaviour
 
         if (NextWave == 0)
         {
-            StageBGManagerSetting.PlayBgm("Battle0");
+            StageBGManagerSetting.PlaySound("Battle0");
         }
 
         GameObject CurWave = Instantiate(MonsterWavePrefab);
