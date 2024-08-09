@@ -1,8 +1,9 @@
+using Assets.Scenes.Object.Base.MyInterface;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SC_MeleeFighter : SC_BaseFighter
+public class SC_MeleeFighter : SC_BaseFighter, ISoundManager
 {
     protected override void Awake()
     {
@@ -49,14 +50,14 @@ public class SC_MeleeFighter : SC_BaseFighter
     static private GameObject SoundManagerInst;
     static private SC_SoundManager SoundManagerSetting;
 
-    private void SoundManager_AwakeParentInst()
+    public void SoundManager_AwakeParentInst()
     {
         InitSoundManager();
         InitSoundClips();
         ++SoundManagerSetting.RefCount;
     }
 
-    private void InitSoundManager()
+    public void InitSoundManager()
     {
         if (SoundManagerInst != null)
         {
@@ -67,7 +68,7 @@ public class SC_MeleeFighter : SC_BaseFighter
         SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
     }
 
-    private void InitSoundClips()
+    public void InitSoundClips()
     {
         if (SoundManagerSetting.ClipCount > 0)
         {
@@ -86,7 +87,7 @@ public class SC_MeleeFighter : SC_BaseFighter
         SoundManagerSetting.AddSoundClip("Dead3", "Sounds/PlayStage/Enemies/Sound_HumanDead4");
     }
 
-    private void SoundManager_OnDestroyParentInst()
+    public void SoundManager_OnDestroyParentInst()
     {
         if (--SoundManagerSetting.RefCount == 0)
         {

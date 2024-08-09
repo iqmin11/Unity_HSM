@@ -15,4 +15,11 @@ namespace Assets.Scenes.Object.Base.MyInterface
         public void AddAudioClip(string Name, string Path);
         public void PlaySound(string Name);
     }
+    internal interface ISoundManager
+    {
+        public void SoundManager_AwakeParentInst();
+        public void InitSoundManager();
+        public void InitSoundClips();
+        public void SoundManager_OnDestroyParentInst();
+    }
 }

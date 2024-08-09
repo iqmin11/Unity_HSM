@@ -1,8 +1,9 @@
 using Assets.Scenes.Object.Base;
+using Assets.Scenes.Object.Base.MyInterface;
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using UnityEngine;
 
-public class SC_GiantWasp : SC_BaseMonster
+public class SC_GiantWasp : SC_BaseMonster, ISoundManager
 {
     protected override void Awake()
     {
@@ -45,14 +46,14 @@ public class SC_GiantWasp : SC_BaseMonster
     static private GameObject SoundManagerInst;
     static private SC_SoundManager SoundManagerSetting;
 
-    private void SoundManager_AwakeParentInst()
+    public void SoundManager_AwakeParentInst()
     {
         InitSoundManager();
         InitSoundClips();
         ++SoundManagerSetting.RefCount;
     }
 
-    private void InitSoundManager()
+    public void InitSoundManager()
     {
         if (SoundManagerInst != null)
         {
@@ -63,7 +64,7 @@ public class SC_GiantWasp : SC_BaseMonster
         SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
     }
 
-    private void InitSoundClips()
+    public void InitSoundClips()
     {
         if (SoundManagerSetting.ClipCount > 0)
         {
@@ -73,7 +74,7 @@ public class SC_GiantWasp : SC_BaseMonster
         SoundManagerSetting.AddSoundClip("Death", "Sounds/PlayStage/Enemies/Sound_EnemyExplode1");
     }
 
-    private void SoundManager_OnDestroyParentInst()
+    public void SoundManager_OnDestroyParentInst()
     {
         if (--SoundManagerSetting.RefCount == 0)
         {
