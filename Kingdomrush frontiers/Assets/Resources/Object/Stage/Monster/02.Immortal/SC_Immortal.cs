@@ -3,19 +3,12 @@ using Assets.Scenes.Object.Base.MyInterface;
 using Assets.Scenes.Object.Stage.ContentsEnum;
 using UnityEngine;
 
-public class SC_Immortal : SC_BaseMonster, ISoundManager
+public class SC_Immortal : SC_BaseMonster
 {
     protected override void Awake()
     {
         HpBarLocalPos = new Vector3(0f, 0.4f, 0f);
         base.Awake();
-        SoundManager_AwakeParentInst();
-    }
-
-    protected override void OnDestroy()
-    {
-        SoundManager_OnDestroyParentInst();
-        base.OnDestroy();
     }
 
     override protected void SetData()
@@ -47,14 +40,14 @@ public class SC_Immortal : SC_BaseMonster, ISoundManager
     static private GameObject SoundManagerInst;
     static private SC_SoundManager SoundManagerSetting;
 
-    public void SoundManager_AwakeParentInst()
+    public override void SoundManager_AwakeParentInst()
     {
         InitSoundManager();
         InitSoundClips();
         ++SoundManagerSetting.RefCount;
     }
 
-    public void InitSoundManager()
+    public override void InitSoundManager()
     {
         if (SoundManagerInst != null)
         {
@@ -65,7 +58,7 @@ public class SC_Immortal : SC_BaseMonster, ISoundManager
         SoundManagerSetting = SoundManagerInst.AddComponent<SC_SoundManager>();
     }
 
-    public void InitSoundClips()
+    public override void InitSoundClips()
     {
         if (SoundManagerSetting.ClipCount > 0)
         {
@@ -78,7 +71,7 @@ public class SC_Immortal : SC_BaseMonster, ISoundManager
         SoundManagerSetting.AddSoundClip("Death3", "Sounds/PlayStage/Enemies/Sound_HumanDead4");
     }
 
-    public void SoundManager_OnDestroyParentInst()
+    public override void SoundManager_OnDestroyParentInst()
     {
         if (--SoundManagerSetting.RefCount == 0)
         {

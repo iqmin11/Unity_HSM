@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scenes.Object.Base;
 using System;
+using Assets.Scenes.Object.Base.MyInterface;
+using System.Runtime.InteropServices;
 
 public enum MonsterState
 {
@@ -27,8 +29,14 @@ public enum MoveDir
     Backward
 }
 
-abstract public class SC_BaseMonster : MonoBehaviour
+abstract public class SC_BaseMonster : MonoBehaviour, ISoundManager
 {
+    //SoundManager
+    public abstract void SoundManager_AwakeParentInst();
+    public abstract void InitSoundManager();
+    public abstract void InitSoundClips();
+    public abstract void SoundManager_OnDestroyParentInst();
+
     protected virtual void Awake()
     {
         MonsterInit();
@@ -38,6 +46,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         MonsterFSM.ChangeState(MonsterState.Move);
         gameObject.SetActive(false);
         SC_StageManager.PushLiveMonster(gameObject);
+        SoundManager_AwakeParentInst();
     }
     
     // Use Update in FSM
@@ -65,7 +74,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         UnregisterFighter(Fighter);
     }
 
-    private void BrodcastDeath()
+    private void BroadcastDeath()
     {
         foreach (var EachFighter in AttackFighters)
         {
@@ -75,6 +84,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
+        SoundManager_OnDestroyParentInst();
         SC_StageManager.MonsterDeathNotify(gameObject.GetInstanceID());
     }
 
@@ -514,7 +524,7 @@ abstract public class SC_BaseMonster : MonoBehaviour
         Monster2DCol.enabled = false;
         Monster3DCol.enabled = false;
         HpBarInst.SetActive(false);
-        BrodcastDeath();
+        BroadcastDeath();
     }
 
     protected virtual void DeathStateInit()

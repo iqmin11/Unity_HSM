@@ -33,7 +33,6 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
             CalTargetPos();
             if (IsCoolTimeEnd)
             {
-                IsCoolTimeEnd = false;
                 StartCoroutine(Attack(Data.FireRate));
             }
         }
@@ -82,6 +81,7 @@ abstract public class SC_BaseShootingTower : SC_BaseTower
     protected bool IsCoolTimeEnd = true;
     protected IEnumerator Attack(float FireRate)
     {
+        IsCoolTimeEnd = false;
         AttackAction();
         yield return new WaitForSeconds(FireRate);
         IsCoolTimeEnd = true;
