@@ -15,7 +15,7 @@ public abstract class SC_BaseTowerUI : MonoBehaviour
         if (RingSprite == null)
         {
             RingSprite = Resources.Load<Sprite>("StageScene/GUI/gui_ring");
-            SC_MyMouseBase.MouseInfo.RegistReleaseClickEvent(IsReleaseClickEvent);
+            SC_MyMouseBase.MouseSetting.RegistReleaseClickEvent(ReleaseClickEvent);
         }
 
         TowerUIring = gameObject.AddComponent<SpriteRenderer>();
@@ -61,7 +61,7 @@ public abstract class SC_BaseTowerUI : MonoBehaviour
         SettingButtonCallback(Convert.ToInt32(Key), Callback);
     }
 
-    private static void IsReleaseClickEvent()
+    private static void ReleaseClickEvent()
     {
         if (UpdatingTowerUI != null)
         {

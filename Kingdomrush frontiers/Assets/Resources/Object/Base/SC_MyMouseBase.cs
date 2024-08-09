@@ -5,17 +5,12 @@ using UnityEngine;
 
 public class SC_MyMouseBase : MonoBehaviour
 {
-    static public SC_MyMouseBase MouseInfo = null;
+    static public SC_MyMouseBase MouseSetting = null;
 
     private void Awake()
     {
-        MouseInfo = this;
+        MouseSetting = this;
         ButtonLayer |= (1 << LayerMask.NameToLayer("MyButton"));
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
